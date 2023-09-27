@@ -1,0 +1,148 @@
+/*
+ * Hive
+ * Copyright 2022 Diego Martin
+ * npm install -g sass
+ * sass --watch css:css --style compressed
+ */   
+
+@import 'core.scss';
+
+#container-admin {
+    margin-left: 250px;
+    padding-top: 50px;
+    &.expand {
+        margin-left: 30px;
+        padding-top: 50px;    
+    }
+}
+
+#menu-left {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 250px;
+    margin-left: -220px;
+    background-color: $black;
+    &.active {
+        margin-left: 0px;
+        & > .content {
+            display: block;
+        }
+    }
+    & > .content {
+        display: none;
+    }
+    nav {
+        & > * {
+           color: white;
+        }
+    }
+    .separator {
+        border-top: 1px solid gray;
+        margin: 8px 15px 0px 15px;
+        padding-bottom: 8px;
+    }
+    #btn-hide-menu-left, #btn-show-menu-left {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        cursor: pointer;
+        &.active {
+            display: block;
+        }
+    }
+}
+
+footer {
+    margin-top: 50px;
+}
+
+.upload-ftp-dir-content {
+    .folder {
+        padding: 5px 15px 5px 15px;        
+    }
+    .dir-list {
+        height: 700px;
+        overflow: auto;
+        border: 2px solid #ccc;
+        li {
+            display: table;
+            width: 100%;
+            padding: 5px 15px 5px 15px;
+            border-radius: 2px;
+            cursor: pointer;
+            opacity: 1;
+            &:hover:not(.disabled):not(.warning):not(.no-existe) {
+                background-color: #d0d0d0;
+            }
+            &.active {
+                background-color: #d0d0d0;                
+            }
+            &.disabled {
+                opacity: .7;                
+            }
+            &.warning {
+                background-color: #ffffb4;
+            }
+            &.no-existe {
+                background-color: #f9c2c2;
+            }
+            .name {
+                float: left;
+            }
+            .size {
+                float: right;            
+            }
+            &.ftp-dir i {
+                color: rgb(255, 187, 0);
+            }
+            &.ftp-file i {
+                color: #7291b9;
+            }
+        }
+    }
+}
+
+#popup-upload-ftp, #popup-upload-ftp-create, #popup-upload-ftp-comparar {
+    .content {
+        .info {
+            margin-bottom: 10px;
+            .label {
+                font-weight: bold;
+            }
+        }
+        .botonera {
+            text-align: right;
+            padding-top: 20px;
+        }
+    }
+}
+
+#popup-upload-ftp-comparar {
+    .content {
+        max-width: 95%;
+        height: 95%;
+        .table-content {
+            display: table;
+            width: 100%;
+            .textarea-content {
+                float: left;
+                width: 50%;
+                padding: 10px;
+                textarea {
+                    resize: none;
+                    border: 2px solid #ccc;
+                    width: 100%;
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
+
+#popup-upload-ftp-info {
+    z-index: 5;
+}
