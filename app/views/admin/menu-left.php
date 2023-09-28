@@ -6,12 +6,12 @@
             <a href="<?= ADMIN_PATH ?>/home"><img src="<?= PUBLIC_PATH.'/img/hive-logo.png'; ?>" width="60" alt="Hive Framework"></a>
         </div>
         <nav>
-            <a href="<?= ADMIN_PATH ?>/home"><i class="fa-solid fa-house"></i>&nbsp;&nbsp;Home</a>
+            <a href="<?= ADMIN_PATH ?>/home"<?php if(in_array($data['admin']['name_page'], $data['menu']['home'])) echo ' class="active"'; ?>><i class="fa-solid fa-house"></i>&nbsp;&nbsp;Home</a>
         </nav>
         <div class="separator"></div>
         <nav>
             <?php if(ENVIRONMENT == 'PRE') { ?>
-                <a href="<?= ADMIN_PATH ?>/ftp-upload"><i class="fa-regular fa-file"></i>&nbsp;&nbsp;Ftp Upload</a>
+                <a href="<?= ADMIN_PATH ?>/ftp-upload"<?php if(in_array($data['admin']['name_page'], $data['menu']['ftp_upload'])) echo ' class="active"'; ?>><i class="fa-regular fa-file"></i>&nbsp;&nbsp;Ftp Upload</a>
             <?php } ?>
         </nav>
         <div class="separator"></div>

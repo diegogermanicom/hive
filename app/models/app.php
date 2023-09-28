@@ -4,7 +4,7 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2022
+     * Last Update: 2023
      */   
 
     class App extends AppModel {
@@ -15,7 +15,6 @@
             parent::__construct();
             $this->name_page = $name_page;
             $this->check_maintenance();
-            $this->set_cesta();
             $this->login_remember();
         }
 
@@ -47,15 +46,6 @@
                 'fb:app_id' => OG_APP_ID
             );
             return $data;
-        }
-
-        public function set_cesta() {
-            // If you don't have the id_cesta cookie, I create one
-			if(!(isset($_COOKIE["id_cesta"]))) {
-                $uniq = uniqid();
-				setcookie("id_cesta", $uniq, time() + (60 * 60 * 24 * 30 * 4), PUBLIC_PATH.'/'); // 4 meses
-                $_COOKIE["id_cesta"] = $uniq;
-			}
         }
 
         public function set_cookies() {
@@ -109,7 +99,10 @@
                     if($remember == 1) {
                         setcookie("user_remember", $row["remember_code"], time() + (60 * 60 * 24 * 7), PUBLIC_PATH.'/'); // 7 dias
                     }
-                    return array('response' => 'ok');
+                    return array(
+                        'response' => 'ok',
+                        'url' => PUBLIC_ROUTE.'/?login'
+                    );
                 } else {
                     return array(
                         'response' => 'error',

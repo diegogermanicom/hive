@@ -4,7 +4,7 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2022
+     * Last Update: 2023
      */   
 
      class Model {
@@ -61,6 +61,7 @@
                 } else {
                     $this->db_success = true;
                     $this->db->set_charset("utf8");
+                    $this->db->query('SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode, "ONLY_FULL_GROUP_BY",""));');
                 }
             }
         }
@@ -117,7 +118,7 @@
             return $str_date;
         }
 
-        function send_email($email, $titulo, $html, $reply = EMAIL_FROM) {
+        public function send_email($email, $titulo, $html, $reply = EMAIL_FROM) {
 			// To use variables in emails the syntax is <%NAME%> in uppercase and then I do a replace
 			$cabeceras = "From: ".EMAIL_HOST." <".EMAIL_FROM.">\r\n";
 			$cabeceras .= "Reply-To: ".$reply."\r\n";

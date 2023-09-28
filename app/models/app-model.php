@@ -4,7 +4,7 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2022
+     * Last Update: 2023
      */   
 
     class AppModel extends Model {
@@ -19,14 +19,14 @@
 
         public function security_app_logout() {
             if(isset($_SESSION['user'])) {
-                header('Location: '.PUBLIC_ROUTE.'/home');
+                header('Location: '.PUBLIC_ROUTE.'/');
                 exit;
             }
         }
 
         public function security_app_login() {
             if(!isset($_SESSION['user'])) {
-                header('Location: '.PUBLIC_ROUTE.'/home');
+                header('Location: '.PUBLIC_ROUTE.'/');
                 exit;
             }
         }

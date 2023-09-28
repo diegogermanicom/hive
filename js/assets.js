@@ -2,7 +2,7 @@
 * Author: Diego Martin
 * Copyright: Hive®
 * Version: 1.0
-* Last Update: 2022
+* Last Update: 2023
 */   
 
 var _konamiCodePosition = 0;
@@ -64,11 +64,11 @@ function close_popup(name) {
 
 function validar(tipo, valor) {
 	var filtro;
+    valor = valor.toUpperCase();
 	switch (tipo) {
 		case 'nombre':
 		case 'apellidos':
-			valor = valor.toUpperCase();
-			filtro = /^[A-ZÁÉÍÓÚÄËÏÖÜÑªº .\-]{2,50}$/;
+			filtro = /^[A-ZÁÉÍÓÚÄËÏÖÜÀÈÌÒÙÑªº .\-]{2,50}$/;
 			break;
 		case 'telefono':
 			filtro = /^(6[0-9]|7[0-9])\d{7}$/;
@@ -81,18 +81,26 @@ function validar(tipo, valor) {
 			filtro = /^(?:0[1-9]\d{3}|[1-4]\d{4}|5[0-9]\d{3})$/;
 			break;
 		case 'slug':
-			valor = valor.toUpperCase();
-			filtro = /^[0-9A-Z\-]{2,90}$/;
+			filtro = /^[A-Z][0-9A-Z\-]{1,90}$/;
 			break;
 		case 'price':
 			filtro = /^([0-9]{1,9})$|^([0-9]+\,+[0-9]{1,2})$/;
 			break;
+        case 'hexadecimal':
+			filtro = /^#[0-9A-F]{2,7}$/;
+            break;
         case 'no-cero':
             if(parseInt(valor) != 0) {
                 valor = 1;
             }
             filtro = /^[1]$/;
             break;
+        case 'date':
+			filtro = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+            break;
+        case 'number':
+			filtro = /^[0-9]+$/;
+            break;        
 	}
 	return filtro.test(valor);
 }
@@ -107,9 +115,7 @@ function getParameterByName(name) {
 function konamiCode(k) {
     var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
     var allowedKeys = { 37: 'left', 38: 'up', 39: 'right', 40: 'down', 65: 'a', 66: 'b' };
-    var key = allowedKeys[k];
-    var requiredKey = konamiCode[_konamiCodePosition];
-    if(key == requiredKey) {
+    if(allowedKeys[k] == konamiCode[_konamiCodePosition]) {
         _konamiCodePosition++;
         if(_konamiCodePosition == konamiCode.length) {
             console.log('Konami Code!');

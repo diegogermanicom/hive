@@ -2,7 +2,7 @@
 * Author: Diego Martin
 * Copyright: Hive®
 * Version: 1.0
-* Last Update: 2022
+* Last Update: 2023
 */   
 
 var _loading = false;
@@ -140,7 +140,7 @@ function events() {
                 data: obj,
                 success: function(data) {
                     if(data.login.response == 'ok') {
-                        window.location.href = PUBLIC_ROUTE + '/home?login';
+                        window.location.href = data.login.url;
                     } else {
                         show_info('Uups', data.login.mensaje);
                         $(self).removeClass('disabled');
@@ -191,7 +191,7 @@ function events() {
                 data: obj,
                 success: function(data) {
                     if(data.register.response == 'ok') {
-                        window.location.href = PUBLIC_ROUTE + '/home?register';
+                        window.location.href = data.register.url;
                     } else {
                         show_info('Uups', data.register.mensaje);
                         $(self).removeClass('disabled');

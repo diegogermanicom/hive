@@ -1,6 +1,6 @@
 <?php
 
-    // File of the folder to ignore
+    // Files of the folder to ignore
     $ignore_controllers = array(
         '.',
         '..',

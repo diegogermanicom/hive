@@ -4,7 +4,7 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2022
+     * Last Update: 2023
      */   
 
     class AppAjax extends AppModel {
@@ -46,7 +46,10 @@
                     $sql = 'INSERT INTO '.DDBB_PREFIX.'newsletters (email, validation_code) VALUES (?, ?)';
                     $result = $this->query($sql, array($email, $validation_code));
                 }
-                return array('response' => 'ok');
+                return array(
+                    'response' => 'ok',
+                    'url' => PUBLIC_ROUTE.'/?register'
+                );
             } else {
                 return array(
                     'response' => 'error',
@@ -57,7 +60,8 @@
 
         public function choose_language($language) {
             setcookie('lang', $language, time() + (24 * 60 * 60 * 365), PUBLIC_PATH.'/'); // 1 año
-            $_COOKIE['lang'] = $language;        
+            $_COOKIE['lang'] = $language;
+            return array('response' => 'ok');
         }
 
     }

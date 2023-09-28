@@ -2,7 +2,7 @@
 * Author: Diego Martin
 * Copyright: Hive®
 * Version: 1.0
-* Last Update: 2022
+* Last Update: 2023
 */   
 
 var _loading = false;
@@ -10,6 +10,7 @@ var _loading = false;
 $(window).ready(function() {
     init();
     events();
+    events_login();
 });
 
 function init() {
@@ -24,6 +25,21 @@ function init() {
 }
 
 function events() {
+    $('#btn-hide-menu-left').on('click', function() {
+        $(this).removeClass('active');
+        $('#btn-show-menu-left').addClass('active');
+        $('#menu-left').removeClass('active');
+        $('#container-admin').addClass('expand');
+    });
+    $('#btn-show-menu-left').on('click', function() {
+        $(this).removeClass('active');
+        $('#btn-hide-menu-left').addClass('active');
+        $('#menu-left').addClass('active');
+        $('#container-admin').removeClass('expand');
+    });
+}
+
+function events_login() {
     if($('body#admin-login-page').length != 0) {
         $("#btn-send-login").on("click", function() {
             var self = this;
@@ -58,16 +74,4 @@ function events() {
             }
         });
     }
-    $('#btn-hide-menu-left').on('click', function() {
-        $(this).removeClass('active');
-        $('#btn-show-menu-left').addClass('active');
-        $('#menu-left').removeClass('active');
-        $('#container-admin').addClass('expand');
-    });
-    $('#btn-show-menu-left').on('click', function() {
-        $(this).removeClass('active');
-        $('#btn-hide-menu-left').addClass('active');
-        $('#menu-left').addClass('active');
-        $('#container-admin').removeClass('expand');
-    });
 }
