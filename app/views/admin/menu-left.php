@@ -2,7 +2,7 @@
     <div id="btn-hide-menu-left" class="active"><i class="fa-solid fa-angles-left"></i></div>
     <div id="btn-show-menu-left"><i class="fa-solid fa-angles-right"></i></div>
     <div class="content">
-        <div class="text-center pt-50">
+        <div class="text-center pt-40 pb-20">
             <a href="<?= ADMIN_PATH ?>/home"><img src="<?= PUBLIC_PATH.'/img/hive-logo.png'; ?>" width="60" alt="Hive Framework"></a>
         </div>
         <nav>

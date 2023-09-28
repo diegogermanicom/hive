@@ -12,7 +12,6 @@
     padding-top: 50px;
     &.expand {
         margin-left: 30px;
-        padding-top: 50px;    
     }
 }
 
@@ -24,6 +23,7 @@
     width: 250px;
     margin-left: -220px;
     background-color: $black;
+    overflow-y: auto;
     &.active {
         margin-left: 0px;
         & > .content {
@@ -36,6 +36,12 @@
     nav {
         & > * {
            color: white;
+           &.active {
+               background-color: #545454;
+           }
+        }
+        a:not(.active):hover {
+            color: $hive-color;
         }
     }
     .separator {

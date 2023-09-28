@@ -135,4 +135,17 @@ header {
             }
         }
     }
+    .content-buttons {
+        display: table;
+        position: absolute;
+        top: 24px;
+        right: 40px;
+        & > * {
+            float: left;
+            margin-right: 25px;
+        }
+        #btn-show-cart {
+            cursor: pointer;
+        }
+    }
 }

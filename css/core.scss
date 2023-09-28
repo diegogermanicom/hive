@@ -48,6 +48,11 @@ $font3: 'Inter';
     }
 }
 @for $i from 1 through 100 {
+    .lh-#{$i} {
+        line-height: #{$i}px !important;
+    }
+}
+@for $i from 1 through 100 {
     @media (max-width: ($sm - 1) + px) {
         .font-sm-#{$i} {
             font-size: #{$i}px !important;
@@ -313,9 +318,14 @@ input, textarea, select {
     border: 2px solid #bfbfbf;
     padding: 8px 15px 8px 15px;
     border-radius: 2px;
+    line-height: 19px;
     &.error {
         border: 2px solid #ff6363;
         background-color: #fff2f2;
+    }
+    &.input-sm {
+        padding: 2px 6px 2px 6px;
+        font-size: 14px;
     }
 }
 textarea {
@@ -902,7 +912,7 @@ footer {
     width: 100%;
     padding: 50px 100px 50px 100px;
     background-color: white;
-    z-index: 2;
+    z-index: 3;
     line-height: 24px;
     border-top: 2px solid #bfbfbf;
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,.2);
