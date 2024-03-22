@@ -118,10 +118,10 @@ var APP = {
             if(!HIVE.validate('email', obj.email)) {
                 $('#input-register-email').addClass('error');
             }
-            if(!HIVE.validate('nombre', obj.name)) {
+            if(!HIVE.validate('name', obj.name)) {
                 $('#input-register-name').addClass('error');
             }
-            if(!HIVE.validate('nombre', obj.lastname)) {
+            if(!HIVE.validate('lastname', obj.lastname)) {
                 $('#input-register-lastname').addClass('error');
             }
             if(obj.pass1 == '' || obj.pass1.length < 8) {

@@ -16,7 +16,7 @@ var HIVE = {
         this.btnPopupCloseEvent();
         this.customTabEvent();
         this.colorModeEvent();
-        this.scrollEvent();        
+        this.scrollEvent();
     },
     // Functions
     initAjax: function() {
@@ -37,7 +37,6 @@ var HIVE = {
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
     showInfo: function(title, text) {
-        $('body').addClass('block');
         $('#popup-info .title').html(title);
         $('#popup-info .texto').html(text);
         this.showPopup('#popup-info')
@@ -61,7 +60,7 @@ var HIVE = {
     },
     validate: function(type, value) {
         // Returns false if the data is not valid and true if it is valid
-        var filter;
+        var filter = null;
         value = value.toUpperCase();
         switch(type) {
             case 'name':
@@ -101,9 +100,13 @@ var HIVE = {
                 break;
             case 'number':
                 filter = /^[0-9]+$/;
-                break;        
+                break;
         }
-        return filter.test(value);
+        if(filter == null) {
+            return false;
+        } else {
+            return filter.test(value);
+        }
     },
     konamiCode: function(key) {
         // Just for fun
