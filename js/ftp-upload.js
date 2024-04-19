@@ -1,15 +1,15 @@
 /*
- * Upload Ftp
- * Copyright 2024 Diego Martin
- * Compares the files on the development server with the production server via ftp connection and modifies them.
- * Dep: Font Awesome, jQuery
- * Files:
- *      - ftp-upload.scss
- *      - ftp-upload.js
- *      - ftp-upload.php
- *      - ftp-upload-view.php
- *      - ftp-upload-ajax.php
- */
+* Upload Ftp
+* Copyright 2024 Diego Martin
+* Compares the files on the development server with the production server via ftp connection and modifies them.
+* Dep: Font Awesome, jQuery
+* Files:
+*      - ftp-upload.scss
+*      - ftp-upload.js
+*      - ftp-upload.php
+*      - ftp-upload-view.php
+*      - ftp-upload-ajax.php
+*/
 
 var FTPUPLOAD = {
     init: function() {

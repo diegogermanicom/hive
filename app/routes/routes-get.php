@@ -18,7 +18,4 @@
     $R->get('/register'                             , 'CApp#register');
     $R->get('/logout'                               , 'CApp#logout');
 
-    // App Dynamics Get
-    $R->get('/producto/$cat/$attr'                  , 'CApp#documentation');
-
 ?>
