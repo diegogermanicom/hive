@@ -8,11 +8,12 @@
      */
 
     // Admin Post
-    $R->postAdmin('/send-login'                     , 'CAdminAjax#send_login');
-    $R->postAdmin('/ftpu-get-dir'                   , 'CAdminAjax#ftpu_get_dir');
-    $R->postAdmin('/ftpu-compare'                   , 'CAdminAjax#ftpu_compare');
-    $R->postAdmin('/ftpu-upload'                    , 'CAdminAjax#ftpu_upload');
-    $R->postAdmin('/ftpu-upload-all'                , 'CAdminAjax#ftpu_upload_all');
-    $R->postAdmin('/ftpu-create-folder'             , 'CAdminAjax#ftpu_create_folder');
+    $R->setController('CAdminAjax');
+    $R->postAdmin('/send-login'                     , 'send_login');
+    $R->postAdmin('/ftpu-get-dir'                   , 'ftpu_get_dir');
+    $R->postAdmin('/ftpu-compare'                   , 'ftpu_compare');
+    $R->postAdmin('/ftpu-upload'                    , 'ftpu_upload');
+    $R->postAdmin('/ftpu-upload-all'                , 'ftpu_upload_all');
+    $R->postAdmin('/ftpu-create-folder'             , 'ftpu_create_folder');
 
 ?>

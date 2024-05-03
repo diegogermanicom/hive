@@ -8,11 +8,12 @@
      */
 
     // Admin Get
-    $R->getAdmin(''                                 , 'CAdmin#root');
-    $R->getAdmin('/'                                , 'CAdmin#root');
-    $R->getAdmin('/login'                           , 'CAdmin#login');
-    $R->getAdmin('/logout'                          , 'CAdmin#logout');
-    $R->getAdmin('/home'                            , 'CAdmin#home');
-    $R->getAdmin('/ftp-upload'                      , 'CAdmin#ftp_upload');
+    $R->setController('CAdmin');
+    $R->getAdmin(''                                 , 'root');
+    $R->getAdmin('/'                                , 'root');
+    $R->getAdmin('/login'                           , 'login');
+    $R->getAdmin('/logout'                          , 'logout');
+    $R->getAdmin('/home'                            , 'home');
+    $R->getAdmin('/ftp-upload'                      , 'ftp_upload');
 
 ?>

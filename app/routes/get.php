@@ -8,14 +8,15 @@
      */
 
     // App Get
-    $R->get(''                                      , 'CApp#root');
-    $R->get('/'                                     , 'CApp#root');
-    $R->get('/home'                                 , 'CApp#home');
-    $R->get('/hive'                                 , 'CApp#home');
-    $R->get('/privacy-policy'                       , 'CApp#privacy_policy');
-    $R->get('/register'                             , 'CApp#register');
-    $R->get('/404'                                  , 'CApp#page_404', false);
-    $R->get('/service-down'                         , 'CApp#service_down', false);
-    $R->get('/logout'                               , 'CApp#logout', false);
+    $R->setController('CApp');
+    $R->get(''                                      , 'root');
+    $R->get('/'                                     , 'root');
+    $R->get('/home'                                 , 'home');
+    $R->get('/hive'                                 , 'home');
+    $R->get('/privacy-policy'                       , 'privacy_policy');
+    $R->get('/register'                             , 'register');
+    $R->get('/404'                                  , 'page_404', false);
+    $R->get('/service-down'                         , 'service_down', false);
+    $R->get('/logout'                               , 'logout', false);
 
 ?>

@@ -8,11 +8,12 @@
      */
 
     // App Post
-    $R->post('/set-cookies'                         , 'CAppAjax#set_cookies');
-    $R->post('/save-newsletter'                     , 'CAppAjax#save_newsletter');
-    $R->post('/login-send'                          , 'CAppAjax#login_send');
-    $R->post('/register-send'                       , 'CAppAjax#register_send');
-    $R->post('/choose-language'                     , 'CAppAjax#choose_language');
-    $R->post('/choose-color-mode'                   , 'CAppAjax#choose_color_mode');
+    $R->setController('CAppAjax');
+    $R->post('/set-cookies'                         , 'set_cookies');
+    $R->post('/save-newsletter'                     , 'save_newsletter');
+    $R->post('/login-send'                          , 'login_send');
+    $R->post('/register-send'                       , 'register_send');
+    $R->post('/choose-language'                     , 'choose_language');
+    $R->post('/choose-color-mode'                   , 'choose_color_mode');
 
 ?>
