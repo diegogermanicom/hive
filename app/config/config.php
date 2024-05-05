@@ -26,7 +26,7 @@
     define('LANGUAGES', array(LANGUAGE));
 
     // Set if your website has a database
-    define('HAS_DDBB', true);
+    define('HAS_DDBB', false);
     // Indicates whether the tables have a prefix
     define('DDBB_PREFIX', '');
 
