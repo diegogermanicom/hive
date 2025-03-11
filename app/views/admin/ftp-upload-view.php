@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <?php include VIEWS_ADMIN.'/head.php'; ?>
+        <?php include VIEWS_ADMIN.'/partials/head.php'; ?>
         <?php
             if(ENVIRONMENT == 'PRE') {
                 echo '<script src="'.PUBLIC_PATH.'/js/ftp-upload.js?'.uniqid().'"></script>';
             } else {
-                echo '<script src="'.PUBLIC_PATH.'/js/min/ftp-upload.min.js?'.uniqid().'"></script>';
+                echo '<script src="'.PUBLIC_PATH.'/js/min/ftp-upload.min.js"></script>';
             }
         ?>
     </head>
     <body id="<?= $data['admin']['name_page']; ?>">
         <div class="app">
-            <?php include VIEWS_ADMIN.'/header.php'; ?>
+            <?php include VIEWS_ADMIN.'/partials/header.php'; ?>
             <div id="popup-upload-ftp" class="popup">
                 <div class="content">
                     <input type="hidden" value="" id="popup-upload-ftp-id-file">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </section>
-                <?php include VIEWS_ADMIN.'/footer.php'; ?>
+                <?php include VIEWS_ADMIN.'/partials/footer.php'; ?>
             </div>
         </div>
     </body>
