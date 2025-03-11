@@ -45,7 +45,7 @@
             }
         }
 
-        public function login($email, $pass, $remember) {
+        public function login($email, $pass, $remember = 0) {
             // Pass must come in md5
             $sql = 'SELECT * FROM '.DDBB_PREFIX.'users WHERE email = ? AND pass = ? LIMIT 1';
             $result = $this->query($sql, array($email, $pass));

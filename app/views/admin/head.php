@@ -4,7 +4,7 @@
         <meta name="apple-mobile-web-app-title" content="Hive" />
         <meta name="application-name" content="Hive" />
         <meta name="author" content="Diego Martín" />
-        <meta name="date" content="2022" />
+        <meta name="date" content="<? date('Y'); ?>" />
         <meta name="robots" content="noindex, nofollow">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -15,7 +15,15 @@
         <link href="<?= PUBLIC_PATH; ?>/css/vendor/balloon.css" rel="stylesheet">
         <link href="<?= PUBLIC_PATH; ?>/css/vendor/slick.css" rel="stylesheet">
         <link href="<?= PUBLIC_PATH; ?>/css/vendor/slick-theme.css" rel="stylesheet">
-        <link href="<?= PUBLIC_PATH; ?>/css/admin.css?<?= uniqid(); ?>" rel="stylesheet">
+        <?php
+            if(ENVIRONMENT == 'PRE') {
+                echo '<link href="'.PUBLIC_PATH.'/css/core.css?'.uniqid().'" rel="stylesheet">';
+                echo '<link href="'.PUBLIC_PATH.'/css/admin.css?'.uniqid().'" rel="stylesheet">';
+            } else {
+                echo '<link href="'.PUBLIC_PATH.'/css/core.css" rel="stylesheet">';
+                echo '<link href="'.PUBLIC_PATH.'/css/admin.css" rel="stylesheet">';
+            }
+        ?>
         <script src="<?= PUBLIC_PATH; ?>/js/vendor/jquery-3.3.1.min.js"></script>
         <script src="<?= PUBLIC_PATH; ?>/js/vendor/slick.min.js"></script>
         <script>
@@ -27,7 +35,7 @@
                 echo '<script src="'.PUBLIC_PATH.'/js/hive.js?'.uniqid().'"></script>';
                 echo '<script src="'.PUBLIC_PATH.'/js/admin.js?'.uniqid().'"></script>';    
             } else {
-                echo '<script src="'.PUBLIC_PATH.'/js/min/hive.min.js?'.uniqid().'"></script>';
-                echo '<script src="'.PUBLIC_PATH.'/js/min/admin.min.js?'.uniqid().'"></script>';                
+                echo '<script src="'.PUBLIC_PATH.'/js/min/hive.min.js"></script>';
+                echo '<script src="'.PUBLIC_PATH.'/js/min/admin.min.js"></script>';                
             }
         ?>

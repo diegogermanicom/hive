@@ -53,7 +53,7 @@
             }
         }
 
-        public function login($email, $pass) {
+        public function login($email, $pass, $remember = 0) {
             // Pass must come in md5
             $sql = 'SELECT * FROM '.DDBB_PREFIX.'users_admin WHERE email = ? AND pass = ? LIMIT 1';
             $result = $this->query($sql, array($email, $pass));
@@ -73,7 +73,9 @@
                         $sql = 'UPDATE '.DDBB_PREFIX.'users_admin SET remember_code = ? WHERE id_admin = ? LIMIT 1';
                         $this->query($sql, array($row["remember_code"], $row['id_admin']));
                     }
-                    setcookie("admin_remember", $row["remember_code"], time() + (60 * 60 * 24 * 7), PUBLIC_PATH.'/'); // 7 dias
+                    if($remember == 1) {
+                        setcookie("admin_remember", $row["remember_code"], time() + (60 * 60 * 24 * 7), PUBLIC_PATH.'/'); // 7 dias
+                    }
                     return array('response' => 'ok');                    
                 } else {
                     return array(

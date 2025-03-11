@@ -15,7 +15,7 @@
             $admin = new AdminAjax('ajax-admin-login');
             $admin->security_admin_logout();
             $result = [];
-            $result['login'] = $admin->login($_POST['email'], md5($_POST['pass']));
+            $result['login'] = $admin->login($_POST['email'], md5($_POST['pass']), $_POST['remember']);
             echo json_encode($result);
         }
 

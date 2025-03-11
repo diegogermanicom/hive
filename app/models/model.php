@@ -54,7 +54,9 @@
                     'string' => 's', 'boolean' => 'b'
                 );
                 foreach($params as $value) {
-                    if(isset($types[gettype($value)])) {
+                    if($value == NULL) {
+                        $type .= 's';
+                    } else if(isset($types[gettype($value)])) {
                         $type .= $types[gettype($value)];
                     }
                 }    

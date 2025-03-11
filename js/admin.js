@@ -32,7 +32,8 @@ var ADMIN = {
                 var btn = $(this);
                 var obj = {
                     email: $('#input-email').val().trim(),
-                    pass: $('#input-pass').val().trim()
+                    pass: $('#input-pass').val().trim(),
+                    remember: ($('#checkbox-admin-remember:checked').val() == undefined) ? 0 : 1
                 }
                 $('.login-content *').removeClass('error');
                 if(obj.email == '') {

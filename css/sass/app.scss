@@ -1,11 +1,11 @@
 /*
  * Hive
- * Copyright 2022 Diego Martin
+ * Copyright 2025 Diego Martin
  * npm install -g sass
  * sass --watch css/sass:css --style compressed
  */
 
-@import 'core.scss';
+@import '_vars.scss';
 
 .app {
     padding-top: 100px;
@@ -118,5 +118,14 @@ header {
                 }
             }
         }
+    }
+}
+
+.mega-title {
+    .accent {
+        background: -webkit-linear-gradient(315deg, #ffc164 25%, #e34c4c);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }
