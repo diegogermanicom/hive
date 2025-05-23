@@ -31,6 +31,9 @@
 
         public function check_maintenance() {
             // Close the access to the web for maintenance
+            if(in_array($this->get_ip(), MAINTENANCE_IPS)) {
+                return false;
+            }
             if(MAINTENANCE == true && ROUTE != PUBLIC_ROUTE.'/service-down') {
                 if(METHOD == 'get') {
                     header('Location: '.PUBLIC_ROUTE.'/service-down');
@@ -53,6 +56,9 @@
                     'integer' => 'i', 'double' => 'd',
                     'string' => 's', 'boolean' => 'b'
                 );
+                if(!is_array($params)) {
+                    $params = array($params);
+                }
                 foreach($params as $value) {
                     if($value == NULL) {
                         $type .= 's';
@@ -68,7 +74,7 @@
                 }
             }
             $query->execute();
-            return $query->get_result();    
+            return $query->get_result();
         }
 
         public function get_ip() {

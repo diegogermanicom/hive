@@ -685,6 +685,12 @@ footer {
         padding-left: 20px;
         padding-right: 20px;
     }
+    &.container-left {
+        margin: auto auto auto 0px;
+    }
+    &.container-right {
+        margin: auto 0px auto auto;
+    }
 }
 .container-xl {
     max-width: $xl + px;        

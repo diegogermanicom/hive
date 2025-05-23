@@ -16,7 +16,7 @@
         <link href="<?= PUBLIC_PATH; ?>/css/vendor/slick.css" rel="stylesheet">
         <link href="<?= PUBLIC_PATH; ?>/css/vendor/slick-theme.css" rel="stylesheet">
         <?php
-            if(ENVIRONMENT == 'PRE') {
+            if(ENVIRONMENT == 'DEV') {
                 echo '<link href="'.PUBLIC_PATH.'/css/core.css?'.uniqid().'" rel="stylesheet">';
                 echo '<link href="'.PUBLIC_PATH.'/css/admin.css?'.uniqid().'" rel="stylesheet">';
             } else {
@@ -31,7 +31,7 @@
             var ADMIN_PATH = '<?= ADMIN_PATH ?>';
         </script>
         <?php
-            if(ENVIRONMENT == 'PRE') {
+            if(ENVIRONMENT == 'DEV') {
                 echo '<script src="'.PUBLIC_PATH.'/js/hive.js?'.uniqid().'"></script>';
                 echo '<script src="'.PUBLIC_PATH.'/js/admin.js?'.uniqid().'"></script>';    
             } else {

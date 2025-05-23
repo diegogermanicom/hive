@@ -125,6 +125,28 @@ var HIVE = {
             return filter.test(value);
         }
     },
+    validateForm: function(content) {
+        // Clean the form of previous errors
+        $(content).find('*').removeClass('error');
+        // I store the name of the fields that have given an error
+        var result = {
+            response: true,
+            errorFields: []
+        }
+        $(content).find('input[validate][validate-type], select[validate][validate-type], textarea[validate][validate-type]').each(function() {
+            const type = $(this).attr('validate-type');
+            var val = $(this).val().trim();
+            if(!HIVE.validate(type, val)) {
+                $(this).addClass('error');
+                result.response = false;
+                const name = $(this).attr('validate-name');
+                if(name != undefined) {
+                    result.errorFields.push(name);
+                }
+            }
+        });
+        return result;
+    },
     konamiCode: function(key) {
         // Just for fun
         var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];

@@ -368,6 +368,7 @@ body.dark-mode {
     border: 1px solid #ddd;
     & > li {
         .label {
+            @include user-select(none);
             cursor: pointer;
             display: block;
             padding: 8px 5px 8px 26px;
@@ -398,7 +399,6 @@ body.dark-mode {
                 display: block;
                 padding: 8px 5px 8px 26px;
                 &.active {
-                    color: white;
                     background-color: $black;
                 }
                 &:hover {
@@ -430,6 +430,39 @@ body.dark-mode {
     }
     &.no-border {
         border: 0px;
+    }
+    &.dark-bg {
+        & > li {
+            .label {
+                color: white;
+                &.has-options {
+                    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='24' height='32' viewBox='0 0 24 32'><polygon points='0,0 24,16 0,32' style='fill: rgb%28100, 100, 100%29'></polygon></svg>");
+                }
+            }
+            .options {
+                & > a {
+                    &.active {
+                        background-color: #d1d1d1;
+                    }
+                    &:hover {
+                        background-color: #c5c5c5;
+                    }
+                }
+            }
+            &.active {
+                .label {
+                    &:not(.no-pointer) {
+                        background-color: #434242;
+                        &:hover {
+                            background-color: #434242;
+                        }
+                    }
+                        &.has-options:not(.no-options) {
+                        background-color: #434242;
+                    }
+                }
+            }
+        }
     }
 }
 body.dark-mode {

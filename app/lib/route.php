@@ -7,7 +7,7 @@
      * Last Update: 2024
      */
 
-    class Route extends Model {
+    class Route {
 
         public $root = PUBLIC_ROUTE;
         public $controller = null;

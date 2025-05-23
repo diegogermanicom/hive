@@ -10,13 +10,13 @@
         </nav>
         <div class="separator"></div>
         <nav>
-            <?php if(ENVIRONMENT == 'PRE') { ?>
+            <?php if(ENVIRONMENT == 'DEV') { ?>
                 <a href="<?= ADMIN_PATH ?>/ftp-upload"<?php if(in_array($data['admin']['name_page'], $data['menu']['ftp_upload'])) echo ' class="active"'; ?>><i class="fa-regular fa-file"></i>&nbsp;&nbsp;Ftp Upload</a>
             <?php } ?>
         </nav>
         <div class="separator"></div>
         <nav>
-            <a href="<?= PUBLIC_ROUTE ?>"><i class="fa-solid fa-desktop"></i>&nbsp;&nbsp;Public Home</a>
+            <a href="<?= PUBLIC_ROUTE ?>/"><i class="fa-solid fa-desktop"></i>&nbsp;&nbsp;Public Home</a>
             <a href="<?= ADMIN_PATH ?>/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a>
         </nav>
     </div>
