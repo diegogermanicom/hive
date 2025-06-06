@@ -31,7 +31,7 @@ var APP = {
                             btn.addClass('btn-ok');
                             $('#popup-cookies').removeClass('active');
                         } else {
-                            HIVE.showInfo('Error', 'An unexpected error has occurred.<br>Reload the page to try again.');
+                            UTILS.showInfo('Error', 'An unexpected error has occurred.<br>Reload the page to try again.');
                             btn.removeClass('disabled');
                         }
                     }
@@ -46,7 +46,7 @@ var APP = {
                 email: $('#input-send-newsletter').val().trim()
             }
             $('.newsletter-content *').removeClass('error');
-            if(!HIVE.validate('email', obj.email)) {
+            if(!UTILS.validate('email', obj.email)) {
                 $('#input-send-newsletter').addClass('error');
             }
             if($('#checkbox-send-newsletter:checked').val() == undefined) {
@@ -60,9 +60,9 @@ var APP = {
                     success: function(data) {
                         if(data.newsletter.response == 'ok') {
                             btn.addClass('btn-ok');
-                            HIVE.showInfo(data.newsletter.title, data.newsletter.description);
+                            UTILS.showInfo(data.newsletter.title, data.newsletter.description);
                         } else {
-                            HIVE.showInfo('Error', 'An unexpected error has occurred.<br>Reload the page to try again.');
+                            UTILS.showInfo('Error', 'An unexpected error has occurred.<br>Reload the page to try again.');
                             btn.removeClass('disabled');
                         }
                     }
@@ -79,7 +79,7 @@ var APP = {
                 remember: ($('#checkbox-login-remember:checked').val() == undefined) ? 0 : 1
             }
             $('.login-content *').removeClass('error');
-            if(!HIVE.validate('email', obj.email)) {
+            if(!UTILS.validate('email', obj.email)) {
                 $('#input-login-email').addClass('error');
             }
             if(obj.pass == '' || obj.pass.length < 8) {
@@ -95,7 +95,7 @@ var APP = {
                             btn.addClass('btn-ok');
                             window.location.href = data.login.url;
                         } else {
-                            HIVE.showInfo('Uups', data.login.mensaje);
+                            UTILS.showInfo('Uups', data.login.mensaje);
                             btn.removeClass('disabled');
                         }
                     }
@@ -115,13 +115,13 @@ var APP = {
                 newsletter: ($('#checkbox-register-newsletter:checked').val() == undefined) ? 0 : 1
             }
             $('.register-content *').removeClass('error');
-            if(!HIVE.validate('email', obj.email)) {
+            if(!UTILS.validate('email', obj.email)) {
                 $('#input-register-email').addClass('error');
             }
-            if(!HIVE.validate('name', obj.name)) {
+            if(!UTILS.validate('name', obj.name)) {
                 $('#input-register-name').addClass('error');
             }
-            if(!HIVE.validate('lastname', obj.lastname)) {
+            if(!UTILS.validate('lastname', obj.lastname)) {
                 $('#input-register-lastname').addClass('error');
             }
             if(obj.pass1 == '' || obj.pass1.length < 8) {
@@ -146,7 +146,7 @@ var APP = {
                             btn.addClass('btn-ok');
                             window.location.href = data.register.url;
                         } else {
-                            HIVE.showInfo('Uups', data.register.mensaje);
+                            UTILS.showInfo('Uups', data.register.mensaje);
                             btn.removeClass('disabled');
                         }
                     }

@@ -18,7 +18,7 @@
         'LANGUAGE' => 'en',
         // Set if the web is multilanguage.
         'MULTILANGUAGE' => false,
-        // Languages ​​supported by the application if it is multilingual (ISO language codes)
+        // Languages supported by the application if it is multilingual (ISO language codes)
         'LANGUAGES' => array('en'),
         // Set if your website has a database
         'HAS_DDBB' => false,
@@ -33,6 +33,7 @@
         'EMAIL_FROM' => 'info@hiveframework.com',
         // Default meta values for SEO
         'META_TITLE' => 'Hive PHP Framework',
+        'META_EXTRA_TITLE' => ' | Hive',
         'META_DESCRIPTION' => 'Welcome to Hive, the fastest, lightest and simplest PHP framework for your web applications.',
         'META_KEYS' => 'hive, framework, php',
         // Default Open Graph tags for RRSS
@@ -51,7 +52,7 @@
             'DDBB_HOST' => 'localhost',
             'DDBB_USER' => 'root',
             'DDBB_PASS' => '',
-            'DDBB' => ''
+            'DDBB' => 'hive'
         ),
         'PRO' => array(
             'PROTOCOL' => 'https',
@@ -62,7 +63,12 @@
             'DDBB_USER' => 'hiveuser',
             'DDBB_PASS' => 'mysqlhivepass',
             'DDBB' => ''
-        )
+        ),
+        'FTP_UPLOAD_HOST' => '',
+        'FTP_UPLOAD_USER' => '',
+        'FTP_UPLOAD_PASS' => '',
+        // Leave empty to indicate the root
+        'FTP_UPLOAD_SERVER_PATH' => ''
     );
 
 ?>

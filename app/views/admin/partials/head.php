@@ -32,10 +32,10 @@
         </script>
         <?php
             if(ENVIRONMENT == 'DEV') {
-                echo '<script src="'.PUBLIC_PATH.'/js/hive.js?'.uniqid().'"></script>';
+                echo '<script src="'.PUBLIC_PATH.'/js/utils.js?'.uniqid().'"></script>';
                 echo '<script src="'.PUBLIC_PATH.'/js/admin.js?'.uniqid().'"></script>';    
             } else {
-                echo '<script src="'.PUBLIC_PATH.'/js/min/hive.min.js"></script>';
+                echo '<script src="'.PUBLIC_PATH.'/js/min/utils.min.js"></script>';
                 echo '<script src="'.PUBLIC_PATH.'/js/min/admin.min.js"></script>';                
             }
         ?>

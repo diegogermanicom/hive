@@ -21,7 +21,7 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Home');
             $data['head']['canonical'] .= '/home';
-            $this->view('/hive', $data);
+            $this->view('/home', $data);
         }
 
         public function privacy_policy($args) {
