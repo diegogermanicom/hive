@@ -13,6 +13,21 @@
         public const ONEMONTH = (24 * 60 * 60 * 30);
         public const ONEWEEK = (24 * 60 * 60 * 7);
 
+        public static function validateDomain($dominio) {
+            $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
+            return $result;
+        }
+
+        public static function validateSlug($slug) {
+            $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
+            return $result;
+        }
+
+        public static function validateRelativePath($path) {
+            $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
+            return $result;
+        }
+
         public static function error($message) {
             echo <<<HTML
                 <html>
@@ -56,21 +71,6 @@
             exit;
         }
         
-        public static function validateDomain($dominio) {
-            $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
-            return $result;
-        }
-
-        public static function validateSlug($slug) {
-            $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
-            return $result;
-        }
-
-        public static function validateRelativePath($path) {
-            $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
-            return $result;
-        }
-
         public static function query($sql, $params = null) {
             if(HAS_DDBB == true) {
                 // This function is created to avoid malicious sql injections
@@ -101,6 +101,11 @@
             } else {
                 return null;
             }
+        }
+
+        public static function error_log($message) {
+            $sql = 'INSERT INTO error_log (message) VALUES (?)';
+            Utils::query($sql, array($message));
         }
 
         public static function settingsValidator($settings) {
@@ -157,12 +162,21 @@
             }
         }
 
-        public static function getEnviroment($host, $hostDev, $hostPro) {
-            if(strpos($host, $hostDev) !== false && $hostDev != '') {
+        public static function init() {
+            date_default_timezone_set('Europe/Madrid');
+            ignore_user_abort(true);
+            ini_set('memory_limit', '256M');
+            // Start user session
+            session_name(APP_NAME);
+            session_start();
+        }
+
+        public static function getEnviroment() {
+            if(strpos(HOST, HOST_DEV) !== false && HOST_DEV != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
                 return 'DEV';
-            } else if(strpos($host, $hostPro) !== false && $hostPro != '') {
+            } else if(strpos(HOST, HOST_PRO) !== false && HOST_PRO != '') {
                 error_reporting(0);
                 ini_set('display_errors', '0');
                 return 'PRO';
@@ -211,9 +225,18 @@
             return $lang;
         }
 
-        public static function error_log($message) {
-            $sql = 'INSERT INTO error_log (message) VALUES (?)';
-            Utils::query($sql, array($message));
+        public static function setThemeColor() {
+            if(!isset($_COOKIE['color-mode'])) {
+                setcookie('color-mode', 'light-mode', time() + Utils::ONEYEAR, PUBLIC_PATH.'/'); // 1 año
+                $_COOKIE['color-mode'] = 'light-mode';
+            }        
+        }
+
+        public static function checkServiceDownView() {
+            if(MAINTENANCE == false && ROUTE == PUBLIC_ROUTE.'/service-down') {
+                header('Location: '.PUBLIC_ROUTE);
+                exit;
+            }        
         }
 
     }
