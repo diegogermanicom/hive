@@ -7,7 +7,7 @@
      * Last Update: 2025
     */
 
-    include __DIR__.'/../libs/utils.php';
+    include __DIR__.'/utils.php';
 
     $settings = include __DIR__.'/settings.php';
     // If all setting values ​​are correct continue
@@ -95,18 +95,12 @@
     Utils::init();
     Utils::checkServiceDownView();
     Utils::setThemeColor();
-
-    // I load all the framework libraries
-    include LIBS_PATH.'/autoload.php';
-    // I create an object to connect to the database
+    Utils::loadLibs();
+    // I create the core objects
     $DB = new Ddbb();
-    // I create an object to control the routes
     $R = new Route();
-    // Load model objects
-    include MODELS_PATH.'/autoload.php';
-    // Load controler objects
-    include CONTROLLERS_PATH.'/autoload.php';   
-    // Load routes list
-    include ROUTES_PATH.'/autoload.php';
+    Utils::loadModels(array('app-model.php', 'admin-model.php'));
+    define('CONTROLLERS', Utils::loadControllers());
+    Utils::loadRoutes();
 
 ?>
