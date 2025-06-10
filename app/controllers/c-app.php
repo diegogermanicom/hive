@@ -29,9 +29,19 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Privacy Policy');
             $data['meta']['description'] = 'Find out about our privacy policies to make good use of our application.';
-            $data['meta']['keywords'] .= ', privacy policy, legal, cookies, cookies policy';
+            $data['meta']['keywords'] .= ', privacy policy, legal';
             $data['head']['canonical'] .= '/privacy-policy';
             $this->view('/privacy-policy', $data);
+        }
+
+        public function cookie_policy($args) {
+            $app = new App('cookie-policy-page');
+            $data = $app->getAppData();
+            $data['meta']['title'] = $app->setTitle('Cookie Policy');
+            $data['meta']['description'] = 'Find out about our cookie policies to make good use of our application.';
+            $data['meta']['keywords'] .= ', cookies, cookies policy';
+            $data['head']['canonical'] .= '/cookie-policy';
+            $this->view('/cookie-policy', $data);
         }
 
         public function service_down($args) {

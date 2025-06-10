@@ -13,6 +13,7 @@
     $R->get('/'                                     , 'root');
     $R->get('/home'                                 , 'home');
     $R->get('/privacy-policy'                       , 'privacy_policy');
+    $R->get('/cookie-policy'                        , 'cookie_policy');
     $R->get('/register'                             , 'register');
     $R->get('/404'                                  , 'page_404', false);
     $R->get('/service-down'                         , 'service_down', false);
