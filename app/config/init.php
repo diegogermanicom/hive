@@ -7,7 +7,7 @@
      * Last Update: 2025
     */
 
-    require_once __DIR__.'/utils.php';
+    require_once __DIR__.'/../libs/utils.php';
 
     $settings = require_once __DIR__.'/settings.php';
     // If all setting values ​​are correct continue

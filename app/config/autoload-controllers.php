@@ -13,7 +13,7 @@
     $priorityFiles = array();
     foreach($priorityFiles as $value) {
         if(file_exists(CONTROLLERS_PATH.'/'.$value)) {
-            include CONTROLLERS_PATH.'/'.$value;
+            require_once CONTROLLERS_PATH.'/'.$value;
         } else {
             Utils::error('The priority controller file you are trying to load <b>'.$value.'</b> does not exist.');
         }
@@ -24,7 +24,7 @@
     $scandir = scandir(CONTROLLERS_PATH);
     $files = array_diff($scandir, array('.', '..'), $ignoreControllers, $priorityFiles);
     foreach($files as $value) {
-        include CONTROLLERS_PATH.'/'.$value;
+        require_once CONTROLLERS_PATH.'/'.$value;
     }
     //I ignore system controllers
     $ignoreControllers = array();

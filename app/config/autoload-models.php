@@ -15,7 +15,7 @@
     );
     foreach($priorityModels as $value) {
         if(file_exists(MODELS_PATH.'/'.$value)) {
-            include MODELS_PATH.'/'.$value;
+            require_once MODELS_PATH.'/'.$value;
         } else {
             Utils::error('The priority model file you are trying to load <b>'.$value.'</b> does not exist.');
         }
@@ -26,7 +26,7 @@
     $scandir = scandir(MODELS_PATH);
     $files = array_diff($scandir, array('.', '..'), $ignoreModels, $priorityModels);
     foreach($files as $value) {
-        include MODELS_PATH.'/'.$value;
+        require_once MODELS_PATH.'/'.$value;
     }
 
 ?>

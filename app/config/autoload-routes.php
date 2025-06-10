@@ -12,7 +12,7 @@
     $priorityRoutes = array();
     foreach($priorityRoutes as $value) {
         if(file_exists(ROUTES_PATH.'/'.$value)) {
-            include ROUTES_PATH.'/'.$value;
+            require_once ROUTES_PATH.'/'.$value;
         } else {
             Utils::error('The priority route file you are trying to load <b>'.$value.'</b> does not exist.');
         }
@@ -24,7 +24,7 @@
     $files = array_diff($scandir, array('.', '..'), $ignoreRoutes);
     foreach($files as $value) {
         $R->reset();
-        include ROUTES_PATH.'/'.$value;
+        require_once ROUTES_PATH.'/'.$value;
     }
 
 ?>
