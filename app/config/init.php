@@ -10,7 +10,7 @@
     require_once __DIR__.'/../libs/utils.php';
 
     $settings = require_once __DIR__.'/settings.php';
-    // If all setting values ​​are correct continue
+    // If all setting values are correct continue
     Utils::settingsValidator($settings);
  
     // Constant system variables
