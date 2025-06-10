@@ -237,7 +237,6 @@
                     Utils::error('The configuration file of the default language of the app does not exist. Check the <b>langs</b> folder.');
                 }
             }
-            include LANG_PATH.'/'.$lang.'.php';
             setcookie('lang', $lang, time() + Utils::ONEYEAR, PUBLIC_PATH.'/'); // 1 año
             $_COOKIE['lang'] = $lang;
             return $lang;
@@ -257,102 +256,6 @@
                 header('Location: '.PUBLIC_ROUTE);
                 exit;
             }        
-        }
-
-        public static function loadLibs($priorityLibs = array(), $ignoreLibs = array()) {
-            Utils::checkDefined('LIBS_PATH');
-            // I add classes that are prioritized in order
-            foreach($priorityLibs as $value) {
-                if(file_exists(LIBS_PATH.'/'.$value)) {
-                    include LIBS_PATH.'/'.$value;
-                } else {
-                    Utils::error('The priority library file you are trying to load <b>'.$value.'</b> does not exist.');
-                }
-            }
-            // I automatically include each library
-            $scandir = scandir(LIBS_PATH);
-            $files = array_diff($scandir, array('.', '..'), $ignoreLibs, $priorityLibs);
-            foreach($files as $value) {
-                include LIBS_PATH.'/'.$value;
-            }        
-        }
-
-        public static function loadModels($priorityModels = array(), $ignoreModels = array()) {
-            Utils::checkDefined('MODELS_PATH');
-            // I add classes that are prioritized in order
-            $priorityModels = array(
-                'app-model.php',
-                'admin-model.php'
-            );
-            foreach($priorityModels as $value) {
-                if(file_exists(MODELS_PATH.'/'.$value)) {
-                    include MODELS_PATH.'/'.$value;
-                } else {
-                    Utils::error('The priority model file you are trying to load <b>'.$value.'</b> does not exist.');
-                }
-            }
-            // I automatically include each model
-            $scandir = scandir(MODELS_PATH);
-            $files = array_diff($scandir, array('.', '..'), $ignoreModels, $priorityModels);
-            foreach($files as $value) {
-                include MODELS_PATH.'/'.$value;
-            }        
-        }
-
-        public static function loadControllers($priorityFiles = array(), $ignoreControllers = array()) {
-            Utils::checkDefined('CONTROLLERS_PATH');
-            $classBefore = get_declared_classes();
-            // I add files that are prioritized in order
-            foreach($priorityFiles as $value) {
-                if(file_exists(CONTROLLERS_PATH.'/'.$value)) {
-                    include CONTROLLERS_PATH.'/'.$value;
-                } else {
-                    Utils::error('The priority controller file you are trying to load <b>'.$value.'</b> does not exist.');
-                }
-            }
-            // I automatically include each controller
-            $scandir = scandir(CONTROLLERS_PATH);
-            $files = array_diff($scandir, array('.', '..'), $ignoreControllers, $priorityFiles);
-            foreach($files as $value) {
-                include CONTROLLERS_PATH.'/'.$value;
-            }
-            //I ignore system controllers
-            $ignoreControllers = array();
-            foreach($ignoreControllers as $value) {
-                array_push($classBefore, $value);
-            }
-            // I save the name of all the created controllers
-            $classAfter = get_declared_classes();
-            $arrayControllers = array_values(array_diff($classAfter, $classBefore));
-            // Now I save the functions of each controller
-            foreach($arrayControllers as $index => $value) {
-                $arrayControllers[$index] = array(
-                    'name' => $value,
-                    'functions' => get_class_methods($value)
-                );
-            }
-            return $arrayControllers;
-        }
-
-        public static function loadRoutes($priorityRoutes = array(), $ignoreRoutes = array()) {
-            Utils::checkDefined('ROUTES_PATH');
-            foreach($priorityRoutes as $value) {
-                if(file_exists(ROUTES_PATH.'/'.$value)) {
-                    include ROUTES_PATH.'/'.$value;
-                } else {
-                    Utils::error('The priority route file you are trying to load <b>'.$value.'</b> does not exist.');
-                }
-            }
-            // I automatically include each route
-            $scandir = scandir(ROUTES_PATH);
-            $files = array_diff($scandir, array('.', '..'), $ignoreRoutes);
-            global $R;
-            foreach($files as $value) {
-                $R->reset();
-                include ROUTES_PATH.'/'.$value;
-            }
-            // No route found
-            $R->empty();        
         }
 
     }

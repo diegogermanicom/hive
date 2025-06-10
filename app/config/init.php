@@ -7,9 +7,9 @@
      * Last Update: 2025
     */
 
-    include __DIR__.'/utils.php';
+    require_once __DIR__.'/utils.php';
 
-    $settings = include __DIR__.'/settings.php';
+    $settings = require_once __DIR__.'/settings.php';
     // If all setting values ​​are correct continue
     Utils::settingsValidator($settings);
  
@@ -76,7 +76,8 @@
     
     // Find out the language
     define('LANG', Utils::getLanguage());
-    include LANG_PATH.'/routes.php';
+    require_once LANG_PATH.'/'.LANG.'.php';
+    require_once LANG_PATH.'/routes.php';
 
     // Declare public paths
     if(MULTILANGUAGE == true) {
@@ -95,12 +96,14 @@
     Utils::init();
     Utils::checkServiceDownView();
     Utils::setThemeColor();
-    Utils::loadLibs();
+    require_once __DIR__.'/autoload-libs.php';
     // I create the core objects
     $DB = new Ddbb();
     $R = new Route();
-    Utils::loadModels(array('app-model.php', 'admin-model.php'));
-    define('CONTROLLERS', Utils::loadControllers());
-    Utils::loadRoutes();
+    require_once __DIR__.'/autoload-models.php';
+    define('CONTROLLERS', require_once __DIR__.'/autoload-controllers.php');
+    require_once __DIR__.'/autoload-routes.php';
+    // No route found
+    $R->empty();
 
 ?>
