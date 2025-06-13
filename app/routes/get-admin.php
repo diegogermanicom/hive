@@ -4,16 +4,19 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2023
+     * Last Update: 2025
      */
 
     // Admin Get
+    $R->setRoot(ADMIN_PATH);
     $R->setController('CAdmin');
-    $R->getAdmin(''                                 , 'root');
-    $R->getAdmin('/'                                , 'root');
-    $R->getAdmin('/login'                           , 'login');
-    $R->getAdmin('/logout'                          , 'logout');
-    $R->getAdmin('/home'                            , 'home');
-    $R->getAdmin('/ftp-upload'                      , 'ftp_upload');
+    $R->get(
+        [''                                 , 'root'],
+        ['/'                                , 'root'],
+        ['/home'                            , 'home'],
+        ['/login'                           , 'login'],
+        ['/logout'                          , 'logout'],
+        ['/ftp-upload'                      , 'ftp_upload']
+    );
 
 ?>

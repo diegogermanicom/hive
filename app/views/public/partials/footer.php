@@ -1,16 +1,16 @@
-    <footer>
+<footer>
         <?php if(MULTILANGUAGE == true && isset($data['routes'])) { ?>
         <div class="pb-15 animate animate-opacity text-center">
-            <label>Elige tu idioma</label>
+            <label>Choose your language</label>
             <?php
                 $html = '<select id="select-choose-language">';
-                foreach($data['routes'] as $index => $value) {
-                    if(in_array($index, LANGUAGES)) {
+                foreach($data['routes'] as $value) {
+                    if(in_array($value['language'], LANGUAGES)) {
                         $selected = '';
-                        if($index == LANG) {
+                        if($value['language'] == LANG) {
                             $selected = ' selected';
                         }
-                        $html .= '<option value="'.$index.'" route="'.$value.'"'.$selected.'>'.$index.'</option>';
+                        $html .= '<option value="'.$value['language'].'" route="'.$value['route'].'"'.$selected.'>'.$value['language'].'</option>';
                     }
                 }
                 $html .= '</select>';

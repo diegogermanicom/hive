@@ -16,7 +16,7 @@
         </nav>
         <div class="separator"></div>
         <nav>
-            <a href="<?= PUBLIC_ROUTE ?>/"><i class="fa-solid fa-desktop"></i>&nbsp;&nbsp;Public Home</a>
+            <a href="<?= PUBLIC_ROUTE ?>/" target="_blank"><i class="fa-solid fa-desktop"></i>&nbsp;&nbsp;Public Home</a>
             <a href="<?= ADMIN_PATH ?>/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a>
         </nav>
     </div>

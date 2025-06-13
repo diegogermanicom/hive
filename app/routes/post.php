@@ -4,16 +4,18 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2023
+     * Last Update: 2025
      */
 
     // App Post
     $R->setController('CAppAjax');
-    $R->post('/set-cookies'                         , 'set_cookies');
-    $R->post('/save-newsletter'                     , 'save_newsletter');
-    $R->post('/login-send'                          , 'login_send');
-    $R->post('/register-send'                       , 'register_send');
-    $R->post('/choose-language'                     , 'choose_language');
-    $R->post('/choose-color-mode'                   , 'choose_color_mode');
+    $R->post(
+        ['/set-cookies'                     , 'set_cookies'],
+        ['/save-newsletter'                 , 'save_newsletter'],
+        ['/login-send'                      , 'login_send'],
+        ['/register-send'                   , 'register_send'],
+        ['/choose-language'                 , 'choose_language'],
+        ['/choose-color-mode'               , 'choose_color_mode']
+    );
 
 ?>
