@@ -36,8 +36,23 @@
             $admin = new Admin('admin-home-page');
             $admin->security_admin_login();
             $data = $admin->getAdminData();
+            $data['admin']['tags'] = [
+                'home'
+            ];
             $data['meta']['title'] = $admin->setTitle('Home');
             $this->viewAdmin('/home', $data);
+        }
+
+        public function sitemap($args) {
+            $admin = new Admin('admin-sitemap');
+            $admin->security_admin_login();
+            $data = $admin->getAdminData();
+            $data['admin']['tags'] = [
+                'sitemap'
+            ];
+            $data['meta']['title'] = $admin->setTitle('Sitemap');
+            $data['sitemap'] = $admin->getSitemapInfo();
+            $this->viewAdmin('/sitemap', $data);
         }
 
         public function ftp_upload($args) {
@@ -47,6 +62,9 @@
             if($upload->connect()) {
                 if($upload->login()) {
                     $data = $admin->getAdminData();
+                    $data['admin']['tags'] = [
+                        'ftp-upload'
+                    ];
                     $data['meta']['title'] = $admin->setTitle('FTP Upload');
                     $this->viewAdmin('/ftp-upload-view', $data);
                 } else {

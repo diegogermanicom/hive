@@ -16,6 +16,7 @@
         ['/home'                            , 'home'],
         ['/login'                           , 'login'],
         ['/logout'                          , 'logout'],
+        ['/sitemap'                         , 'sitemap'],
         ['/ftp-upload'                      , 'ftp_upload']
     );
 

@@ -4,7 +4,7 @@
      * Author: Diego Martin
      * Copyright: Hive®
      * Version: 1.0
-     * Last Update: 2023
+     * Last Update: 2025
      */   
 
     class Admin extends AdminModel {
@@ -22,10 +22,6 @@
             $data = array();
             $data['admin'] = array(
                 'name_page' => $this->name_page
-            );
-            $data['menu'] = array(
-                'home' => array('admin-home-page'),
-                'ftp_upload' => array('ftp-upload-page')
             );
             $data['meta'] = array(
                 'title' => META_TITLE
@@ -60,6 +56,39 @@
         public function logout() {
             unset($_SESSION['admin']);
             setcookie('admin_remember', '', time() -3600, PUBLIC_PATH.'/');
+        }
+
+        public function getSitemapInfo() {
+            $fileMain = SERVER_PATH.'/sitemap-index.xml';
+            $html = '';
+            if(file_exists($fileMain)) {
+                $html .= '<div class="box box-green mb-20">';
+                $html .=    '<div>The main sitemap <b>sitemap-index.xml</b> exists.</div>';
+                $html .=    '<div>Last modified date: <b>'.date("Y-m-d", filemtime($fileMain)).'</b>.</div>';
+                $html .=    '<div>Last access date: <b>'.date("Y-m-d", fileatime($fileMain)).'</b>.</div>';
+                $html .= '</div>';
+                // I check if the sitemap for each language exists
+                foreach(LANGUAGES as $language) {
+                    $fileLang = SERVER_PATH.'/sitemap-'.$language.'.xml';
+                    if(file_exists($fileLang)) {
+                        $html .= '<div class="box box-green mb-20">';
+                        $html .=    '<div>The sitemap for the '.$language.' exists in the <b>sitemap-'.$language.'.xml</b> file.</div>';
+                        $html .=    '<div>Last modified date: <b>'.date("Y-m-d", filemtime($fileLang)).'</b>.</div>';
+                        $html .=    '<div>Last access date: <b>'.date("Y-m-d", fileatime($fileLang)).'</b>.</div>';
+                        $html .= '</div>';
+                    } else {
+                        $html .= '<div class="box box-red mb-20">';
+                        $html .=    '<div>The <b>sitemap-'.$language.'.xml</b> sitemap file for the language <b>'.$language.'</b> does not exist.</div>';
+                        $html .= '</div>';
+                    }
+                }
+                return $html;
+            } else {
+                $html .= '<div class="box box-red mb-20">';
+                $html .=    '<div>The main sitemap <b>sitemap-index.xml</b> does not exist.</div>';
+                $html .= '</div>';
+                return $html;
+            }
         }
 
     }

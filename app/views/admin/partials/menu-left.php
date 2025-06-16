@@ -6,12 +6,13 @@
             <a href="<?= ADMIN_PATH ?>/home"><img src="<?= PUBLIC_PATH.'/img/website-logo.png'; ?>" width="60" alt="Hive Framework"></a>
         </div>
         <nav>
-            <a href="<?= ADMIN_PATH ?>/home"<?php if(in_array($data['admin']['name_page'], $data['menu']['home'])) echo ' class="active"'; ?>><i class="fa-solid fa-house"></i>&nbsp;&nbsp;Home</a>
+            <a href="<?= ADMIN_PATH ?>/home"<?php if(in_array('home', $data['admin']['tags'])) echo ' class="active"'; ?>><i class="fa-solid fa-house"></i>&nbsp;&nbsp;Home</a>
         </nav>
         <div class="separator"></div>
         <nav>
+            <a href="<?= ADMIN_PATH ?>/sitemap"<?php if(in_array('sitemap', $data['admin']['tags'])) echo ' class="active"'; ?>><i class="fa-solid fa-sitemap"></i>&nbsp;&nbsp;Sitemap</a>
             <?php if(ENVIRONMENT == 'DEV') { ?>
-                <a href="<?= ADMIN_PATH ?>/ftp-upload"<?php if(in_array($data['admin']['name_page'], $data['menu']['ftp_upload'])) echo ' class="active"'; ?>><i class="fa-regular fa-file"></i>&nbsp;&nbsp;Ftp Upload</a>
+                <a href="<?= ADMIN_PATH ?>/ftp-upload"<?php if(in_array('ftp-upload', $data['admin']['tags'])) echo ' class="active"'; ?>><i class="fa-regular fa-file"></i>&nbsp;&nbsp;Ftp Upload</a>
             <?php } ?>
         </nav>
         <div class="separator"></div>
