@@ -16,9 +16,9 @@
         ['/privacy-policy'                  , 'privacy_policy'],
         ['/cookie-policy'                   , 'cookie_policy'],
         ['/register'                        , 'register'],
-        ['/service-down'                    , 'service_down'],
-        ['/logout'                          , 'logout'],
-        ['/404'                             , 'page_404']
+        ['/service-down'                    , 'service_down',       false],
+        ['/logout'                          , 'logout',             false],
+        ['/404'                             , 'page_404',           false]
     );    
 
 ?>

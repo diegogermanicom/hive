@@ -49,6 +49,9 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Service Down');
             $data['meta']['description'] = 'We are making improvements to our app. In a very short time we will be back.';
+            if($args['_index'] == false) {
+                $data['head']['robots'] = 'noindex, noimageindex, nofollow';
+            }
             $this->view('/service-down', $data);
         }
 
@@ -67,6 +70,9 @@
             $data['meta']['title'] = $app->setTitle('404');
             $data['meta']['description'] = 'If you have come this far, it is because we do not have the page you are looking for.';
             $data['meta']['keywords'] .= ', 404, not found, missing';
+            if($args['_index'] == false) {
+                $data['head']['robots'] = 'noindex, noimageindex, follow';
+            }
             $this->view('/404', $data);
         }
 
