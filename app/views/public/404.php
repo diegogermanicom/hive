@@ -12,7 +12,7 @@
                     <div class="text-center pt-100">
                         <a href="<?= PUBLIC_ROUTE ?>/home"><img src="<?= PUBLIC_PATH.'/img/website-logo.png'; ?>" width="80" alt="Hive Framework"></a>
                     </div>
-                    <div class="text-center pt-30 pb-100">Ups! No hemos encontrado la página que buscas.</div>
+                    <div class="text-center pt-30 pb-100">Oops! We couldn't find the page you were looking for.</div>
                 </div>
             </section>
             <?php include VIEWS_PUBLIC.'/partials/footer.php'; ?>
