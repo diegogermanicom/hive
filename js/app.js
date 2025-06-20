@@ -95,7 +95,7 @@ var APP = {
                             btn.addClass('btn-ok');
                             window.location.href = data.login.url;
                         } else {
-                            UTILS.showInfo('Uups', data.login.mensaje);
+                            UTILS.showInfo('Uups', data.login.message);
                             btn.removeClass('disabled');
                         }
                     }
@@ -146,7 +146,7 @@ var APP = {
                             btn.addClass('btn-ok');
                             window.location.href = data.register.url;
                         } else {
-                            UTILS.showInfo('Uups', data.register.mensaje);
+                            UTILS.showInfo('Uups', data.register.message);
                             btn.removeClass('disabled');
                         }
                     }

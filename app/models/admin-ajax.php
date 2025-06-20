@@ -39,13 +39,28 @@
                     }
                 }
                 $xmlLang .= '</urlset>';
-                file_put_contents(SERVER_PATH.'/sitemap-'.$lang.'.xml', $xmlLang);
+                $file = 'sitemap-'.$lang.'.xml';
+                $result = file_put_contents(SERVER_PATH.'/'.$file, $xmlLang);
+                if($result === false) {
+                    return array(
+                        'response' => 'error',
+                        'title' => 'Error!',
+                        'message' => 'An error occurred while saving the file '.$file.'.'
+                    );        
+                }
             }
             $xml .= '</sitemapindex>';
-            file_put_contents(SERVER_PATH.'/sitemap-index.xml', $xml);
+            $result = file_put_contents(SERVER_PATH.'/sitemap-index.xml', $xml);
+            if($result === false) {
+                return array(
+                    'response' => 'error',
+                    'title' => 'Error!',
+                    'message' => 'An error occurred while saving the file <b>sitemap-index.xml</b>.'
+                );        
+            }
             return array(
                 'response' => 'ok',
-                'title' => 'Correct!',
+                'title' => 'Error!',
                 'message' => 'The sitemap files have been created successfully.'
             );
         }

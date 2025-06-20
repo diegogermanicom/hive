@@ -54,7 +54,7 @@ var ADMIN = {
                                 window.location.href = ADMIN_PATH + '/home?login';
                             } else {
                                 btn.removeClass('disabled');
-                                UTILS.showInfo('Uups', data.login.mensaje);
+                                UTILS.showInfo('Uups', data.login.message);
                             }
                         }
                     });

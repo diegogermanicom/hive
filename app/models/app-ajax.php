@@ -59,7 +59,7 @@
             } else {
                 return array(
                     'response' => 'error',
-                    'mensaje' => LANGTXT['error-register']
+                    'message' => LANGTXT['error-register']
                 );    
             }
         }
