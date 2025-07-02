@@ -1,15 +1,16 @@
-/*
-* Upload Ftp
-* Copyright 2024 Diego Martin
-* Compares the files on the development server with the production server via ftp connection and modifies them.
-* Dep: Font Awesome, jQuery
-* Files:
-*      - ftp-upload.scss
-*      - ftp-upload.js
-*      - ftp-upload.php
-*      - ftp-upload-view.php
-*      - ftp-upload-ajax.php
-*/
+
+/**
+ * Upload Ftp
+ * @author Diego Martín
+ * @copyright Hive®
+ * @version 1.0
+ * @lastUpdated 2025
+ * Dep: Font Awesome, jQuery
+ * Files:
+ *  - /js/ftp-upload.js
+ *  - /app/lib/ftp-upload.php
+ *  - /app/views/admin/ftp-upload-view.php
+ */
 
 var FTPUPLOAD = {
     init: function() {

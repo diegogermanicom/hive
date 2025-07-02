@@ -1,6 +1,13 @@
 <?php
 
-    define('LANGTXT', array(
+    /**
+     * @author Diego Martín
+     * @copyright Hive®
+     * @version 1.0
+     * @lastUpdated 2025
+     */
+
+     define('LANGTXT', array(
             'error-register'            => 'That email is already associated with another account.',
             'error-login'               => 'Incorrect user or password.',
             'user-fail'                 => 'This user does not have access permissions.',
