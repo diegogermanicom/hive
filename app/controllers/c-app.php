@@ -12,8 +12,7 @@
         // App services ------------------------------------------------
         
         public function root($args) {
-            header('Location: '.PUBLIC_ROUTE.'/home');
-            exit;
+            Utils::redirect('/home');
         }
 
         public function home($args) {
@@ -80,8 +79,9 @@
             $app = new App();
             $app->security_app_login();
             $app->logout();
-            header('Location: '.PUBLIC_ROUTE.'/home?logout');
-            exit;
+            Utils::redirect('/home', array(
+                'logout' => 'true'
+            ));
         }
 
     }

@@ -20,8 +20,7 @@
         public function security_app_logout() {
             if(isset($_SESSION['user'])) {
                 if(METHOD == 'get') {
-                    header('Location: '.PUBLIC_ROUTE.'/');
-                    exit;
+                    Utils::redirect('/');
                 } else {
                     return json_encode(array(
                         'response' => 'error',
@@ -34,8 +33,7 @@
         public function security_app_login() {
             if(!isset($_SESSION['user'])) {
                 if(METHOD == 'get') {
-                    header('Location: '.PUBLIC_ROUTE.'/');
-                    exit;
+                    Utils::redirect('/');
                 } else {
                     return json_encode(array(
                         'response' => 'error',
