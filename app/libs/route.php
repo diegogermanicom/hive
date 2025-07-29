@@ -21,6 +21,7 @@
         private $defaultPrefix = '';
         private $defaultRoot = PUBLIC_PATH;
         private $defaultController = null;
+        private $defaultLanguage = null;
         private $defaultIndex = true;
         // I save all the routes that have been configured in this array
         private $routes;
@@ -38,18 +39,26 @@
         }
 
         public function reset() {
+            $this->resetRoute();
+            $this->resetDefault();
+        }
+
+        private function resetRoute() {
+            $this->method = null;
             $this->route = null;
             $this->controller = null;
             $this->function = null;
             $this->language = null;
             $this->alias = null;
             $this->index = null;
-            // Method being processed
-            $this->method = null;
+        }
+
+        private function resetDefault() {
             // Default route variables
             $this->defaultPrefix = '';
             $this->defaultRoot = PUBLIC_PATH;
             $this->defaultController = null;
+            $this->defaultLanguage = null;
             $this->defaultIndex = true;
         }
 
@@ -65,8 +74,32 @@
             $this->defaultController = $controller;
         }
 
+        public function setLanguage($lang) {
+            $this->defaultLanguage = $lang;
+        }
+
         public function setIndex($index) {
             $this->defaultIndex = $index;
+        }
+
+        public function resetPrefix() {
+            $this->defaultPrefix = '';
+        }
+
+        public function resetRoot() {
+            $this->defaultRoot = PUBLIC_PATH;
+        }
+
+        public function resetController() {
+            $this->defaultController = null;
+        }
+
+        public function resetLanguage() {
+            $this->defaultLanguage = null;
+        }
+
+        public function resetIndex() {
+            $this->defaultIndex = true;
         }
 
         public function getRoutes() {
@@ -139,10 +172,13 @@
             // The route is valid
             if(METHOD == $type && ROUTE == $scan_route) {
                 // I save the call details
+                $args['_method'] = $route['method'];
                 $args['_route'] = $route['route'];
                 $args['_controller'] = $route['controller'];
                 $args['_function'] = $route['function'];
+                $args['_language'] = $route['language'];
                 $args['_alias'] = $route['alias'];
+                $args['_index'] = $route['index'];
                 // If you pass it a function instead of a controller and a function
                 if(is_callable($route['function'])) {
                     call_user_func($route['function'], $args);
@@ -167,7 +203,7 @@
             } 
         }
 
-        private function checkRepeat($checkRoute) {
+        private function checkRepeatRoute($checkRoute) {
             foreach($this->routes as $methods) {
                 foreach($methods as $alias) {
                     foreach($alias as $route) {
@@ -180,7 +216,7 @@
         }
 
         private function addRoute() {
-            $objRoute = array(
+            $obj = array(
                 'method' => $this->method,
                 'route' => null,
                 'controller' => $this->controller,
@@ -194,25 +230,26 @@
             }
             if(MULTILANGUAGE == true && $this->method == 'get') {
                 // If you specify a language
-                if($this->language == '') {
-                    $objRoute['route'] = $this->defaultRoot.$this->defaultPrefix.$this->route;
+                if($this->language === null) {
+                    $obj['route'] = $this->defaultRoot.$this->defaultPrefix.$this->route;
                 } else {
-                    $objRoute['route'] = $this->defaultRoot.'/'.$this->language.$this->defaultPrefix.$this->route;
+                    $obj['route'] = $this->defaultRoot.'/'.$this->language.$this->defaultPrefix.$this->route;
                 }
             } else {
-                $objRoute['route'] = $this->defaultRoot.$this->defaultPrefix.$this->route;
+                $obj['route'] = $this->defaultRoot.$this->defaultPrefix.$this->route;
             }
+            // I check that the route is not repeated
+            $this->checkRepeatRoute($obj['route']);
             // If the alias does not exist
             if(!isset($this->routes[$this->method][$this->alias])) {
                 $this->routes[$this->method][$this->alias] = array();
             }
-            // I check that the route is not repeated
-            $this->checkRepeat($objRoute['route']);
-            if($this->language == '') {
-                $this->routes[$this->method][$this->alias]['root'] = $objRoute;
+            if($this->language === null) {
+                $this->routes[$this->method][$this->alias]['root'] = $obj;
             } else {
-                $this->routes[$this->method][$this->alias][$this->language] = $objRoute;
+                $this->routes[$this->method][$this->alias][$this->language] = $obj;
             }
+            $this->resetRoute();
         }
 
         private function checkRepeatAlias($method, $newAlias, $lang) {
@@ -242,10 +279,13 @@
                 $this->language = strtolower($arrayAlias[0]);
                 $this->alias = $arrayAlias[1];
             } else {
-                $this->language = '';
+                $this->language = null;
                 $this->alias = $arrayAlias[0];
             }
-            if($this->language != '' && !Utils::validateISOLanguage($this->language)) {
+            if($this->defaultLanguage != null) {
+                $this->language = $this->defaultLanguage;
+            }
+            if($this->language != null && !Utils::validateISOLanguage($this->language)) {
                 Utils::error('The language value of the route must be an ISO language code.');
             }
             if(!is_string($this->alias)) {
