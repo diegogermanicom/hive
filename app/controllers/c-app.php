@@ -72,7 +72,7 @@
             if($args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, follow';
             }
-            $this->view('/404', $data);
+            $this->view('/page-404', $data);
         }
 
         public function logout($args) {

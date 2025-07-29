@@ -112,7 +112,7 @@
         }
 
         public static function query($sql, $params = null) {
-            Utils::checkDefined('HAS_DDBB', 'LANGTXT');
+            Utils::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 // This function is created to avoid malicious sql injections
                 global $DB;
@@ -120,8 +120,10 @@
                 if($params != null) {
                     $type = '';
                     $types = array(
-                        'integer' => 'i', 'double' => 'd',
-                        'string' => 's', 'boolean' => 'b'
+                        'integer' => 'i',
+                        'double' => 'd',
+                        'string' => 's',
+                        'boolean' => 'b'
                     );
                     if(!is_array($params)) {
                         $params = array($params);
@@ -134,7 +136,7 @@
                         }
                     }    
                     if(!@$query->bind_param($type, ...$params)) {
-                        Utils::error(LANGTXT['error-query-description']);
+                        Utils::error('An error occurred while connecting to the database. Please check your connection credentials and domain.');
                     }
                 }
                 $query->execute();

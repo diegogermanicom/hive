@@ -9,16 +9,14 @@
 
     // App Get
     $R->setController('CApp');
-    $R->get(
-        [''                                 , 'root'],
-        ['/'                                , 'root'],
-        ['/home'                            , 'home'],
-        ['/privacy-policy'                  , 'privacy_policy'],
-        ['/cookie-policy'                   , 'cookie_policy'],
-        ['/register'                        , 'register'],
-        ['/service-down'                    , 'service_down',       false],
-        ['/logout'                          , 'logout',             false],
-        ['/404'                             , 'page_404',           false]
-    );    
+
+    $R->get('')                                 ->call('root')                      ->add('empty-root');
+    $R->get('/')                                ->call('root')                      ->add('bar-root');
+    $R->get('/page-404')                        ->call('page_404')                  ->add('page-404', false);
+    $R->get('/home')                            ->call('home')                      ->add('home');
+    $R->get('/privacy-policy')                  ->call('privacy_policy')            ->add('privacy-policy');
+    $R->get('/cookie-policy')                   ->call('cookie_policy')             ->add('cookie-policy');
+    $R->get('/service-down')                    ->call('service_down')              ->add('service-down', false);
+    $R->get('/logout')                          ->call('logout')                    ->add('logout', false);
 
 ?>
