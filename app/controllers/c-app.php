@@ -12,7 +12,7 @@
         // App services ------------------------------------------------
         
         public function root($args) {
-            Utils::redirect('/home');
+            Utils::redirect('home', $_GET);
         }
 
         public function home($args) {
@@ -79,7 +79,7 @@
             $app = new App();
             $app->security_app_login();
             $app->logout();
-            Utils::redirect('/home', array(
+            Utils::redirect('home', array(
                 'logout' => 'true'
             ));
         }

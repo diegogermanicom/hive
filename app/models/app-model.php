@@ -68,7 +68,7 @@
                     }
                     return array(
                         'response' => 'ok',
-                        'url' => PUBLIC_ROUTE.'/?login'
+                        'url' => Utils::getRoute('/', array('login' => 'true'))
                     );
                 } else {
                     return array(
