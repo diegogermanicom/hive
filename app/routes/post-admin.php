@@ -8,16 +8,15 @@
      */
 
     // Admin Post
-    $R->setRoot(ADMIN_PATH);
     $R->setController('CAdminAjax');
     
-    $R->post('/send-login')                     ->call('send_login')                        ->add('/send-login');
-    $R->post('/create-new-sitemap')             ->call('create_new_sitemap')                ->add('/create-new-sitemap');
+    $R->post('/send-login')                     ->call_admin('send_login');
+    $R->post('/create-new-sitemap')             ->call_admin('create_new_sitemap');
     // FPT Upload
-    $R->post('/ftpu-get-dir')                   ->call('ftpu_get_dir')                      ->add('ftpu-get-dir');
-    $R->post('/ftpu-compare')                   ->call('ftpu_compare')                      ->add('ftpu-compare');
-    $R->post('/ftpu-upload')                    ->call('ftpu_upload')                       ->add('ftpu-upload');
-    $R->post('/ftpu-upload-all')                ->call('ftpu_upload_all')                   ->add('ftpu-upload-all');
-    $R->post('/ftpu-create-folder')             ->call('ftpu_create_folder')                ->add('ftpu-create-folder');
+    $R->post('/ftpu-get-dir')                   ->call_admin('ftpu_get_dir');
+    $R->post('/ftpu-compare')                   ->call_admin('ftpu_compare');
+    $R->post('/ftpu-upload')                    ->call_admin('ftpu_upload');
+    $R->post('/ftpu-upload-all')                ->call_admin('ftpu_upload_all');
+    $R->post('/ftpu-create-folder')             ->call_admin('ftpu_create_folder');
 
 ?>

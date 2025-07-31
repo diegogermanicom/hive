@@ -26,8 +26,8 @@ use Utils as GlobalUtils;
                     $url = PUBLIC_ROUTE;
                 }
             } else {
-                if(isset(ROUTES[$alias]['root']['route'])) {
-                    $url = ROUTES[$alias]['root']['route'];
+                if(isset(ROUTES[$alias][LANG]['route'])) {
+                    $url = ROUTES[$alias][LANG]['route'];
                 } else {
                     $url = PUBLIC_ROUTE;
                 }

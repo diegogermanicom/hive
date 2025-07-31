@@ -8,17 +8,15 @@
      */
 
     // Admin Get
-    $R->setRoot(ADMIN_PATH);
     $R->setController('CAdmin');
-    $R->setIndex(false);
 
-    $R->get('')                                 ->call('root')                      ->add('admin-empty-root');
-    $R->get('/')                                ->call('root')                      ->add('admin-bar-root');
-    $R->get('/login')                           ->call('login')                     ->add('admin-login');
-    $R->get('/logout')                          ->call('logout')                    ->add('admin-logout');
-    $R->get('/home')                            ->call('home')                      ->add('admin-home');
+    $R->get('')                                 ->call_admin('root');
+    $R->get('/')                                ->call_admin('root');
+    $R->get('/login')                           ->call_admin('login');
+    $R->get('/logout')                          ->call_admin('logout');
+    $R->get('/home')                            ->call_admin('home');
     // Settings
-    $R->get('/sitemap')                         ->call('sitemap')                   ->add('sitemap');
-    $R->get('/ftp-upload')                      ->call('ftp_upload')                ->add('ftp-upload');
+    $R->get('/sitemap')                         ->call_admin('sitemap');
+    $R->get('/ftp-upload')                      ->call_admin('ftp_upload');
 
 ?>

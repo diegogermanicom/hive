@@ -54,7 +54,7 @@
                 }
                 return array(
                     'response' => 'ok',
-                    'url' => PUBLIC_ROUTE.'/?register'
+                    'url' => Utils::getRoute('/', array('register' => 'true'))
                 );
             } else {
                 return array(
