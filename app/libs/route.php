@@ -118,6 +118,13 @@
             return $routes;
         }
 
+        public function checkServiceDownRoute() {
+            Utils::checkDefined('MAINTENANCE', 'ROUTE', 'PUBLIC_ROUTE');
+            if(MAINTENANCE == false && ROUTE == Utils::getRoute('service-down')) {
+                Utils::redirect('/');
+            }
+        }
+
         public function init() {
             foreach($this->routes as $method => $methods) {
                 foreach($methods as $alias) {

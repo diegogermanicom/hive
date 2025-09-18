@@ -8,7 +8,7 @@
      */
 
     $routesPath = __DIR__.'/../routes';
-    // I add classes that are prioritized in order
+    // I add routes that are prioritized in order
     $priorityRoutes = array();
     foreach($priorityRoutes as $value) {
         if(file_exists($routesPath.'/'.$value)) {
@@ -17,7 +17,7 @@
             Utils::error('The priority route file you are trying to load <b>'.$value.'</b> does not exist.');
         }
     }
-    // I add classes that I will not load
+    // I add routes that I will not load
     $ignoreRoutes = array();
     // I automatically include each route
     $scandir = scandir($routesPath);

@@ -322,13 +322,6 @@ use Utils as GlobalUtils;
             Utils::initCookie('color-mode', $theme, Utils::ONEYEAR);
         }
 
-        public static function checkServiceDownView() {
-            Utils::checkDefined('MAINTENANCE', 'ROUTE', 'PUBLIC_ROUTE');
-            if(MAINTENANCE == false && ROUTE == PUBLIC_ROUTE.'/service-down') {
-                Utils::redirect('/');
-            }        
-        }
-
         public static function initCookie($name, $value, $time) {
             setcookie($name, $value, [
                 'expires' => time() + $time,

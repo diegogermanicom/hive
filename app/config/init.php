@@ -96,13 +96,13 @@
     define('URL_ROUTE', PROTOCOL.'://'.HOST.PUBLIC_ROUTE);
     
     Utils::init();
-    Utils::checkServiceDownView();
     Utils::setThemeColor();
 
     // I start the route recognition process
     $R = new Route();
     require_once __DIR__.'/autoload-routes.php';
     define('ROUTES', $R->getRoutes());
+    $R->checkServiceDownRoute();
     $R->init();
 
 ?>

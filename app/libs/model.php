@@ -34,7 +34,7 @@
             if(in_array($this->get_ip(), MAINTENANCE_IPS)) {
                 return false;
             }
-            if(MAINTENANCE == true && ROUTE != PUBLIC_ROUTE.'/service-down') {
+            if(MAINTENANCE == true && ROUTE != Utils::getRoute('service-down')) {
                 if(METHOD == 'get') {
                     Utils::redirect('service-down');
                 } else {
