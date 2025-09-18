@@ -5,8 +5,8 @@ use Utils as GlobalUtils;
     /**
      * @author Diego Martín
      * @copyright Hive®
-     * @version 1.0
-     * @lastUpdated 2025
+     * @version 1.0.1
+     * @since 1.0.0
      */
 
     class Utils {

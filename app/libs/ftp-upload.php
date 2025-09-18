@@ -4,7 +4,7 @@
      * Upload Ftp
      * @author Diego Martín
      * @copyright Hive®
-     * @version 1.0
+     * @version 1.0.1
      * Dep: Font Awesome, jQuery
      * Files:
      *  - /js/ftp-upload.js
