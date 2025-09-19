@@ -1,9 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /app/
 Disallow: /audio/
 Disallow: /css/
 Disallow: /js/
 Disallow: /video/
-Disallow: /webfonts/
-Sitemap: sitemap.xml
 Crawl-delay: 1
