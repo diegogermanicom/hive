@@ -284,6 +284,12 @@
     }
 }
 
+@for $i from 1 through 40 {
+    .br-#{$i} {
+        border-radius: #{$i}px !important;
+    }
+}
+
 @for $i from 0 through 20 {
     .w-#{$i * 5} {
         width: #{$i * 5} + '%';

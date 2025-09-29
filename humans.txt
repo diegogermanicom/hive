@@ -1,0 +1,13 @@
+/* TEAM */
+Developer: Diego Martín Herranz
+Designer: Diego Martín Herranz
+Contact: diegogermanicom@gmail.com
+From: Madrid, España
+
+/* SITE */
+Language: English
+Doctype: HTML5
+Librarys: jQuery
+
+/* THANKS */
+Icons: FontAwesome

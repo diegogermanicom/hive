@@ -24,7 +24,7 @@
                 echo '<link href="'.PUBLIC_PATH.'/css/admin.css" rel="stylesheet">';
             }
         ?>
-        <script src="<?= PUBLIC_PATH; ?>/js/vendor/jquery-3.3.1.min.js"></script>
+        <script src="<?= PUBLIC_PATH; ?>/js/vendor/jquery-3.7.1.min.js"></script>
         <script src="<?= PUBLIC_PATH; ?>/js/vendor/slick.min.js"></script>
         <script>
             var PUBLIC_PATH = '<?= PUBLIC_PATH ?>';

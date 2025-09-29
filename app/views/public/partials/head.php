@@ -32,7 +32,7 @@
                 echo '<link href="'.PUBLIC_PATH.'/css/app.css" rel="stylesheet">';
             }
         ?>
-        <script src="<?= PUBLIC_PATH; ?>/js/vendor/jquery-3.3.1.min.js"></script>
+        <script src="<?= PUBLIC_PATH; ?>/js/vendor/jquery-3.7.1.min.js"></script>
         <script src="<?= PUBLIC_PATH; ?>/js/vendor/slick.min.js"></script>
         <script>
             const PUBLIC_PATH = '<?= PUBLIC_PATH; ?>';

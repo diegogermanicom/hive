@@ -5,6 +5,7 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * @return array
      */
 
     $controllersPath = __DIR__.'/../controllers';
@@ -25,11 +26,6 @@
     $files = array_diff($scandir, array('.', '..'), $ignoreControllers, $priorityControllers);
     foreach($files as $value) {
         require_once $controllersPath.'/'.$value;
-    }
-    //I ignore system controllers
-    $ignoreControllers = array();
-    foreach($ignoreControllers as $value) {
-        array_push($classBefore, $value);
     }
     // I save the name of all the created controllers
     $classAfter = get_declared_classes();
