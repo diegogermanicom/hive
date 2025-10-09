@@ -45,12 +45,12 @@
 
         public function login($email, $pass, $remember = 0) {
             // Pass must come in md5
-            $sql = 'SELECT * FROM '.DDBB_PREFIX.'users WHERE email = ? AND pass = ? LIMIT 1';
+            $sql = 'SELECT * FROM users WHERE email = ? AND pass = ? LIMIT 1';
             $result = $this->query($sql, array($email, $pass));
             if($result->num_rows != 0) {
                 $row = $result->fetch_assoc();
                 if($row['id_state'] == 2) {
-                    $sql = 'UPDATE '.DDBB_PREFIX.'users SET last_access = NOW(), ip_last_access = ? WHERE id_user = ? LIMIT 1';
+                    $sql = 'UPDATE users SET last_access = NOW(), ip_last_access = ? WHERE id_user = ? LIMIT 1';
                     $this->query($sql, array($this->get_ip(), $row['id_user']));
                     $_SESSION['user'] = [
                         'id_user' => $row['id_user'],
@@ -60,7 +60,7 @@
                     // If the user still does not have a remember code, I will create one for him
                     if($row["remember_code"] == '') {
                         $row["remember_code"] = uniqid();
-                        $sql = 'UPDATE '.DDBB_PREFIX.'users SET remember_code = ? WHERE id_user = ? LIMIT 1';
+                        $sql = 'UPDATE users SET remember_code = ? WHERE id_user = ? LIMIT 1';
                         $this->query($sql, array($row["remember_code"], $row['id_user']));
                     }
                     if($remember == 1) {

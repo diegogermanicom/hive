@@ -125,6 +125,7 @@ use Utils as GlobalUtils;
         public static function query($sql, $params = null) {
             Utils::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
+                $sql = Ddbb::prefixTables($sql);
                 // This function is created to avoid malicious sql injections
                 global $DB;
                 $query = $DB->db->prepare($sql);

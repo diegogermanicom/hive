@@ -45,8 +45,9 @@
                 }
             }
         }
-        
+
         public function query($sql, $params = null) {
+            $sql = Ddbb::prefixTables($sql);
             // This function is created to avoid malicious sql injections
             $query = $this->db->prepare($sql);
             if($params != null) {

@@ -36,6 +36,28 @@
             }
         }
 
+        public static function prefixTables($sql) {
+            if(DDBB_PREFIX != '') {
+                $keyWords = array(
+                    'FROM',
+                    'JOIN',
+                    'INTO',
+                    'UPDATE',
+                    'DELETE FROM',
+                    'CREATE TABLE',
+                    'ALTER TABLE',
+                    'DROP TABLE',
+                    'TRUNCATE TABLE',
+                    'RENAME TABLE',
+                );
+                foreach ($keyWords as $keyword) {
+                    $replaceString = $keyword.' '.DDBB_PREFIX;
+                    $sql = str_replace($keyword.' ', $replaceString, $sql);
+                }
+            }
+            return $sql;
+        }
+
     }
 
 ?>

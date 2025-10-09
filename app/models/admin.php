@@ -32,7 +32,7 @@
         public function login_remember() {
 			if(isset($_COOKIE["admin_remember"])) {
                 if(!isset($_SESSION['admin'])) {
-                    $sql = 'SELECT email, pass FROM '.DDBB_PREFIX.'users_admin WHERE remember_code = ? AND id_state = 2 LIMIT 1';
+                    $sql = 'SELECT email, pass FROM users_admin WHERE remember_code = ? AND id_state = 2 LIMIT 1';
                     $result = $this->query($sql, array($_COOKIE['admin_remember']));
                     if($result->num_rows != 0) {
                         $row = $result->fetch_assoc();
@@ -42,7 +42,7 @@
                     }
                 } else {
                     // If the remember code does not match it is because the user has been kicked out
-                    $sql = 'SELECT id_admin FROM '.DDBB_PREFIX.'users_admin WHERE id_admin = ? AND remember_code = ? LIMIT 1';
+                    $sql = 'SELECT id_admin FROM users_admin WHERE id_admin = ? AND remember_code = ? LIMIT 1';
                     $result = $this->query($sql, array($_SESSION['admin']['id_admin'], $_COOKIE["admin_remember"]));
                     if($result->num_rows == 0) {
                         $this->logout();
