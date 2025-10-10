@@ -58,6 +58,36 @@
             return $sql;
         }
 
+        public function query($sql, $params = null) {
+            $this->prefixTables($sql);
+            // This function is created to avoid malicious sql injections
+            $query = $this->db->prepare($sql);
+            if($params != null) {
+                $type = '';
+                $types = array(
+                    'integer'   => 'i',
+                    'double'    => 'd',
+                    'string'    => 's',
+                    'boolean'   => 'b'
+                );
+                if(!is_array($params)) {
+                    $params = array($params);
+                }
+                foreach($params as $value) {
+                    if($value == NULL) {
+                        $type .= 's';
+                    } else if(isset($types[gettype($value)])) {
+                        $type .= $types[gettype($value)];
+                    }
+                }    
+                if(!@$query->bind_param($type, ...$params)) {
+                    Utils::error(LANGTXT['error-query-description']);
+                }
+            }
+            $query->execute();
+            return $query->get_result();
+        }
+
     }
 
 ?>

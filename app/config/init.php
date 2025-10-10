@@ -33,7 +33,7 @@
     define('DDBB', $settings[ENVIRONMENT]['DDBB']);
 
     // I create the object to connect to the database at this point, in case you want to load configuration data from the administrator.
-    $DB = new Ddbb();
+    $Ddbb = new Ddbb();
 
     define('PROTOCOL', $settings[ENVIRONMENT]['PROTOCOL']);
     define('PUBLIC_PATH', $settings[ENVIRONMENT]['PUBLIC_PATH']);

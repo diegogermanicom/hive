@@ -120,8 +120,8 @@
 
         public function checkServiceDownRoute() {
             Utils::checkDefined('MAINTENANCE', 'ROUTE', 'PUBLIC_ROUTE');
-            if(MAINTENANCE == false && ROUTE == Utils::getRoute('service-down')) {
-                Utils::redirect('/');
+            if(MAINTENANCE == false && ROUTE == Route::getAlias('service-down')) {
+                Route::redirect('/');
             }
         }
 
@@ -403,7 +403,7 @@
 
         public function empty() {
             if(METHOD == 'get') {
-                Utils::redirect('page-404');
+                Route::redirect('page-404');
             } else {
                 echo json_encode(array(
                     'status' => '404',
@@ -411,6 +411,38 @@
                 ));
                 exit;
             }
+        }
+
+        public static function getAlias($alias, $vars = array()) {
+            Utils::checkDefined('MULTILANGUAGE', 'ROUTES', 'LANG');
+            if(MULTILANGUAGE == true) {
+                if(isset(ROUTES[$alias][LANG]['route'])) {
+                    $url = ROUTES[$alias][LANG]['route'];
+                } else {
+                    $url = PUBLIC_ROUTE;
+                }
+            } else {
+                if(isset(ROUTES[$alias][LANG]['route'])) {
+                    $url = ROUTES[$alias][LANG]['route'];
+                } else {
+                    $url = PUBLIC_ROUTE;
+                }
+            }
+            // If you have parameters to add by get
+            if(!empty($vars)) {
+                $url .= '?';
+                foreach($vars as $index => $value) {
+                    $url .= $index.'='.$value.'&';
+                }
+                $url = substr($url, 0, -1);
+            }
+            return $url;
+        }
+
+        public static function redirect($alias, $vars = array()) {
+            $url = Route::getAlias($alias, $vars);
+            header('Location: '.$url);
+            exit;
         }
 
     }

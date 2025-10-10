@@ -66,7 +66,7 @@
                     $result = $this->query($sql, array($_SESSION['user']['id_user'], $_COOKIE["user_remember"]));
                     if($result->num_rows == 0) {
                         $this->logout();
-                        Utils::redirect('/');
+                        Route::redirect('/');
                         exit;
                     }
                 }

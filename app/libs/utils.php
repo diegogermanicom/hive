@@ -17,38 +17,6 @@ use Utils as GlobalUtils;
         public const IDDISABLE = 1;
         public const IDACTIVE = 2;
 
-        public static function getRoute($alias, $vars = array()) {
-            Utils::checkDefined('MULTILANGUAGE', 'ROUTES', 'LANG');
-            if(MULTILANGUAGE == true) {
-                if(isset(ROUTES[$alias][LANG]['route'])) {
-                    $url = ROUTES[$alias][LANG]['route'];
-                } else {
-                    $url = PUBLIC_ROUTE;
-                }
-            } else {
-                if(isset(ROUTES[$alias][LANG]['route'])) {
-                    $url = ROUTES[$alias][LANG]['route'];
-                } else {
-                    $url = PUBLIC_ROUTE;
-                }
-            }
-            // If you have parameters to add by get
-            if(!empty($vars)) {
-                $url .= '?';
-                foreach($vars as $index => $value) {
-                    $url .= $index.'='.$value.'&';
-                }
-                $url = substr($url, 0, -1);
-            }
-            return $url;
-        }
-
-        public static function redirect($alias, $vars = array()) {
-            $url = Utils::getRoute($alias, $vars);
-            header('Location: '.$url);
-            exit;
-        }
-
         public static function validateDomain($dominio) {
             $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
             return $result;
@@ -123,39 +91,8 @@ use Utils as GlobalUtils;
         }
 
         public static function query($sql, $params = null) {
-            Utils::checkDefined('HAS_DDBB');
-            if(HAS_DDBB == true) {
-                $sql = Ddbb::prefixTables($sql);
-                // This function is created to avoid malicious sql injections
-                global $DB;
-                $query = $DB->db->prepare($sql);
-                if($params != null) {
-                    $type = '';
-                    $types = array(
-                        'integer' => 'i',
-                        'double' => 'd',
-                        'string' => 's',
-                        'boolean' => 'b'
-                    );
-                    if(!is_array($params)) {
-                        $params = array($params);
-                    }
-                    foreach($params as $value) {
-                        if($value == NULL) {
-                            $type .= 's';
-                        } else if(isset($types[gettype($value)])) {
-                            $type .= $types[gettype($value)];
-                        }
-                    }    
-                    if(!@$query->bind_param($type, ...$params)) {
-                        Utils::error('An error occurred while connecting to the database. Please check your connection credentials and domain.');
-                    }
-                }
-                $query->execute();
-                return $query->get_result();
-            } else {
-                return null;
-            }
+            global $Ddbb;
+            return $Ddbb->query($sql, $params);
         }
 
         public static function errorLog($message) {

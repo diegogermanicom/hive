@@ -20,7 +20,7 @@
         public function security_app_logout() {
             if(isset($_SESSION['user'])) {
                 if(METHOD == 'get') {
-                    Utils::redirect('/');
+                    Route::redirect('/');
                 } else {
                     return json_encode(array(
                         'response' => 'error',
@@ -33,7 +33,7 @@
         public function security_app_login() {
             if(!isset($_SESSION['user'])) {
                 if(METHOD == 'get') {
-                    Utils::redirect('/');
+                    Route::redirect('/');
                 } else {
                     return json_encode(array(
                         'response' => 'error',
@@ -68,7 +68,7 @@
                     }
                     return array(
                         'response' => 'ok',
-                        'url' => Utils::getRoute('/', array('login' => 'true'))
+                        'url' => Route::getAlias('/', array('login' => 'true'))
                     );
                 } else {
                     return array(

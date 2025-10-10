@@ -9,6 +9,7 @@
 
      class Model {
         
+        public $ddbb;
         public $db;
         public $sleep = 200000;
         public $months = [
@@ -25,8 +26,9 @@
         ];
 
         function __construct() {
-            global $DB;
-            $this->db = $DB->db;
+            global $Ddbb;
+            $this->ddbb = $Ddbb;
+            $this->db = $Ddbb->db;
         }
 
         public function check_maintenance() {
@@ -34,9 +36,9 @@
             if(in_array($this->get_ip(), MAINTENANCE_IPS)) {
                 return false;
             }
-            if(MAINTENANCE == true && ROUTE != Utils::getRoute('service-down')) {
+            if(MAINTENANCE == true && ROUTE != Route::getAlias('service-down')) {
                 if(METHOD == 'get') {
-                    Utils::redirect('service-down');
+                    Route::redirect('service-down');
                 } else {
                     return json_encode(array(
                         'response' => 'error',
@@ -47,33 +49,7 @@
         }
 
         public function query($sql, $params = null) {
-            $sql = Ddbb::prefixTables($sql);
-            // This function is created to avoid malicious sql injections
-            $query = $this->db->prepare($sql);
-            if($params != null) {
-                $type = '';
-                $types = array(
-                    'integer' => 'i',
-                    'double' => 'd',
-                    'string' => 's',
-                    'boolean' => 'b'
-                );
-                if(!is_array($params)) {
-                    $params = array($params);
-                }
-                foreach($params as $value) {
-                    if($value == NULL) {
-                        $type .= 's';
-                    } else if(isset($types[gettype($value)])) {
-                        $type .= $types[gettype($value)];
-                    }
-                }    
-                if(!@$query->bind_param($type, ...$params)) {
-                    Utils::error(LANGTXT['error-query-description']);
-                }
-            }
-            $query->execute();
-            return $query->get_result();
+            return $this->ddbb->query($sql, $params);
         }
 
         public function get_ip() {

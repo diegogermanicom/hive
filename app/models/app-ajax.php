@@ -54,7 +54,7 @@
                 }
                 return array(
                     'response' => 'ok',
-                    'url' => Utils::getRoute('/', array('register' => 'true'))
+                    'url' => Route::getAlias('/', array('register' => 'true'))
                 );
             } else {
                 return array(
