@@ -15,7 +15,7 @@
     </div>
     <div id="popup-cookies"<?php if(!(isset($_COOKIE["acepto_cookies"]))) echo ' class="active"'; ?>>
         <div class="content">
-            <div>This website uses its own and third-party cookies to improve our services and show you advertising related to your preferences by analyzing your browsing habits. If you continue browsing the web, you consent to its use. You can obtain more information in our <a href="<?= PUBLIC_ROUTE.'/privacy-policy'; ?>">Cookie Policy</a>.</div>
+            <div>This website uses its own and third-party cookies to improve our services and show you advertising related to your preferences by analyzing your browsing habits. If you continue browsing the web, you consent to its use. You can obtain more information in our <a href="<?= Route::getAlias('privacy-policy') ?>">Cookie Policy</a>.</div>
             <div class="text-center pt-20">
                 <div id="btn-acepta-cookies" class="btn btn-black">Continue</div>
             </div>
@@ -27,7 +27,7 @@
         </div>
         <ul class="menu animate animate-opacity">
             <li>
-                <a href="<?= PUBLIC_ROUTE.'/home'; ?>"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="<?= Route::getAlias('home') ?>"><i class="fa-solid fa-house"></i> Home</a>
             </li>
             <li>
                 <a href="<?= ADMIN_PATH; ?>"><i class="fa-solid fa-gear"></i> Administrator</a>

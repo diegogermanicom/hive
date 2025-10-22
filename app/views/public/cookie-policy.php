@@ -10,7 +10,7 @@
             <section>
                 <div class="container">
                     <div class="text-center pt-100">
-                        <a href="<?= PUBLIC_ROUTE ?>/home"><img src="<?= PUBLIC_PATH.'/img/website-logo.png'; ?>" width="80" alt="Hive Framework"></a>
+                        <a href="<?= Route::getAlias('home') ?>"><img src="<?= PUBLIC_PATH.'/img/website-logo.png'; ?>" width="80" alt="Hive Framework"></a>
                     </div>
                     <div class="text-center pt-30 pb-100">Cookie policy.</div>
                 </div>

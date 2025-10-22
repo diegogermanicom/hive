@@ -415,26 +415,14 @@
 
         public static function getAlias($alias, $vars = array()) {
             Utils::checkDefined('MULTILANGUAGE', 'ROUTES', 'LANG');
-            if(MULTILANGUAGE == true) {
-                if(isset(ROUTES[$alias][LANG]['route'])) {
-                    $url = ROUTES[$alias][LANG]['route'];
-                } else {
-                    $url = PUBLIC_ROUTE;
-                }
+            if(isset(ROUTES[$alias][LANG]['route'])) {
+                $url = ROUTES[$alias][LANG]['route'];
             } else {
-                if(isset(ROUTES[$alias][LANG]['route'])) {
-                    $url = ROUTES[$alias][LANG]['route'];
-                } else {
-                    $url = PUBLIC_ROUTE;
-                }
+                $url = PUBLIC_ROUTE;
             }
             // If you have parameters to add by get
             if(!empty($vars)) {
-                $url .= '?';
-                foreach($vars as $index => $value) {
-                    $url .= $index.'='.$value.'&';
-                }
-                $url = substr($url, 0, -1);
+                $url .= '?'.http_build_query($vars);
             }
             return $url;
         }
