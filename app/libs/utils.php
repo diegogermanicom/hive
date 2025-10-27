@@ -37,11 +37,11 @@ use Utils as GlobalUtils;
             return $result;
         }
 
-        public static function error($message) {
+        public static function error($message, $code = 500) {
             if(METHOD == 'get') {
                 $html = '<html>';
                 $html .=    '<head>';
-                $html .=        '<title>Error</title>';
+                $html .=        '<title>Error | '.$code.'</title>';
                 $html .=        '<meta charset="UTF-8">';
                 $html .=        '<meta name="viewport" content="width=device-width, initial-scale=1">';
                 $html .=        '<style>';
@@ -68,16 +68,17 @@ use Utils as GlobalUtils;
                 $html .= '</html>';
                 echo $html;
             } else {
-                Utils::errorPost($message);
+                Utils::errorPost($message, $code);
             }
             exit;
         }
         
-        public static function errorPost($message) {
-            http_response_code(500);
+        public static function errorPost($message, $code = 500): void {
+            http_response_code($code);
             header('Content-Type: application/json');
             echo json_encode(array(
                 'response' => 'error',
+                'code' => $code,
                 'message' => $message
             ));
             exit;

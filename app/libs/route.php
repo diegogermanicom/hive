@@ -405,11 +405,7 @@
             if(METHOD == 'get') {
                 Route::redirect('page-404');
             } else {
-                echo json_encode(array(
-                    'status' => '404',
-                    'error' => 'Route not found'
-                ));
-                exit;
+                Utils::error('Route not found.', 404);
             }
         }
 

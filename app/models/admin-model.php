@@ -16,7 +16,7 @@
             }
         }
 
-        public function setTitle($title) {
+        public function setTitle($title): string {
             return $title.' | Hive Admin';
         }
 
@@ -27,10 +27,7 @@
                     header('Location: '.ADMIN_PATH.'/home');
                     exit;
                 } else {
-                    return json_encode(array(
-                        'response' => 'error',
-                        'message' => 'You do not have permissions to perform this action.'
-                    ));
+                    Utils::error('You do not have permissions to perform this action.', 403);
                 }
             }
         }
@@ -42,15 +39,12 @@
                     header('Location: '.ADMIN_PATH.'/login');
                     exit;
                 } else {
-                    return json_encode(array(
-                        'response' => 'error',
-                        'message' => 'You do not have permissions to perform this action.'
-                    ));
+                    Utils::error('You do not have permissions to perform this action.', 403);
                 }                
             }
         }
 
-        public function login($email, $pass, $remember = 0) {
+        public function login($email, $pass, $remember = 0): array {
             // Pass must come in md5
             $sql = 'SELECT * FROM users_admin WHERE email = ? AND pass = ? LIMIT 1';
             $result = $this->query($sql, array($email, $pass));
