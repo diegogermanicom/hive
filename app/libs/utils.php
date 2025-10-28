@@ -1,7 +1,5 @@
 <?php
 
-use Utils as GlobalUtils;
-
     /**
      * @author Diego Martín
      * @copyright Hive®
@@ -17,65 +15,70 @@ use Utils as GlobalUtils;
         public const IDDISABLE = 1;
         public const IDACTIVE = 2;
 
-        public static function validateDomain($dominio) {
+        public static function validateDomain($dominio): bool {
             $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
             return $result;
         }
 
-        public static function validateSlug($slug) {
+        public static function validateSlug($slug): bool {
             $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
             return $result;
         }
 
-        public static function validateRelativePath($path) {
+        public static function validateRelativePath($path): bool {
             $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
             return $result;
         }
 
-        public static function validateISOLanguage($language) {
+        public static function validateISOLanguage($language): bool {
             $result = preg_match('/^[a-zA-Z]{2}$/', $language);
             return $result;
         }
 
-        public static function error($message, $code = 500) {
+        public static function error($message, $code = 500): void {
+            self::checkDefined('METHOD');
             if(METHOD == 'get') {
-                $html = '<html>';
-                $html .=    '<head>';
-                $html .=        '<title>Error | '.$code.'</title>';
-                $html .=        '<meta charset="UTF-8">';
-                $html .=        '<meta name="viewport" content="width=device-width, initial-scale=1">';
-                $html .=        '<style>';
-                $html .=            'body {';
-                $html .=                'font-size: 18px; font-family: arial; color: #494949; padding: 20px 20px 20px 20px;';
-                $html .=            '}';
-                $html .=            'div.content {';
-                $html .=                'max-width: 800px; background-color: #e7e7e7; border: 2px solid #c7c7c7; padding: 40px 50px 40px 50px; margin: auto auto;';
-                $html .=            '}';
-                $html .=            'div.title {';
-                $html .=                'font-size: 22px; border-bottom: 2px solid #c7c7c7; padding-bottom: 10px; margin-bottom: 20px;';
-                $html .=            '}';
-                $html .=        '</style>';
-                $html .=    '</head>';
-                $html .=    '<body>';
-                $html .=        '<div class="content">';
-                $html .=            '<div class="title"><b>An error has occurred</b></div>';
-                $html .=            '<div>'.$message.'</div>';
-                $html .=            '<div style="padding-top: 40px;">';
-                $html .=                '<button onclick="window.history.back()">Return to the previous page</button>';
-                $html .=            '</div>';
-                $html .=        '</div>';
-                $html .=    '</body>';
-                $html .= '</html>';
-                echo $html;
+                self::errorGet($message, $code);
             } else {
-                Utils::errorPost($message, $code);
+                self::errorPost($message, $code);
             }
+        }
+
+        public static function errorGet($message, $code = 500): void {
+            $html = '<html>';
+            $html .=    '<head>';
+            $html .=        '<title>Error | '.$code.'</title>';
+            $html .=        '<meta charset="UTF-8">';
+            $html .=        '<meta name="viewport" content="width=device-width, initial-scale=1">';
+            $html .=        '<style>';
+            $html .=            'body {';
+            $html .=                'font-size: 18px; font-family: arial; color: #494949; padding: 20px 20px 20px 20px;';
+            $html .=            '}';
+            $html .=            'div.content {';
+            $html .=                'max-width: 800px; background-color: #e7e7e7; border: 2px solid #c7c7c7; padding: 40px 50px 40px 50px; margin: auto auto;';
+            $html .=            '}';
+            $html .=            'div.title {';
+            $html .=                'font-size: 22px; border-bottom: 2px solid #c7c7c7; padding-bottom: 10px; margin-bottom: 20px;';
+            $html .=            '}';
+            $html .=        '</style>';
+            $html .=    '</head>';
+            $html .=    '<body>';
+            $html .=        '<div class="content">';
+            $html .=            '<div class="title"><b>An error has occurred</b></div>';
+            $html .=            '<div>'.$message.'</div>';
+            $html .=            '<div style="padding-top: 40px;">';
+            $html .=                '<button onclick="window.history.back()">Return to the previous page</button>';
+            $html .=            '</div>';
+            $html .=        '</div>';
+            $html .=    '</body>';
+            $html .= '</html>';
+            echo $html;
             exit;
         }
         
         public static function errorPost($message, $code = 500): void {
             http_response_code($code);
-            header('Content-Type: application/json');
+            header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(
                 'response' => 'error',
                 'code' => $code,
@@ -84,7 +87,7 @@ use Utils as GlobalUtils;
             exit;
         }
 
-        public static function debug($var) {
+        public static function debug($var): void {
             echo '<pre>';
             var_dump($var);
             echo '</pre>';
@@ -92,92 +95,102 @@ use Utils as GlobalUtils;
         }
 
         public static function query($sql, $params = null) {
-            global $Ddbb;
-            return $Ddbb->query($sql, $params);
-        }
-
-        public static function errorLog($message) {
-            $sql = 'INSERT INTO error_log (message) VALUES (?)';
-            Utils::query($sql, array($message));
-        }
-
-        public static function settingsValidator($settings) {
-            if($settings['HOST_DEV'] != '' && !Utils::validateDomain($settings['HOST_DEV'])) {
-                Utils::error('The value of the HOST_DEV constant is incorrect. Must be a valid domain.');
+            self::checkDefined('HAS_DDBB');
+            if(HAS_DDBB == true) {
+                global $Ddbb;
+                return $Ddbb->query($sql, $params);
+            } else {
+                self::error('To make a query you must have access to the database.');
             }
-            if($settings['HOST_PRO'] != '' && !Utils::validateDomain($settings['HOST_PRO'])) {
-                Utils::error('The value of the HOST_PRO constant is incorrect. Must be a valid domain.');
+        }
+
+        public static function errorLog($message): void {
+            self::checkDefined('HAS_DDBB');
+            if(HAS_DDBB == true) {
+                $sql = 'INSERT INTO error_log (message) VALUES (?)';
+                self::query($sql, array($message));
+            } else {
+                self::error('To save a record in the log you must have access to the database.');
+            }
+        }
+
+        public static function settingsValidator($settings): void {
+            if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
+                self::error('The value of the HOST_DEV constant is incorrect. Must be a valid domain.');
+            }
+            if($settings['HOST_PRO'] != '' && !self::validateDomain($settings['HOST_PRO'])) {
+                self::error('The value of the HOST_PRO constant is incorrect. Must be a valid domain.');
             }
             if($settings['DEV']['PROTOCOL'] != '' && !in_array($settings['DEV']['PROTOCOL'], array('http', 'https'))) {
-                Utils::error('The value of the DEV > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
+                self::error('The value of the DEV > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
             }
             if($settings['DEV']['PUBLIC_PATH'] == '/') {
-                Utils::error('To indicate the root directory, leave the DEV > PUBLIC_PATH field empty.');
+                self::error('To indicate the root directory, leave the DEV > PUBLIC_PATH field empty.');
             }
-            if($settings['DEV']['PUBLIC_PATH'] != '' && !Utils::validateRelativePath($settings['DEV']['PUBLIC_PATH'])) {
-                Utils::error('The value of the DEV > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
+            if($settings['DEV']['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings['DEV']['PUBLIC_PATH'])) {
+                self::error('The value of the DEV > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
             }
             if($settings['PRO']['PROTOCOL'] != '' && !in_array($settings['PRO']['PROTOCOL'], array('http', 'https'))) {
-                Utils::error('The value of the PRO > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
+                self::error('The value of the PRO > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
             }
             if($settings['PRO']['PUBLIC_PATH'] == '/') {
-                Utils::error('To indicate the root directory, leave the PRO > PUBLIC_PATH field empty.');
+                self::error('To indicate the root directory, leave the PRO > PUBLIC_PATH field empty.');
             }
-            if($settings['PRO']['PUBLIC_PATH'] != '' && !Utils::validateRelativePath($settings['PRO']['PUBLIC_PATH'])) {
-                Utils::error('The value of the PRO > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
+            if($settings['PRO']['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings['PRO']['PUBLIC_PATH'])) {
+                self::error('The value of the PRO > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
             }
-            if(!Utils::validateSlug($settings['APP_NAME'])) {
-                Utils::error('The value of the APP_NAME constant is incorrect. Must be a valid slug.');
+            if(!self::validateSlug($settings['APP_NAME'])) {
+                self::error('The value of the APP_NAME constant is incorrect. Must be a valid slug.');
             }
-            if(!Utils::validateSlug($settings['ADMIN_NAME'])) {
-                Utils::error('The value of the ADMIN_NAME constant is incorrect. Must be a valid slug.');
+            if(!self::validateSlug($settings['ADMIN_NAME'])) {
+                self::error('The value of the ADMIN_NAME constant is incorrect. Must be a valid slug.');
             }
-            if(!Utils::validateISOLanguage($settings['LANGUAGE'])) {
-                Utils::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
+            if(!self::validateISOLanguage($settings['LANGUAGE'])) {
+                self::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
             }
             if(!is_bool($settings['MULTILANGUAGE'])) {
-                Utils::error('The value of the MULTILANGUAGE constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the MULTILANGUAGE constant is incorrect. It has to be a boolean variable.');
             }
             if(!is_array($settings['LANGUAGES'])) {
-                Utils::error('The value of the LANGUAGES constant is incorrect. It has to be a array variable.');
+                self::error('The value of the LANGUAGES constant is incorrect. It has to be a array variable.');
             }
             foreach($settings['LANGUAGES'] as $lang) {
-                if(!Utils::validateISOLanguage($lang)) {
-                    Utils::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
+                if(!self::validateISOLanguage($lang)) {
+                    self::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
                 }    
             }
             if(!is_bool($settings['HAS_DDBB'])) {
-                Utils::error('The value of the HAS_DDBB constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the HAS_DDBB constant is incorrect. It has to be a boolean variable.');
             }
             if(!is_bool($settings['MAINTENANCE'])) {
-                Utils::error('The value of the MAINTENANCE constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the MAINTENANCE constant is incorrect. It has to be a boolean variable.');
             }
             if(!is_array($settings['MAINTENANCE_IPS'])) {
-                Utils::error('The value of the MAINTENANCE_IPS constant is incorrect. It has to be a array variable.');
+                self::error('The value of the MAINTENANCE_IPS constant is incorrect. It has to be a array variable.');
             }
             foreach($settings['MAINTENANCE_IPS'] as $ip) {
                 if(!filter_var($ip, FILTER_VALIDATE_IP)) {
-                    Utils::error('Invalid IP <b>'.$ip.'</b> in DEV > MAINTENANCE_IPS');
+                    self::error('Invalid IP <b>'.$ip.'</b> in DEV > MAINTENANCE_IPS');
                 }
             }
             if($settings['EMAIL_FROM'] != '' && !filter_var($settings['EMAIL_FROM'], FILTER_VALIDATE_EMAIL)) {
-                Utils::error('The value of the DEV > EMAIL_FROM constant is incorrect. Must be a valid email.');
+                self::error('The value of the DEV > EMAIL_FROM constant is incorrect. Must be a valid email.');
             }
-            if($settings['FTP_UPLOAD_SERVER_PATH'] != '' && !Utils::validateRelativePath($settings['FTP_UPLOAD_SERVER_PATH'])) {
-                Utils::error('The value of the FTP_UPLOAD_SERVER_PATH constant is incorrect. Must be a valid relative path.');
+            if($settings['FTP_UPLOAD_SERVER_PATH'] != '' && !self::validateRelativePath($settings['FTP_UPLOAD_SERVER_PATH'])) {
+                self::error('The value of the FTP_UPLOAD_SERVER_PATH constant is incorrect. Must be a valid relative path.');
             }
         }
 
-        public static function checkDefined(...$definedVars) {
+        public static function checkDefined(...$definedVars): void {
             foreach($definedVars as $var) {
                 if(!defined($var)) {
-                    Utils::error('The '.$var.' constant does not exist.');
+                    self::error('The '.$var.' constant does not exist.');
                 }
             }
         }
 
-        public static function init() {
-            Utils::checkDefined('APP_NAME');
+        public static function init(): void {
+            self::checkDefined('APP_NAME');
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
             ini_set('memory_limit', '256M');
@@ -186,8 +199,8 @@ use Utils as GlobalUtils;
             session_start();
         }
 
-        public static function getEnviroment() {
-            Utils::checkDefined('HOST', 'HOST_DEV', 'HOST_PRO');
+        public static function getEnviroment(): string {
+            self::checkDefined('HOST', 'HOST_DEV', 'HOST_PRO');
             if(strpos(HOST, HOST_DEV) !== false && HOST_DEV != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
@@ -197,12 +210,12 @@ use Utils as GlobalUtils;
                 ini_set('display_errors', '0');
                 return 'PRO';
             } else {
-                Utils::error('Permission denied.');
+                self::error('Permission denied.', 403);
             }        
         }
 
-        public static function getLanguage() {
-            Utils::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'ROUTE', 'LANGUAGES', 'LANGUAGE', 'LANG_PATH');
+        public static function getLanguage(): string {
+            self::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'ROUTE', 'LANGUAGES', 'LANGUAGE', 'LANG_PATH');
             if(MULTILANGUAGE == true) {
                 // First I try to get the language from the route
                 $lang = explode(PUBLIC_PATH.'/', ROUTE)[1];
@@ -233,16 +246,16 @@ use Utils as GlobalUtils;
             if(!file_exists(LANG_PATH.'/'.$lang.'.php')) {
                 $lang = LANGUAGE;
                 if(!file_exists(LANG_PATH.'/'.$lang.'.php')) {
-                    Utils::error('The configuration file of the default language of the app does not exist. Check the <b>langs</b> folder.');
+                    self::error('The configuration file of the default language of the app does not exist. Check the <b>langs</b> folder.');
                 }
             }
             // I declare the cookie
-            Utils::initCookie('lang', $lang, Utils::ONEYEAR);
+            self::initCookie('lang', $lang, self::ONEYEAR);
             return $lang;
         }
 
-        public static function setThemeColor($colorTheme = null) {
-            Utils::checkDefined('PUBLIC_PATH');
+        public static function setThemeColor($colorTheme = null): void {
+            self::checkDefined('PUBLIC_PATH');
             if($colorTheme != null) {
                 $theme = $colorTheme;
             } else {
@@ -258,10 +271,11 @@ use Utils as GlobalUtils;
                 $theme = 'light-mode';
             }
             // I declare the cookie
-            Utils::initCookie('color-mode', $theme, Utils::ONEYEAR);
+            self::initCookie('color-mode', $theme, self::ONEYEAR);
         }
 
-        public static function initCookie($name, $value, $time) {
+        public static function initCookie($name, $value, $time): void {
+            self::checkDefined('PUBLIC_PATH');
             setcookie($name, $value, [
                 'expires' => time() + $time,
                 'path' => PUBLIC_PATH.'/',
@@ -272,7 +286,8 @@ use Utils as GlobalUtils;
             $_COOKIE[$name] = $value;
         }
 
-        public static function killCookie($name) {
+        public static function killCookie($name): void {
+            self::checkDefined('PUBLIC_PATH');
             setcookie($name, '', [
                 'expires' => time() - 3600,
                 'path' => PUBLIC_PATH . '/',
