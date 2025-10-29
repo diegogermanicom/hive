@@ -16,7 +16,10 @@
             $this->name_page = $name_page;
         }
 
-        public function create_new_sitemap(): array {
+        /**
+         * @return array
+         */
+        public function create_new_sitemap() {
             $xml = '<?xml version="1.0" encoding="UTF-8"?>';
             $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
             foreach(LANGUAGES as $lang) {

@@ -15,27 +15,39 @@
         public const IDDISABLE = 1;
         public const IDACTIVE = 2;
 
-        public static function validateDomain($dominio): bool {
+        /**
+         * @return bool
+         */
+        public static function validateDomain($dominio) {
             $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
             return $result;
         }
 
-        public static function validateSlug($slug): bool {
+        /**
+         * @return bool
+         */
+        public static function validateSlug($slug) {
             $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
             return $result;
         }
 
-        public static function validateRelativePath($path): bool {
+        /**
+         * @return bool
+         */
+        public static function validateRelativePath($path) {
             $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
             return $result;
         }
 
-        public static function validateISOLanguage($language): bool {
+        /**
+         * @return bool
+         */
+        public static function validateISOLanguage($language) {
             $result = preg_match('/^[a-zA-Z]{2}$/', $language);
             return $result;
         }
 
-        public static function error($message, $code = 500): void {
+        public static function error($message, $code = 500) {
             self::checkDefined('METHOD');
             if(METHOD == 'get') {
                 self::errorGet($message, $code);
@@ -44,7 +56,7 @@
             }
         }
 
-        public static function errorGet($message, $code = 500): void {
+        public static function errorGet($message, $code = 500) {
             $html = '<html>';
             $html .=    '<head>';
             $html .=        '<title>Error | '.$code.'</title>';
@@ -76,7 +88,7 @@
             exit;
         }
         
-        public static function errorPost($message, $code = 500): void {
+        public static function errorPost($message, $code = 500) {
             http_response_code($code);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(
@@ -87,7 +99,7 @@
             exit;
         }
 
-        public static function debug($var): void {
+        public static function debug($var) {
             echo '<pre>';
             var_dump($var);
             echo '</pre>';
@@ -104,7 +116,7 @@
             }
         }
 
-        public static function errorLog($message): void {
+        public static function errorLog($message) {
             self::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 $sql = 'INSERT INTO error_log (message) VALUES (?)';
@@ -114,7 +126,7 @@
             }
         }
 
-        public static function settingsValidator($settings): void {
+        public static function settingsValidator($settings) {
             if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
                 self::error('The value of the HOST_DEV constant is incorrect. Must be a valid domain.');
             }
@@ -181,7 +193,7 @@
             }
         }
 
-        public static function checkDefined(...$definedVars): void {
+        public static function checkDefined(...$definedVars) {
             foreach($definedVars as $var) {
                 if(!defined($var)) {
                     self::error('The '.$var.' constant does not exist.');
@@ -189,7 +201,7 @@
             }
         }
 
-        public static function init(): void {
+        public static function init() {
             self::checkDefined('APP_NAME');
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
@@ -199,7 +211,10 @@
             session_start();
         }
 
-        public static function getEnviroment(): string {
+        /**
+         * @return string
+         */
+        public static function getEnviroment() {
             self::checkDefined('HOST', 'HOST_DEV', 'HOST_PRO');
             if(strpos(HOST, HOST_DEV) !== false && HOST_DEV != '') {
                 error_reporting(E_ALL);
@@ -214,7 +229,10 @@
             }        
         }
 
-        public static function getLanguage(): string {
+        /**
+         * @return string
+         */
+        public static function getLanguage() {
             self::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'ROUTE', 'LANGUAGES', 'LANGUAGE', 'LANG_PATH');
             if(MULTILANGUAGE == true) {
                 // First I try to get the language from the route
@@ -254,7 +272,7 @@
             return $lang;
         }
 
-        public static function setThemeColor($colorTheme = null): void {
+        public static function setThemeColor($colorTheme = null) {
             self::checkDefined('PUBLIC_PATH');
             if($colorTheme != null) {
                 $theme = $colorTheme;
@@ -274,7 +292,7 @@
             self::initCookie('color-mode', $theme, self::ONEYEAR);
         }
 
-        public static function initCookie($name, $value, $time): void {
+        public static function initCookie($name, $value, $time) {
             self::checkDefined('PUBLIC_PATH');
             setcookie($name, $value, [
                 'expires' => time() + $time,
@@ -286,7 +304,7 @@
             $_COOKIE[$name] = $value;
         }
 
-        public static function killCookie($name): void {
+        public static function killCookie($name) {
             self::checkDefined('PUBLIC_PATH');
             setcookie($name, '', [
                 'expires' => time() - 3600,

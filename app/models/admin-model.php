@@ -16,7 +16,10 @@
             }
         }
 
-        public function setTitle($title): string {
+        /**
+         * @return string
+         */
+        public function setTitle($title) {
             return $title.' | Hive Admin';
         }
 
@@ -44,7 +47,10 @@
             }
         }
 
-        public function login($email, $pass, $remember = 0): array {
+        /**
+         * @return array
+         */
+        public function login($email, $pass, $remember = 0) {
             // Pass must come in md5
             $sql = 'SELECT * FROM users_admin WHERE email = ? AND pass = ? LIMIT 1';
             $result = $this->query($sql, array($email, $pass));

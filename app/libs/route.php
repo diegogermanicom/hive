@@ -23,7 +23,7 @@
         private $defaultLanguage = null;
         private $defaultIndex = true;
         // I save all the routes that have been configured in this array
-        private $routes;
+        private $routes = array();
 
         function __construct() {
             $this->routes = array(
@@ -92,6 +92,9 @@
             $this->defaultIndex = true;
         }
 
+        /**
+         * @return array
+         */
         public function getRoutes() {
             // I need to make a dump because routes with associated functions cannot belong to a constant variable.
             $routes = array_merge([], $this->routes['get']);
@@ -105,6 +108,9 @@
             return $routes;
         }
 
+        /**
+         * @return array
+         */
         public function postRoutes() {
             // I need to make a dump because routes with associated functions cannot belong to a constant variable.
             $routes = array_merge([], $this->routes['post']);
@@ -136,7 +142,10 @@
             $this->empty();
         }
 
-        private function scanRoute($route): array {
+        /**
+         * @return array
+         */
+        private function scanRoute($route) {
             // Is dynamic
             if(strpos($route, '$') !== false) {
                 $args = [];
@@ -164,6 +173,7 @@
                 return array($route, null);
             }
         }
+
         private function processRoute($type, $route) {
             list($scan_route, $args) = $this->scanRoute($route['route']);
             // The route is valid
@@ -263,6 +273,9 @@
             $this->addRoute();
         }
 
+        /**
+         * @return $this
+         */
         public function call($controller) {
             $this->setFunction($controller);
             return $this;
@@ -366,36 +379,57 @@
             $this->method = $function;
         }
 
+        /**
+         * @return $this
+         */
         public function get($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function post($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function put($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function connect($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function trace($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function patch($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
         }
 
+        /**
+         * @return $this
+         */
         public function delete($route) {
             $this->setRoute($route, __FUNCTION__);
             return $this;
@@ -409,6 +443,9 @@
             }
         }
 
+        /**
+         * @return string
+         */
         public static function getAlias($alias, $vars = array()) {
             Utils::checkDefined('MULTILANGUAGE', 'ROUTES', 'LANG');
             if(isset(ROUTES[$alias][LANG]['route'])) {
