@@ -9,6 +9,7 @@
 
     class Route {
 
+        private const HTTP_METHODS = ['get', 'post', 'put', 'connect', 'trace', 'patch', 'delete'];
         private $route = null;
         private $controller = null;
         private $function = null;
@@ -26,15 +27,9 @@
         private $routes = array();
 
         function __construct() {
-            $this->routes = array(
-                'get' => array(),
-                'post' => array(),
-                'put' => array(),
-                'connect' => array(),
-                'trace' => array(),
-                'patch' => array(),
-                'delete' => array()
-            );
+            foreach(self::HTTP_METHODS as $method) {
+                $this->routes[$method] = array();
+            }
         }
 
         public function reset() {
@@ -95,25 +90,12 @@
         /**
          * @return array
          */
-        public function getRoutes() {
-            // I need to make a dump because routes with associated functions cannot belong to a constant variable.
-            $routes = array_merge([], $this->routes['get']);
-            foreach($routes as $indexAlias => $alias) {
-                foreach($alias as $indexRoute => $route) {
-                    if(is_callable($route['function'])) {
-                        $routes[$indexAlias][$indexRoute]['function'] = null;
-                    }
-                }
+        public function getRoutes($method) {
+            if(!isset($this->routes[$method])) {
+                Utils::error('The method you are trying to access does not exist.');
             }
-            return $routes;
-        }
-
-        /**
-         * @return array
-         */
-        public function postRoutes() {
             // I need to make a dump because routes with associated functions cannot belong to a constant variable.
-            $routes = array_merge([], $this->routes['post']);
+            $routes = array_merge([], $this->routes[$method]);
             foreach($routes as $indexAlias => $alias) {
                 foreach($alias as $indexRoute => $route) {
                     if(is_callable($route['function'])) {
@@ -125,7 +107,7 @@
         }
 
         public function checkServiceDownRoute() {
-            Utils::checkDefined('MAINTENANCE', 'ROUTE', 'PUBLIC_ROUTE');
+            Utils::checkDefined('MAINTENANCE', 'ROUTE');
             if(MAINTENANCE == false && ROUTE == Route::getAlias('service-down')) {
                 Route::redirect('/');
             }
@@ -146,35 +128,36 @@
          * @return array
          */
         private function scanRoute($route) {
-            // Is dynamic
-            if(strpos($route, '$') !== false) {
+            Utils::checkDefined('ROUTE');
+            // Is not dynamic
+            if(strpos($route, '$') === false) {
+                return array($route, array());
+            }
+            // I remove the text from PUBLIC_ROUTE to the path
+            $varsRoute = explode("/", ROUTE);
+            $varsCode = explode("/", $route);
+            // I check that the routes to compare are equal in length
+            if(count($varsRoute) == count($varsCode) && !in_array(ROUTE, array('', '/'))) {
                 $args = [];
-                // I remove the text from PUBLIC_ROUTE to the path
-                $varsRoute = explode("/", ROUTE);
-                $varsCode = explode("/", $route);
-                // I check that the routes to compare are equal in length
-                if(count($varsRoute) == count($varsCode) && !in_array(ROUTE, array('', '/'))) {
-                    $parseRoute = '';
-                    for($i = 1; $i < count($varsRoute); $i++) {
-                        if(strpos($varsCode[$i], '$') !== false) {
-                            $parseRoute .= '/'.$varsRoute[$i];
-                            $args[str_replace('$', '', $varsCode[$i])] = $varsRoute[$i];
-                        } else if($varsRoute[$i] == $varsCode[$i]) {
-                            $parseRoute .= '/'.$varsRoute[$i];
-                        } else {
-                            return array($route, null);
-                        }
+                $parseRoute = '';
+                for($i = 1; $i < count($varsRoute); $i++) {
+                    if(strpos($varsCode[$i], '$') !== false) {
+                        $parseRoute .= '/'.$varsRoute[$i];
+                        $args[str_replace('$', '', $varsCode[$i])] = $varsRoute[$i];
+                    } else if($varsRoute[$i] == $varsCode[$i]) {
+                        $parseRoute .= '/'.$varsRoute[$i];
+                    } else {
+                        return array($route, array());
                     }
-                    return array($parseRoute, $args);
-                } else {
-                    return array($route, null);
                 }
+                return array($parseRoute, $args);
             } else {
-                return array($route, null);
+                return array($route, array());
             }
         }
 
         private function processRoute($type, $route) {
+            Utils::checkDefined('METHOD', 'ROUTE');
             list($scan_route, $args) = $this->scanRoute($route['route']);
             // The route is valid
             if(METHOD == $type && ROUTE == $scan_route) {
@@ -223,6 +206,7 @@
         }
 
         private function addRoute() {
+            Utils::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'LANG');
             if(MULTILANGUAGE == true && $this->method == 'get') {
                 $this->route = PUBLIC_PATH.'/'.$this->language.$this->defaultPrefix.$this->route;
             } else {
@@ -251,6 +235,7 @@
         }
 
         private function checkRepeatAlias() {
+            Utils::checkDefined('MULTILANGUAGE');
             foreach($this->routes as $methods) {
                 foreach($methods as $alias) {
                     foreach($alias as $route) {
@@ -282,6 +267,7 @@
         }
 
         public function call_admin($controller) {
+            Utils::checkDefined('ADMIN_PATH');
             $this->setFunction($controller);
             // If the alias does not exist
             if(!isset($this->routes[$this->method]['admin'])) {
@@ -300,6 +286,7 @@
         }
 
         private function setAliasIndex($alias = '', $index = null) {
+            Utils::checkDefined('MULTILANGUAGE', 'LANG');
             if(!is_string($alias)) {
                 Utils::error('The alias value must be a string.');
             }
@@ -436,6 +423,7 @@
         }
 
         public function empty() {
+            Utils::checkDefined('METHOD');
             if(METHOD == 'get') {
                 Route::redirect('page-404');
             } else {
@@ -447,7 +435,7 @@
          * @return string
          */
         public static function getAlias($alias, $vars = array()) {
-            Utils::checkDefined('MULTILANGUAGE', 'ROUTES', 'LANG');
+            Utils::checkDefined('PUBLIC_ROUTE', 'ROUTES', 'LANG');
             if(isset(ROUTES[$alias][LANG]['route'])) {
                 $url = ROUTES[$alias][LANG]['route'];
             } else {

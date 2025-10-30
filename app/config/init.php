@@ -101,7 +101,7 @@
     // I start the route recognition process
     $R = new Route();
     require_once __DIR__.'/autoload-routes.php';
-    define('ROUTES', $R->getRoutes());
+    define('ROUTES', $R->getRoutes('get'));
     $R->checkServiceDownRoute();
     $R->init();
 
