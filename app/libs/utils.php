@@ -16,7 +16,7 @@
         public const IDACTIVE = 2;
 
         /**
-         * @return bool
+         * @return bool Returns true if the domain is valid
          */
         public static function validateDomain($dominio) {
             $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
@@ -24,7 +24,7 @@
         }
 
         /**
-         * @return bool
+         * @return bool Returns true if the slug is valid
          */
         public static function validateSlug($slug) {
             $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
@@ -32,7 +32,7 @@
         }
 
         /**
-         * @return bool
+         * @return bool Returns true if the path is valid
          */
         public static function validateRelativePath($path) {
             $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
@@ -40,7 +40,7 @@
         }
 
         /**
-         * @return bool
+         * @return bool Returns true if the ISO language is valid
          */
         public static function validateISOLanguage($language) {
             $result = preg_match('/^[a-zA-Z]{2}$/', $language);
@@ -106,6 +106,9 @@
             exit;
         }
 
+        /**
+         * @return mysqli_result|false Returns false if it fails or a mysqli_result object
+         */
         public static function query($sql, $params = null) {
             self::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
@@ -133,7 +136,7 @@
             if($settings['HOST_PRO'] != '' && !self::validateDomain($settings['HOST_PRO'])) {
                 self::error('The value of the HOST_PRO constant is incorrect. Must be a valid domain.');
             }
-            if($settings['DEV']['PROTOCOL'] != '' && !in_array($settings['DEV']['PROTOCOL'], array('http', 'https'))) {
+            if(!in_array($settings['DEV']['PROTOCOL'], array('http', 'https'))) {
                 self::error('The value of the DEV > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
             }
             if($settings['DEV']['PUBLIC_PATH'] == '/') {
@@ -142,7 +145,7 @@
             if($settings['DEV']['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings['DEV']['PUBLIC_PATH'])) {
                 self::error('The value of the DEV > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
             }
-            if($settings['PRO']['PROTOCOL'] != '' && !in_array($settings['PRO']['PROTOCOL'], array('http', 'https'))) {
+            if(!in_array($settings['PRO']['PROTOCOL'], array('http', 'https'))) {
                 self::error('The value of the PRO > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
             }
             if($settings['PRO']['PUBLIC_PATH'] == '/') {
@@ -205,14 +208,13 @@
             self::checkDefined('APP_NAME');
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
-            ini_set('memory_limit', '256M');
             // Start user session
             session_name(APP_NAME);
             session_start();
         }
 
         /**
-         * @return string
+         * @return string Returns the environment in which the project is located
          */
         public static function getEnviroment() {
             self::checkDefined('HOST', 'HOST_DEV', 'HOST_PRO');
@@ -230,7 +232,7 @@
         }
 
         /**
-         * @return string
+         * @return string Returns the framework ISO language
          */
         public static function getLanguage() {
             self::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'ROUTE', 'LANGUAGES', 'LANGUAGE', 'LANG_PATH');
@@ -273,7 +275,6 @@
         }
 
         public static function setThemeColor($colorTheme = null) {
-            self::checkDefined('PUBLIC_PATH');
             if($colorTheme != null) {
                 $theme = $colorTheme;
             } else {

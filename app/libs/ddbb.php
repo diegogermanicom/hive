@@ -20,6 +20,7 @@
         }
 
         public function connect() {
+            Utils::checkDefined('HAS_DDBB', 'DDBB_HOST', 'DDBB_USER', 'DDBB_PASS', 'DDBB');
             if(HAS_DDBB == true) {
                 $this->db = @new mysqli(DDBB_HOST, DDBB_USER, DDBB_PASS, DDBB);
                 if($this->db->connect_errno) {
@@ -31,12 +32,17 @@
         }
 
         public function disconnect() {
+            Utils::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 $this->db->close();
             }
         }
 
+        /**
+         * @return string Returns the query with the table prefix added
+         */
         public static function prefixTables($sql) {
+            Utils::checkDefined('DDBB_PREFIX');
             if(DDBB_PREFIX != '') {
                 $keyWords = array(
                     'FROM',
@@ -58,34 +64,42 @@
             return $sql;
         }
 
+        /**
+         * @return mysqli_result|false Returns false if it fails or a mysqli_result object
+         */
         public function query($sql, $params = null) {
-            $this->prefixTables($sql);
-            // This function is created to avoid malicious sql injections
-            $query = $this->db->prepare($sql);
-            if($params != null) {
-                $type = '';
-                $types = array(
-                    'integer'   => 'i',
-                    'double'    => 'd',
-                    'string'    => 's',
-                    'boolean'   => 'b'
-                );
-                if(!is_array($params)) {
-                    $params = array($params);
-                }
-                foreach($params as $value) {
-                    if($value == NULL) {
-                        $type .= 's';
-                    } else if(isset($types[gettype($value)])) {
-                        $type .= $types[gettype($value)];
+            Utils::checkDefined('HAS_DDBB');
+            if(HAS_DDBB == true) {
+                $this->prefixTables($sql);
+                // This function is created to avoid malicious sql injections
+                $query = $this->db->prepare($sql);
+                if($params != null) {
+                    $type = '';
+                    $types = array(
+                        'integer'   => 'i',
+                        'double'    => 'd',
+                        'string'    => 's',
+                        'boolean'   => 'b'
+                    );
+                    if(!is_array($params)) {
+                        $params = array($params);
                     }
-                }    
-                if(!@$query->bind_param($type, ...$params)) {
-                    Utils::error(LANGTXT['error-query-description']);
+                    foreach($params as $value) {
+                        if($value == NULL) {
+                            $type .= 's';
+                        } else if(isset($types[gettype($value)])) {
+                            $type .= $types[gettype($value)];
+                        }
+                    }    
+                    if(!@$query->bind_param($type, ...$params)) {
+                        Utils::error('An error has occurred when performing the query to the database, check the parameters.');
+                    }
                 }
+                $query->execute();
+                return $query->get_result();
+            } else {
+                Utils::error('You do not have access to the database.');
             }
-            $query->execute();
-            return $query->get_result();
         }
 
     }
