@@ -14,7 +14,7 @@
         function __construct($name_page = 'default-page') {
             parent::__construct();
             $this->name_page = $name_page;
-            $this->check_maintenance();
+            $this->checkMaintenance();
         }
 
         public function set_cookies() {
@@ -45,7 +45,7 @@
             $result = $this->query($sql, array($email));
             if($result->num_rows == 0) {
                 $sql = 'INSERT INTO users (email, `name`, lastname, pass, validation_code, ip_register) VALUES (?, ?, ?, ?, ?, ?)';
-                $this->query($sql, array($email, $name, $lastname, md5($pass), uniqid(), $this->get_ip()));
+                $this->query($sql, array($email, $name, $lastname, md5($pass), uniqid(), $this->getIp()));
                 // If you sign up for the newsletter
                 if($newsletter == 1) {
                     $validation_code = uniqid();

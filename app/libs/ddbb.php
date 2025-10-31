@@ -20,7 +20,6 @@
         }
 
         public function connect() {
-            Utils::checkDefined('HAS_DDBB', 'DDBB_HOST', 'DDBB_USER', 'DDBB_PASS', 'DDBB');
             if(HAS_DDBB == true) {
                 $this->db = @new mysqli(DDBB_HOST, DDBB_USER, DDBB_PASS, DDBB);
                 if($this->db->connect_errno) {
@@ -32,7 +31,6 @@
         }
 
         public function disconnect() {
-            Utils::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 $this->db->close();
             }
@@ -41,8 +39,7 @@
         /**
          * @return string Returns the query with the table prefix added
          */
-        public static function prefixTables($sql) {
-            Utils::checkDefined('DDBB_PREFIX');
+        private function prefixTables($sql) {
             if(DDBB_PREFIX != '') {
                 $keyWords = array(
                     'FROM',
@@ -68,7 +65,6 @@
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
         public function query($sql, $params = null) {
-            Utils::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 $this->prefixTables($sql);
                 // This function is created to avoid malicious sql injections
@@ -98,7 +94,7 @@
                 $query->execute();
                 return $query->get_result();
             } else {
-                Utils::error('You do not have access to the database.');
+                Utils::error('You do not have access to the database.', 503);
             }
         }
 

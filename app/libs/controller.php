@@ -10,7 +10,6 @@
     class Controller {
 
         private static function call($view, $data) {
-            Utils::checkDefined('LANGTXT');
             // Call the view and finish the script
             if(strpos($view, '.php') === false) {
                 $view .= '.php';
@@ -24,12 +23,10 @@
         }
     
         public static function view($view, $data) {
-            Utils::checkDefined('VIEWS_PUBLIC');
             self::call(VIEWS_PUBLIC.$view, $data);
         }
 
         public static function viewAdmin($view, $data) {
-            Utils::checkDefined('VIEWS_ADMIN');
             self::call(VIEWS_ADMIN.$view, $data);
         }
 

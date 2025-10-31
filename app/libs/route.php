@@ -107,7 +107,6 @@
         }
 
         public function checkServiceDownRoute() {
-            Utils::checkDefined('MAINTENANCE', 'ROUTE');
             if(MAINTENANCE == false && ROUTE == Route::getAlias('service-down')) {
                 Route::redirect('/');
             }
@@ -128,7 +127,6 @@
          * @return array
          */
         private function scanRoute($route) {
-            Utils::checkDefined('ROUTE');
             // Is not dynamic
             if(strpos($route, '$') === false) {
                 return array($route, array());
@@ -157,7 +155,6 @@
         }
 
         private function processRoute($type, $route) {
-            Utils::checkDefined('METHOD', 'ROUTE');
             list($scan_route, $args) = $this->scanRoute($route['route']);
             // The route is valid
             if(METHOD == $type && ROUTE == $scan_route) {
@@ -206,7 +203,6 @@
         }
 
         private function addRoute() {
-            Utils::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'LANG');
             if(MULTILANGUAGE == true && $this->method == 'get') {
                 $this->route = PUBLIC_PATH.'/'.$this->language.$this->defaultPrefix.$this->route;
             } else {
@@ -235,7 +231,6 @@
         }
 
         private function checkRepeatAlias() {
-            Utils::checkDefined('MULTILANGUAGE');
             foreach($this->routes as $methods) {
                 foreach($methods as $alias) {
                     foreach($alias as $route) {
@@ -267,7 +262,6 @@
         }
 
         public function call_admin($controller) {
-            Utils::checkDefined('ADMIN_PATH');
             $this->setFunction($controller);
             // If the alias does not exist
             if(!isset($this->routes[$this->method]['admin'])) {
@@ -286,7 +280,6 @@
         }
 
         private function setAliasIndex($alias = '', $index = null) {
-            Utils::checkDefined('MULTILANGUAGE', 'LANG');
             if(!is_string($alias)) {
                 Utils::error('The alias value must be a string.');
             }
@@ -423,7 +416,6 @@
         }
 
         public function empty() {
-            Utils::checkDefined('METHOD');
             if(METHOD == 'get') {
                 Route::redirect('page-404');
             } else {
@@ -435,7 +427,6 @@
          * @return string
          */
         public static function getAlias($alias, $vars = array()) {
-            Utils::checkDefined('PUBLIC_ROUTE', 'ROUTES', 'LANG');
             if(isset(ROUTES[$alias][LANG]['route'])) {
                 $url = ROUTES[$alias][LANG]['route'];
             } else {

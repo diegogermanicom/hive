@@ -48,7 +48,6 @@
         }
 
         public static function error($message, $code = 500) {
-            self::checkDefined('METHOD');
             if(METHOD == 'get') {
                 self::errorGet($message, $code);
             } else {
@@ -110,7 +109,6 @@
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
         public static function query($sql, $params = null) {
-            self::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 global $Ddbb;
                 return $Ddbb->query($sql, $params);
@@ -120,7 +118,6 @@
         }
 
         public static function errorLog($message) {
-            self::checkDefined('HAS_DDBB');
             if(HAS_DDBB == true) {
                 $sql = 'INSERT INTO error_log (message) VALUES (?)';
                 self::query($sql, array($message));
@@ -130,6 +127,32 @@
         }
 
         public static function settingsValidator($settings) {
+            // I verify that all configuration values ​​exist
+            $arraySettingVars = array(
+                'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES', 'HAS_DDBB',
+                'DDBB_PREFIX', 'MAINTENANCE', 'MAINTENANCE_IPS', 'EMAIL_HOST', 'EMAIL_FROM', 'META_TITLE', 'META_EXTRA_TITLE',
+                'META_DESCRIPTION', 'META_KEYS', 'OG_TITLE', 'OG_DESCRIPTION', 'OG_SITE_NAME', 'OG_TYPE', 'OG_URL', 'OG_IMAGE',
+                'OG_APP_ID', 'DEV', 'PRO', 'FTP_UPLOAD_HOST', 'FTP_UPLOAD_USER', 'FTP_UPLOAD_PASS', 'FTP_UPLOAD_SERVER_PATH'
+            );
+            foreach($arraySettingVars as $var) {
+                if(!isset($settings[$var])) {
+                    self::error('The configuration value '.$var.' does not exist.');
+                }
+            }
+            $arrayEnviromentVars = array(
+                'PROTOCOL', 'PUBLIC_PATH', 'DDBB_HOST', 'DDBB_USER', 'DDBB_PASS', 'DDBB'
+            );
+            foreach($arrayEnviromentVars as $var) {
+                if(!(isset($settings['DEV'][$var]))) {
+                    self::error('The development enviroment configuration value '.$var.' does not exist.');
+                }
+            }
+            foreach($arrayEnviromentVars as $var) {
+                if(!(isset($settings['PRO'][$var]))) {
+                    self::error('The production enviroment configuration value '.$var.' does not exist.');
+                }
+            }
+            // I check that the values ​​are correct
             if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
                 self::error('The value of the HOST_DEV constant is incorrect. Must be a valid domain.');
             }
@@ -196,16 +219,7 @@
             }
         }
 
-        public static function checkDefined(...$definedVars) {
-            foreach($definedVars as $var) {
-                if(!defined($var)) {
-                    self::error('The '.$var.' constant does not exist.');
-                }
-            }
-        }
-
         public static function init() {
-            self::checkDefined('APP_NAME');
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
             // Start user session
@@ -217,7 +231,6 @@
          * @return string Returns the environment in which the project is located
          */
         public static function getEnviroment() {
-            self::checkDefined('HOST', 'HOST_DEV', 'HOST_PRO');
             if(strpos(HOST, HOST_DEV) !== false && HOST_DEV != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
@@ -235,7 +248,6 @@
          * @return string Returns the framework ISO language
          */
         public static function getLanguage() {
-            self::checkDefined('MULTILANGUAGE', 'PUBLIC_PATH', 'ROUTE', 'LANGUAGES', 'LANGUAGE', 'LANG_PATH');
             if(MULTILANGUAGE == true) {
                 // First I try to get the language from the route
                 $lang = explode(PUBLIC_PATH.'/', ROUTE)[1];
@@ -294,7 +306,6 @@
         }
 
         public static function initCookie($name, $value, $time) {
-            self::checkDefined('PUBLIC_PATH');
             setcookie($name, $value, [
                 'expires' => time() + $time,
                 'path' => PUBLIC_PATH.'/',
@@ -306,7 +317,6 @@
         }
 
         public static function killCookie($name) {
-            self::checkDefined('PUBLIC_PATH');
             setcookie($name, '', [
                 'expires' => time() - 3600,
                 'path' => PUBLIC_PATH . '/',

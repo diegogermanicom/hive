@@ -31,8 +31,7 @@
             $admin = new AdminAjax('ajax-ftpu-get-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            $upload->connect();
-            $upload->login();
+            $upload->init();
             $result = [];
             $result['get_dir'] = $upload->get_folder_html($_POST['dir']);
             echo json_encode($result);
@@ -42,8 +41,7 @@
             $admin = new AdminAjax('ajax-ftpu-compare');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            $upload->connect();
-            $upload->login();
+            $upload->init();
             $result = [];
             $result['compare'] = $upload->ftpCompare($_POST['folder'], $_POST['file']);
             echo json_encode($result);
@@ -53,8 +51,7 @@
             $admin = new AdminAjax('ajax-ftpu-upload');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            $upload->connect();
-            $upload->login();
+            $upload->init();
             $result = [];
             $result['upload'] = $upload->upload_ftp($_POST['folder'], $_POST['file']);
             echo json_encode($result);
@@ -64,8 +61,7 @@
             $admin = new AdminAjax('ajax-ftpu-all');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            $upload->connect();
-            $upload->login();
+            $upload->init();
             $result = [];
             $result['upload'] = $upload->upload_all_ftp($_POST['folder'], $_POST['files']);
             echo json_encode($result);
@@ -75,8 +71,7 @@
             $admin = new AdminAjax('ajax-ftpu-create-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            $upload->connect();
-            $upload->login();
+            $upload->init();
             $result = [];
             $result['folder'] = $upload->create_folder($_POST['folder'], $_POST['name']);
             echo json_encode($result);

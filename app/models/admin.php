@@ -34,7 +34,7 @@
                 if(!isset($_SESSION['admin'])) {
                     $sql = 'SELECT email, pass FROM users_admin WHERE remember_code = ? AND id_state = 2 LIMIT 1';
                     $result = $this->query($sql, array($_COOKIE['admin_remember']));
-                    if($result->num_rows != 0) {
+                    if($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $this->login($row['email'], $row['pass']);
                     } else {

@@ -14,7 +14,7 @@
         function __construct($name_page = 'default-page') {
             parent::__construct();
             $this->name_page = $name_page;
-            $this->check_maintenance();
+            $this->checkMaintenance();
             $this->login_remember();
         }
 
@@ -54,7 +54,7 @@
                 if(!isset($_SESSION['user'])) {
                     $sql = 'SELECT email, pass FROM users WHERE remember_code = ? AND id_state = 2 LIMIT 1';
                     $result = $this->query($sql, array($_COOKIE['user_remember']));
-                    if($result->num_rows != 0) {
+                    if($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $this->login($row['email'], $row['pass'], 1);
                     } else {
@@ -81,7 +81,7 @@
         public function validate_email($code) {
             $sql = 'SELECT id_user FROM users WHERE validation_code = ? LIMIT 1';
             $result = $this->query($sql, array($code));
-            if($result->num_rows != 0) {
+            if($result->num_rows > 0) {
                 $sql = 'UPDATE users SET validated_email = 1 WHERE validation_code = ? LIMIT 1';
                 $this->query($sql, array($code));
                 $html = 'Your account has been successfully validated.';

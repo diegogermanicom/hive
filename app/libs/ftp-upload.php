@@ -15,16 +15,6 @@
 
         public $conn;
         public $conn_success = false;
-        public $messages = array(
-            'The directory does not exist.',
-            'Access denied.',
-            'Error saving file.',
-            'Error logging in.',
-            'The file has been uploaded successfully.',
-            'The directory has been created successfully.',
-            'Error creating directory.',
-            'Error reading file from ftp.'
-        );
         public $banned_files = array(
             'ftp-upload-view.php',
             'ftp-upload.php',
@@ -55,8 +45,7 @@
         /**
          * @return bool Returns true if the connection to the host was successful
          */
-        public function connect() {
-            Utils::checkDefined('FTP_UPLOAD_HOST');
+        private function connect() {
             if($this->conn = @ftp_connect(FTP_UPLOAD_HOST)) {
                 $this->conn_success = true;
                 return true;
@@ -69,8 +58,7 @@
         /**
          * @return bool Returns true if the login was successful
          */
-        public function login() {
-            Utils::checkDefined('FTP_UPLOAD_USER', 'FTP_UPLOAD_PASS');
+        private function login() {
             if(@ftp_login($this->conn, FTP_UPLOAD_USER, FTP_UPLOAD_PASS)) {
                 ftp_pasv($this->conn, true);
                 return true;
@@ -83,7 +71,6 @@
          * @return array Returns ok if the entire process succeeds.
          */
         public function get_folder_html($folder = '') {
-            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             // Impido que puedan bajar mas de la raiz
             $pos1 = strpos($folder, SERVER_PATH);
             $pos2 = strpos($folder, SERVER_PATH.'/..');
@@ -101,7 +88,7 @@
                 }
                 // Si no existe el directorio da error
                 if(!file_exists($folder)) {
-                    Utils::error($this->messages[0]);
+                    Utils::error('The directory does not exist.');
                 }
                 // Obtengo el directorio del ftp relaccionado
                 $dir = str_replace(SERVER_PATH, "", $folder);
@@ -123,14 +110,14 @@
                     'html' => $html
                 );
             } else {
-                Utils::error($this->messages[1]);
+                Utils::error('Access denied.', 403);
             }
         }
 
         /**
          * @return array Remix two arrays containing the files and folders in the directory
          */
-        public function separateFilesFolders($dir) {
+        private function separateFilesFolders($dir) {
             $array_dir = scandir($dir);
             $array_folders = array();
             $array_files = array();
@@ -157,7 +144,7 @@
         /**
          * @return string Returns an HTML string with the list of folders
          */
-        public function drawFolders($array_folders, $ftp_rawlist) {
+        private function drawFolders($array_folders, $ftp_rawlist) {
             $html = '';
             for($i = 0; $i < count($array_folders); $i++) {
                 $css_exist = ' no-existe';
@@ -175,7 +162,7 @@
         /**
          * @return string Returns an HTML string with the list of files
          */
-        public function drawFiles($array_file, $ftp_rawlist) {
+        private function drawFiles($array_file, $ftp_rawlist) {
             $html = '';
             for($i = 0; $i < count($array_file); $i++) {
                 $ftp_size = 0;
@@ -206,16 +193,15 @@
          * @return array Returns ok if the file has been uploaded successfully
          */
         public function upload_ftp($folder, $file) {
-            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_put($this->conn, $dir.$file, $folder.'/'.$file, FTP_BINARY)) {
                 return array(
                     'response' => 'ok',
-                    'message' => $this->messages[4]
+                    'message' => 'The file has been uploaded successfully.'
                 );
             } else {
-                Utils::error($this->messages[2]);
+                Utils::error('Error saving file.');
             }
         }
         
@@ -223,7 +209,6 @@
          * @return array Returns ok if the files have been uploaded successfully
          */
         public function upload_all_ftp($folder, $files) {
-            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             $errors = 0;
@@ -235,10 +220,10 @@
             if($errors == 0) {
                 return array(
                     'response' => 'ok',
-                    'message' => $this->messages[4]
+                    'message' => 'The file has been uploaded successfully.'
                 );
             } else {
-                Utils::error($this->messages[2]);
+                Utils::error('Error saving '.$errors.' files.');
             }
         }
 
@@ -246,16 +231,15 @@
          * @return array Returns ok if the folder is created correctly
          */
         public function create_folder($folder, $name) {
-            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_mkdir($this->conn, $dir.$name)) {
                 return array(
                     'response' => 'ok',
-                    'message' => $this->messages[5]
+                    'message' => 'The directory '.$name.' has been created successfully.'
                 );
             } else {
-                Utils::error($this->messages[6]);
+                Utils::error('Error creating directory '.$name.'.');
             }
         }
         
@@ -263,7 +247,6 @@
          * @return array Returns the source code of the files
          */
         public function ftpCompare($folder, $file) {
-            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $file_server = fopen($folder.'/'.$file, 'r');
             $code_server = '';
             while(!feof($file_server)) {
@@ -273,7 +256,7 @@
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             $temp = fopen('php://temp', 'r+');
-            if (ftp_fget($this->conn, $temp, $dir.$file, FTP_BINARY)) {
+            if(ftp_fget($this->conn, $temp, $dir.$file, FTP_BINARY)) {
                 $code_ftp = '';
                 fseek($temp, 0);
                 while(!feof($temp)) {
@@ -286,7 +269,7 @@
                     'code_ftp' => $code_ftp
                 );
             } else {
-                Utils::error($this->messages[7]);
+                Utils::error('Error reading file '.$file.' from ftp.');
             }
         }
                
