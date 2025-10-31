@@ -5,6 +5,11 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * 
+     * DISCLAIMER:
+     * Modifying or altering any part of the code is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
      */
 
     $routesPath = __DIR__.'/../routes';

@@ -5,7 +5,12 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
-     * @return array
+     * @return array Returns an array with all the controllers and their functions
+     * 
+     * DISCLAIMER:
+     * Modifying or altering any part of the code is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
      */
 
     $controllersPath = __DIR__.'/../controllers';

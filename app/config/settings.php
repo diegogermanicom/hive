@@ -5,6 +5,12 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * 
+     * DISCLAIMER:
+     * Modifying or altering the array structure is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
+     * Modify only the values ​​of each field.
      */
 
     return array(

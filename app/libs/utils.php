@@ -5,6 +5,11 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * 
+     * DISCLAIMER:
+     * Modifying or altering any part of the code is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
      */
 
     class Utils {
@@ -55,7 +60,7 @@
             }
         }
 
-        public static function errorGet($message, $code = 500) {
+        private static function errorGet($message, $code = 500) {
             $html = '<html>';
             $html .=    '<head>';
             $html .=        '<title>Error | '.$code.'</title>';
@@ -87,7 +92,7 @@
             exit;
         }
         
-        public static function errorPost($message, $code = 500) {
+        private static function errorPost($message, $code = 500) {
             http_response_code($code);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(

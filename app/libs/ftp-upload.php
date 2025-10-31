@@ -5,11 +5,17 @@
      * @author Diego Martín
      * @copyright Hive®
      * @version 1.0.1
+     * 
      * Files:
-     *  - /js/ftp-upload.js
-     *  - /app/lib/ftp-upload.php
-     *  - /app/views/admin/ftp-upload-view.php
-     */   
+     *  /js/ftp-upload.js
+     *  /app/lib/ftp-upload.php
+     *  /app/views/admin/ftp-upload-view.php
+     * 
+     * DISCLAIMER:
+     * Modifying or altering any part of the code is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
+     */
 
     class FtpUpload {
 
