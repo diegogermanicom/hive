@@ -31,7 +31,11 @@
             $this->db = $Ddbb->db;
         }
 
+        /**
+         * @return bool Returns false if the IP address can access in maintenance mode
+         */
         public function check_maintenance() {
+            Utils::checkDefined('MAINTENANCE_IPS', 'ROUTE', 'METHOD');
             // Close the access to the web for maintenance
             if(in_array($this->get_ip(), MAINTENANCE_IPS)) {
                 return false;
@@ -40,10 +44,7 @@
                 if(METHOD == 'get') {
                     Route::redirect('service-down');
                 } else {
-                    return json_encode(array(
-                        'response' => 'error',
-                        'message' => 'The website is under maintenance.'
-                    ));
+                    Utils::error('The website is under maintenance.');
                 }
             }
         }

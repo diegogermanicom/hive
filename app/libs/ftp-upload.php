@@ -5,7 +5,6 @@
      * @author Diego Martín
      * @copyright Hive®
      * @version 1.0.1
-     * Dep: Font Awesome, jQuery
      * Files:
      *  - /js/ftp-upload.js
      *  - /app/lib/ftp-upload.php
@@ -29,11 +28,7 @@
         public $banned_files = array(
             'ftp-upload-view.php',
             'ftp-upload.php',
-            'ftp-upload-ajax.php',
             'ftp-upload.js',
-            'ftp-upload.scss',
-            'ftp-upload.css.map',
-            'ftp-upload.css'
         );
 
         function __destruct() {
@@ -42,7 +37,26 @@
             }
         }
 
+        /**
+         * @return bool Returns true if the connection was successful
+         */
+        public function init() {
+            if($this->connect()) {
+                if($this->login()) {
+                    return true;
+                } else {
+                    Utils::error('The Ftp Upload user or password is not correct.');
+                }    
+            } else {
+                Utils::error('Ftp Upload could not connect to server.');
+            }
+        }
+
+        /**
+         * @return bool Returns true if the connection to the host was successful
+         */
         public function connect() {
+            Utils::checkDefined('FTP_UPLOAD_HOST');
             if($this->conn = @ftp_connect(FTP_UPLOAD_HOST)) {
                 $this->conn_success = true;
                 return true;
@@ -52,7 +66,11 @@
             }
         }
 
+        /**
+         * @return bool Returns true if the login was successful
+         */
         public function login() {
+            Utils::checkDefined('FTP_UPLOAD_USER', 'FTP_UPLOAD_PASS');
             if(@ftp_login($this->conn, FTP_UPLOAD_USER, FTP_UPLOAD_PASS)) {
                 ftp_pasv($this->conn, true);
                 return true;
@@ -61,7 +79,11 @@
              }
         }
 
+        /**
+         * @return array Returns ok if the entire process succeeds.
+         */
         public function get_folder_html($folder = '') {
+            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             // Impido que puedan bajar mas de la raiz
             $pos1 = strpos($folder, SERVER_PATH);
             $pos2 = strpos($folder, SERVER_PATH.'/..');
@@ -78,95 +100,113 @@
                     $folder = substr($folder, 0, -1);
                 }
                 // Si no existe el directorio da error
-                if(file_exists($folder)) {
-                    $array_folder = scandir($folder);
-                    $array_dir = array();
-                    $array_file = array();
-                    for($i = 0; $i < count($array_folder); $i++) {
-                        if(is_dir($folder.'/'.$array_folder[$i])) {
-                            if($array_folder[$i] != '.') {
-                                array_push($array_dir, $array_folder[$i]);                            
-                            }
-                        } else {
-                            if(!in_array($array_folder[$i], $this->banned_files)) {
-                                $temp = array(
-                                    'name' => $array_folder[$i],
-                                    'size' => filesize($folder.'/'.$array_folder[$i])
-                                );
-                                array_push($array_file, $temp);
-                            }
-                        }
-                    }            
-                    sort($array_dir);
-                    sort($array_file);
-                    // Obtengo el directorio del ftp relaccionado
-                    $dir = str_replace(SERVER_PATH, "", $folder);
-                    $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
-                    if(!(@ftp_chdir($this->conn, $dir))) {
-                        return array(
-                            'response' => 'error',
-                            'message' => 'Could not switch to directory "'.$dir.'".'
-                        );    
-                    }
-                    // Obtengo la información de los ficheros del ftp
-                    $ftp_rawlist = ftp_rawlist($this->conn, '.');
-                    // Pintado del html del arbol
-                    $html = '<div class="folder" folder="'.$folder.'" server-folder="'.$dir.'"><i class="fas fa-folder-open"></i> '.$folder.'</div>';
-                    $html .= '<ul class="dir-list">';
-                    // Pintado de los directorios
-                    for($i = 0; $i < count($array_dir); $i++) {
-                        $css_exist = ' no-existe';
-                        for($e = 0; $e < count($ftp_rawlist); $e++) {
-                            $ftp_file_info = preg_split("/[\s]+/", $ftp_rawlist[$e], 9);
-                            if($array_dir[$i] == $ftp_file_info['8'] || $array_dir[$i] == '..') {
-                                $css_exist = '';
-                            }
-                        }
-                        $html .= '<li class="ftp-dir'.$css_exist.'" name="'.$array_dir[$i].'" id-folder="'.$i.'"><i class="fas fa-folder"></i> '.$array_dir[$i].'</li>';
-                    }
-                    // Pintado de los ficheros
-                    for($i = 0; $i < count($array_file); $i++) {
-                        $ftp_size = 0;
-                        for($e = 0; $e < count($ftp_rawlist); $e++) {
-                            $ftp_file_info = preg_split("/[\s]+/", $ftp_rawlist[$e], 9);
-                            if($array_file[$i]['name'] == $ftp_file_info['8']) {
-                                $ftp_size = $ftp_file_info['4'];
-                            }
-                        }
-                        $size = number_format($array_file[$i]['size'], 0, '.', '.');
-                        $css_size = '';
-                        // Comparo el tamaño del fichero del ftp con el de desarrollo
-                        if($ftp_size != $array_file[$i]['size']) {
-                            $css_size = ' warning';
-                        }
-                        if($ftp_size == 0) {
-                            $css_size = ' no-existe';                            
-                        }
-                        $html .= '<li class="ftp-file'.$css_size.'" id-file="'.$i.'">'.
-                                    '<div class="name" name="'.$array_file[$i]['name'].'"><i class="far fa-file"></i> '.$array_file[$i]['name'].'</div>'.
-                                    '<div class="size" size="'.$array_file[$i]['size'].'" ftp_size="'.$ftp_size.'">'.$size.' bytes</div>'.
-                                '</li>';
-                    }
-                    $html .= '</ul>';
-                    return array(
-                        'response' => 'ok',
-                        'html' => $html
-                    );
-                } else {
-                    return array(
-                        'response' => 'error',
-                        'message' => $this->messages[0]
-                    );
+                if(!file_exists($folder)) {
+                    Utils::error($this->messages[0]);
                 }
-            } else {
+                // Obtengo el directorio del ftp relaccionado
+                $dir = str_replace(SERVER_PATH, "", $folder);
+                $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
+                if(!(@ftp_chdir($this->conn, $dir))) {
+                    Utils::error('Could not switch to directory "'.$dir.'".');
+                }
+                list($array_folders, $array_files) = $this->separateFilesFolders($folder);
+                // Obtengo la información de los ficheros del ftp
+                $ftp_rawlist = ftp_rawlist($this->conn, '.');
+                // Pintado del html del arbol
+                $html = '<div class="folder" folder="'.$folder.'" server-folder="'.$dir.'"><i class="fas fa-folder-open"></i> '.$folder.'</div>';
+                $html .= '<ul class="dir-list">';
+                $html .= $this->drawFolders($array_folders, $ftp_rawlist);
+                $html .= $this->drawFiles($array_files, $ftp_rawlist);
+                $html .= '</ul>';
                 return array(
-                    'response' => 'error',
-                    'message' => $this->messages[1]
+                    'response' => 'ok',
+                    'html' => $html
                 );
+            } else {
+                Utils::error($this->messages[1]);
             }
         }
 
+        /**
+         * @return array Remix two arrays containing the files and folders in the directory
+         */
+        public function separateFilesFolders($dir) {
+            $array_dir = scandir($dir);
+            $array_folders = array();
+            $array_files = array();
+            for($i = 0; $i < count($array_dir); $i++) {
+                if(is_dir($dir.'/'.$array_dir[$i])) {
+                    if($array_dir[$i] != '.') {
+                        array_push($array_folders, $array_dir[$i]);                            
+                    }
+                } else {
+                    if(!in_array($array_dir[$i], $this->banned_files)) {
+                        $temp = array(
+                            'name' => $array_dir[$i],
+                            'size' => filesize($dir.'/'.$array_dir[$i])
+                        );
+                        array_push($array_files, $temp);
+                    }
+                }
+            }            
+            sort($array_folders);
+            sort($array_files);
+            return array($array_folders, $array_files);
+        }
+
+        /**
+         * @return string Returns an HTML string with the list of folders
+         */
+        public function drawFolders($array_folders, $ftp_rawlist) {
+            $html = '';
+            for($i = 0; $i < count($array_folders); $i++) {
+                $css_exist = ' no-existe';
+                for($e = 0; $e < count($ftp_rawlist); $e++) {
+                    $ftp_file_info = preg_split("/[\s]+/", $ftp_rawlist[$e], 9);
+                    if($array_folders[$i] == $ftp_file_info['8'] || $array_folders[$i] == '..') {
+                        $css_exist = '';
+                    }
+                }
+                $html .= '<li class="ftp-dir'.$css_exist.'" name="'.$array_folders[$i].'" id-folder="'.$i.'"><i class="fas fa-folder"></i> '.$array_folders[$i].'</li>';
+            }
+            return $html;
+        }
+
+        /**
+         * @return string Returns an HTML string with the list of files
+         */
+        public function drawFiles($array_file, $ftp_rawlist) {
+            $html = '';
+            for($i = 0; $i < count($array_file); $i++) {
+                $ftp_size = 0;
+                for($e = 0; $e < count($ftp_rawlist); $e++) {
+                    $ftp_file_info = preg_split("/[\s]+/", $ftp_rawlist[$e], 9);
+                    if($array_file[$i]['name'] == $ftp_file_info['8']) {
+                        $ftp_size = $ftp_file_info['4'];
+                    }
+                }
+                $sizeString = number_format($array_file[$i]['size'], 0, '.', '.');
+                $css_size = '';
+                // I compare the size of the FTP file with the development file size.
+                if($ftp_size != $array_file[$i]['size']) {
+                    $css_size = ' warning';
+                }
+                if($ftp_size == 0) {
+                    $css_size = ' no-existe';
+                }
+                $html .= '<li class="ftp-file'.$css_size.'" id-file="'.$i.'">'.
+                            '<div class="name" name="'.$array_file[$i]['name'].'"><i class="far fa-file"></i> '.$array_file[$i]['name'].'</div>'.
+                            '<div class="size" size="'.$array_file[$i]['size'].'" ftp_size="'.$ftp_size.'">'.$sizeString.' bytes</div>'.
+                        '</li>';
+            }
+            return $html;
+        }
+
+        /**
+         * @return array Returns ok if the file has been uploaded successfully
+         */
         public function upload_ftp($folder, $file) {
+            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_put($this->conn, $dir.$file, $folder.'/'.$file, FTP_BINARY)) {
@@ -175,14 +215,15 @@
                     'message' => $this->messages[4]
                 );
             } else {
-                return array(
-                    'response' => 'error',
-                    'message' => $this->messages[2]
-                );
+                Utils::error($this->messages[2]);
             }
         }
         
+        /**
+         * @return array Returns ok if the files have been uploaded successfully
+         */
         public function upload_all_ftp($folder, $files) {
+            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             $errors = 0;
@@ -197,14 +238,15 @@
                     'message' => $this->messages[4]
                 );
             } else {
-                return array(
-                    'response' => 'error',
-                    'message' => $this->messages[2]
-                );
+                Utils::error($this->messages[2]);
             }
         }
 
+        /**
+         * @return array Returns ok if the folder is created correctly
+         */
         public function create_folder($folder, $name) {
+            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_mkdir($this->conn, $dir.$name)) {
@@ -213,14 +255,15 @@
                     'message' => $this->messages[5]
                 );
             } else {
-                return array(
-                    'response' => 'error',
-                    'message' => $this->messages[6]
-                );                
+                Utils::error($this->messages[6]);
             }
         }
         
-        public function ftp_comparar($folder, $file) {
+        /**
+         * @return array Returns the source code of the files
+         */
+        public function ftpCompare($folder, $file) {
+            Utils::checkDefined('SERVER_PATH', 'FTP_UPLOAD_SERVER_PATH');
             $file_server = fopen($folder.'/'.$file, 'r');
             $code_server = '';
             while(!feof($file_server)) {
@@ -243,41 +286,10 @@
                     'code_ftp' => $code_ftp
                 );
             } else {
-                return array(
-                    'response' => 'error',
-                    'message' => $this->messages[7]
-                );                
+                Utils::error($this->messages[7]);
             }
         }
-        
-        public function get_ftp_html($folder = '.') {
-            $files = ftp_mlsd($this->conn, $folder);
-            $array_dir = array();
-            $array_file = array();
-            for($i = 0; $i < count($files); $i++) {
-                if($files[$i]['type'] == 'dir') {
-                    array_push($array_dir, $files[$i]['name']);
-                } else if($files[$i]['type'] == 'file') {
-                    array_push($array_file, $files[$i]['name']);
-                }
-            }
-            sort($array_dir);
-            sort($array_file);
-            $html = '<div><i class="fas fa-folder-open"></i> '.$folder.'</div>';
-            $html .= '<ul class="dir-list">';
-            for($i = 0; $i < count($array_dir); $i++) {
-                $html .= '<li class="ftp-dir"><i class="fas fa-folder"></i> '.$array_dir[$i].'</li>';
-            }
-            for($i = 0; $i < count($array_file); $i++) {
-                $html .= '<li class="ftp-file"><i class="far fa-file"></i> '.$array_file[$i].'</li>';
-            }
-            $html .= '</ul>';
-            return array(
-                'response' => 'ok',
-                'html' => $html
-            );
-        }
-        
+               
     }
 
 ?>

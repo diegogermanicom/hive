@@ -21,7 +21,7 @@
             $admin->security_admin_logout();
             $data = $admin->getAdminData();
             $data['meta']['title'] = $admin->setTitle('Login');
-            $this->viewAdmin('/login', $data);
+            self::viewAdmin('/login', $data);
         }
 
         public function logout($args) {
@@ -40,7 +40,7 @@
                 'home'
             ];
             $data['meta']['title'] = $admin->setTitle('Home');
-            $this->viewAdmin('/home', $data);
+            self::viewAdmin('/home', $data);
         }
 
         public function sitemap($args) {
@@ -52,26 +52,20 @@
             ];
             $data['meta']['title'] = $admin->setTitle('Sitemap');
             $data['sitemap'] = $admin->getSitemapInfo();
-            $this->viewAdmin('/sitemap', $data);
+            self::viewAdmin('/sitemap', $data);
         }
 
         public function ftp_upload($args) {
             $admin = new Admin('ftp-upload-page');
             $admin->security_admin_login();
             $upload = new FtpUpload();
-            if($upload->connect()) {
-                if($upload->login()) {
-                    $data = $admin->getAdminData();
-                    $data['admin']['tags'] = [
-                        'ftp-upload'
-                    ];
-                    $data['meta']['title'] = $admin->setTitle('FTP Upload');
-                    $this->viewAdmin('/ftp-upload-view', $data);
-                } else {
-                    Utils::error('The Ftp Upload user or password is not correct.');
-                }    
-            } else {
-                Utils::error('Ftp Upload could not connect to server.');
+            if($upload->init()) {
+                $data = $admin->getAdminData();
+                $data['admin']['tags'] = [
+                    'ftp-upload'
+                ];
+                $data['meta']['title'] = $admin->setTitle('FTP Upload');
+                self::viewAdmin('/ftp-upload-view', $data);
             }
         }
         

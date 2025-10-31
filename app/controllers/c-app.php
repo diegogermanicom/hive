@@ -20,7 +20,7 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Home');
             $data['head']['canonical'] .= '/home';
-            $this->view('/home', $data);
+            self::view('/home', $data);
         }
 
         public function privacy_policy($args) {
@@ -30,7 +30,7 @@
             $data['meta']['description'] = 'Find out about our privacy policies to make good use of our application.';
             $data['meta']['keywords'] .= ', privacy policy, legal';
             $data['head']['canonical'] .= '/privacy-policy';
-            $this->view('/privacy-policy', $data);
+            self::view('/privacy-policy', $data);
         }
 
         public function cookie_policy($args) {
@@ -40,7 +40,7 @@
             $data['meta']['description'] = 'Find out about our cookie policies to make good use of our application.';
             $data['meta']['keywords'] .= ', cookies, cookies policy';
             $data['head']['canonical'] .= '/cookie-policy';
-            $this->view('/cookie-policy', $data);
+            self::view('/cookie-policy', $data);
         }
 
         public function service_down($args) {
@@ -51,7 +51,7 @@
             if($args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, nofollow';
             }
-            $this->view('/service-down', $data);
+            self::view('/service-down', $data);
         }
 
         public function register($args) {
@@ -60,7 +60,7 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Register');
             $data['head']['canonical'] .= '/register';
-            $this->view('/register', $data);
+            self::view('/register', $data);
         }
 
         public function page_404($args) {
@@ -72,7 +72,7 @@
             if($args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, follow';
             }
-            $this->view('/page-404', $data);
+            self::view('/page-404', $data);
         }
 
         public function logout($args) {

@@ -45,7 +45,7 @@
             $upload->connect();
             $upload->login();
             $result = [];
-            $result['compare'] = $upload->ftp_comparar($_POST['folder'], $_POST['file']);
+            $result['compare'] = $upload->ftpCompare($_POST['folder'], $_POST['file']);
             echo json_encode($result);
         }
 
