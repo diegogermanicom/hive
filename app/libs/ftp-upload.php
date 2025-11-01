@@ -41,7 +41,7 @@
                 if($this->login()) {
                     return true;
                 } else {
-                    Utils::error('The Ftp Upload user or password is not correct.');
+                    Utils::error('The Ftp Upload user or password is not correct.', 403);
                 }    
             } else {
                 Utils::error('Ftp Upload could not connect to server.');

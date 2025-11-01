@@ -28,7 +28,7 @@
             if(HAS_DDBB == true) {
                 $this->db = @new mysqli(DDBB_HOST, DDBB_USER, DDBB_PASS, DDBB);
                 if($this->db->connect_errno) {
-                    Utils::error('An error occurred while connecting to the database. Please check your connection credentials and domain.');
+                    Utils::error('An error occurred while connecting to the database. Please check your connection credentials and domain.',  403);
                 } else {
                     $this->db->set_charset("utf8");
                 }

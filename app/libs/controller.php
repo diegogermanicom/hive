@@ -20,7 +20,7 @@
                 $view .= '.php';
             }
             if(!file_exists($view)) {
-                Utils::error(LANGTXT['error-view-description']);
+                Utils::error('The view you are trying to display does not exist.');
             } else {
                 include $view;
             }
