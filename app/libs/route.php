@@ -341,7 +341,7 @@
                     $this->function = $arrayController[1];
                 } else {                
                     if($this->defaultController == null) {
-                        Utils::error('You must select a driver for the route.');
+                        Utils::error('You must select a controller for the route.');
                     }
                     $this->controller = $this->defaultController;
                     $this->function = $arrayController[0];
