@@ -36,9 +36,6 @@
         $settings[ENVIRONMENT]['DDBB'], $settings['DDBB_PREFIX']
     );
 
-    define('PROTOCOL', $settings[ENVIRONMENT]['PROTOCOL']);
-    define('PUBLIC_PATH', $settings[ENVIRONMENT]['PUBLIC_PATH']);
-
     define('APP_NAME', $settings['APP_NAME']);
     define('ADMIN_NAME', $settings['ADMIN_NAME']);
 
@@ -70,7 +67,8 @@
     define('FTP_UPLOAD_PASS', $settings['FTP_UPLOAD_PASS']);
     define('FTP_UPLOAD_SERVER_PATH', $settings['FTP_UPLOAD_SERVER_PATH']);
 
-    define('URL', PROTOCOL.'://'.HOST);
+    define('URL', $settings[ENVIRONMENT]['PROTOCOL'].'://'.HOST);
+    define('PUBLIC_PATH', $settings[ENVIRONMENT]['PUBLIC_PATH']);
     define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'].PUBLIC_PATH);
     define('LANG_PATH', SERVER_PATH.'/app/langs');
     define('IMG_PATH', SERVER_PATH.'/img');
@@ -94,7 +92,7 @@
         define('VIEWS_PUBLIC', SERVER_PATH.'/app/views/public');
         define('PUBLIC_ROUTE', PUBLIC_PATH);
     }
-    define('URL_ROUTE', PROTOCOL.'://'.HOST.PUBLIC_ROUTE);
+    define('URL_ROUTE', $settings[ENVIRONMENT]['PROTOCOL'].'://'.HOST.PUBLIC_ROUTE);
     
     Utils::init();
     Utils::setThemeColor();
