@@ -131,6 +131,20 @@
             }
         }
 
+        public static function getPhpFiles($path, $phpFiles = array()) {
+            $files = scandir($path);
+            $files = array_diff($files, array('.', '..'));
+            foreach($files as $file) {
+                $fullPath = $path.'/'.$file;
+                if(is_dir($fullPath)) {
+                    $phpFiles = self::getPhpFiles($fullPath, $phpFiles);
+                } else {
+                    array_push($phpFiles, $fullPath);
+                }
+            }
+            return $phpFiles;
+        }
+
         public static function settingsValidator($settings) {
             // I verify that all configuration values ​​exist
             $arraySettingVars = array(

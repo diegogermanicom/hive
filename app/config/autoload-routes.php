@@ -16,20 +16,20 @@
     // I add routes that are prioritized in order
     $priorityRoutes = array();
     foreach($priorityRoutes as $value) {
-        if(file_exists($routesPath.'/'.$value)) {
-            require_once $routesPath.'/'.$value;
+        if(file_exists($value)) {
+            require_once $value;
         } else {
             Utils::error('The priority route file you are trying to load <b>'.$value.'</b> does not exist.');
         }
     }
     // I add routes that I will not load
     $ignoreRoutes = array();
-    // I automatically include each route
-    $scandir = scandir($routesPath);
-    $files = array_diff($scandir, array('.', '..'), $ignoreRoutes);
+    // I automatically include each route from the routes folder recursively.
+    $files = Utils::getPhpFiles($routesPath);
+    $files = array_diff($files, array('.', '..'), $ignoreRoutes);
     foreach($files as $value) {
         $R->reset();
-        require_once $routesPath.'/'.$value;
+        require_once $value;
     }
 
 ?>

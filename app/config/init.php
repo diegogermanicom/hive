@@ -12,15 +12,15 @@
      * Any changes made will be the sole responsibility of the person who makes them.
      */
 
-    require_once __DIR__.'/autoload-libs.php';
-    require_once __DIR__.'/autoload-models.php';
-    $controllers = require_once __DIR__.'/autoload-controllers.php';
-    define('CONTROLLERS', $controllers);
-
     // Constant system variables
     define('HOST', strtolower($_SERVER['HTTP_HOST']));
     define('METHOD', strtolower($_SERVER['REQUEST_METHOD']));
     define('ROUTE', strtolower(strtok($_SERVER["REQUEST_URI"], '?')));
+
+    require_once __DIR__.'/autoload-libs.php';
+    require_once __DIR__.'/autoload-models.php';
+    $controllers = require_once __DIR__.'/autoload-controllers.php';
+    define('CONTROLLERS', $controllers);
 
     $settings = require_once __DIR__.'/settings.php';
     // If all setting values are correct continue

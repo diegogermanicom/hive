@@ -15,23 +15,23 @@
     $modelsPath = __DIR__.'/../models';
      // I add classes that are prioritized in order
     $priorityModels = array(
-        'app-model.php',
-        'admin-model.php'
+        $modelsPath.'/app-model.php',
+        $modelsPath.'/admin/admin-model.php'
     );
     foreach($priorityModels as $value) {
-        if(file_exists($modelsPath.'/'.$value)) {
-            require_once $modelsPath.'/'.$value;
+        if(file_exists($value)) {
+            require_once $value;
         } else {
             Utils::error('The priority model file you are trying to load <b>'.$value.'</b> does not exist.');
         }
     }
     // I add classes that I will not load
     $ignoreModels = array();
-    // I automatically include each model
-    $scandir = scandir($modelsPath);
-    $files = array_diff($scandir, array('.', '..'), $ignoreModels, $priorityModels);
+    // I automatically include each model from the models folder recursively.
+    $files = Utils::getPhpFiles($modelsPath);
+    $files = array_diff($files, array('.', '..'), $ignoreModels, $priorityModels);
     foreach($files as $value) {
-        require_once $modelsPath.'/'.$value;
+        require_once $value;
     }
 
 ?>
