@@ -1,3 +1,20 @@
+<?php
+
+    /**
+     * @author Diego Martín
+     * @copyright Hive®
+     * @version 1.0.1
+     * @since 1.0.0
+     * @return array Returns the values ​​to configure the framework
+     * 
+     * DISCLAIMER:
+     * Modifying or altering the main structure of the HTML is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
+     * Add the HTML content you need to customize the view.
+     */
+
+?>
 <div id="menu-left" class="active">
     <div id="btn-hide-menu-left" class="active"><i class="fa-solid fa-angles-left"></i></div>
     <div id="btn-show-menu-left"><i class="fa-solid fa-angles-right"></i></div>

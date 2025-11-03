@@ -5,6 +5,7 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * @return array Returns the values ​​to configure the framework
      * 
      * DISCLAIMER:
      * Modifying or altering the array structure is not recommended,
