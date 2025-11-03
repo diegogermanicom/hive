@@ -249,12 +249,12 @@
         /**
          * @return string Returns the environment in which the project is located
          */
-        public static function getEnviroment() {
-            if(strpos(HOST, HOST_DEV) !== false && HOST_DEV != '') {
+        public static function getEnviroment($hostDev, $hostPro) {
+            if(strpos(HOST, $hostDev) !== false && $hostDev != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
                 return 'DEV';
-            } else if(strpos(HOST, HOST_PRO) !== false && HOST_PRO != '') {
+            } else if(strpos(HOST, $hostPro) !== false && $hostPro != '') {
                 error_reporting(0);
                 ini_set('display_errors', '0');
                 return 'PRO';

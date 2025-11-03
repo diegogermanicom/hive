@@ -15,18 +15,12 @@
     class Ddbb {
 
         public $db = null;
+        private $prefix;
 
-        function __construct() {
-            $this->connect();
-        }
-
-        function __destruct() {
-            $this->disconnect();
-        }
-
-        public function connect() {
+        function __construct($host, $user, $pass, $ddbb, $prefix) {
+            $this->prefix = $prefix;
             if(HAS_DDBB == true) {
-                $this->db = @new mysqli(DDBB_HOST, DDBB_USER, DDBB_PASS, DDBB);
+                $this->db = @new mysqli($host, $user, $pass, $ddbb);
                 if($this->db->connect_errno) {
                     Utils::error('An error occurred while connecting to the database. Please check your connection credentials and domain.',  403);
                 } else {
@@ -35,7 +29,7 @@
             }
         }
 
-        public function disconnect() {
+        function __destruct() {
             if(HAS_DDBB == true) {
                 $this->db->close();
             }
@@ -45,7 +39,7 @@
          * @return string Returns the query with the table prefix added
          */
         private function prefixTables($sql) {
-            if(DDBB_PREFIX != '') {
+            if($this->prefix != '') {
                 $keyWords = array(
                     'FROM',
                     'JOIN',
@@ -59,7 +53,7 @@
                     'RENAME TABLE',
                 );
                 foreach ($keyWords as $keyword) {
-                    $replaceString = $keyword.' '.DDBB_PREFIX;
+                    $replaceString = $keyword.' '.$this->prefix;
                     $sql = str_replace($keyword.' ', $replaceString, $sql);
                 }
             }

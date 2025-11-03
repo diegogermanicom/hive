@@ -26,19 +26,15 @@
     // If all setting values are correct continue
     Utils::settingsValidator($settings);
  
-    define('HOST_DEV', $settings['HOST_DEV']);
-    define('HOST_PRO', $settings['HOST_PRO']);
-    define('ENVIRONMENT', Utils::getEnviroment());
+    define('ENVIRONMENT', Utils::getEnviroment($settings['HOST_DEV'], $settings['HOST_PRO']));
 
     define('HAS_DDBB', $settings['HAS_DDBB']);
-    define('DDBB_PREFIX', $settings['DDBB_PREFIX']);
-    define('DDBB_HOST', $settings[ENVIRONMENT]['DDBB_HOST']);
-    define('DDBB_USER', $settings[ENVIRONMENT]['DDBB_USER']);
-    define('DDBB_PASS', $settings[ENVIRONMENT]['DDBB_PASS']);
-    define('DDBB', $settings[ENVIRONMENT]['DDBB']);
-
     // I create the object to connect to the database at this point, in case you want to load configuration data from the administrator.
-    $Ddbb = new Ddbb();
+    $Ddbb = new Ddbb(
+        $settings[ENVIRONMENT]['DDBB_HOST'],
+        $settings[ENVIRONMENT]['DDBB_USER'], $settings[ENVIRONMENT]['DDBB_PASS'],
+        $settings[ENVIRONMENT]['DDBB'], $settings['DDBB_PREFIX']
+    );
 
     define('PROTOCOL', $settings[ENVIRONMENT]['PROTOCOL']);
     define('PUBLIC_PATH', $settings[ENVIRONMENT]['PUBLIC_PATH']);
