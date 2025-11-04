@@ -16,6 +16,12 @@
     define('HOST', strtolower($_SERVER['HTTP_HOST']));
     define('METHOD', strtolower($_SERVER['REQUEST_METHOD']));
     define('ROUTE', strtolower(strtok($_SERVER["REQUEST_URI"], '?')));
+    if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        $protocol = 'https';
+    } else {
+        $protocol = 'http';
+    }
+    define('PROTOCOL', $protocol);
 
     require_once __DIR__.'/autoload-libs.php';
     require_once __DIR__.'/autoload-models.php';
@@ -26,7 +32,7 @@
     // If all setting values are correct continue
     Utils::settingsValidator($settings);
  
-    define('ENVIRONMENT', Utils::getEnviroment($settings['HOST_DEV'], $settings['HOST_PRO']));
+    define('ENVIRONMENT', Utils::getEnvironment($settings['HOST_DEV'], $settings['HOST_PRO']));
 
     define('HAS_DDBB', $settings['HAS_DDBB']);
     // I create the object to connect to the database at this point, in case you want to load configuration data from the administrator.
@@ -67,7 +73,7 @@
     define('FTP_UPLOAD_PASS', $settings['FTP_UPLOAD_PASS']);
     define('FTP_UPLOAD_SERVER_PATH', $settings['FTP_UPLOAD_SERVER_PATH']);
 
-    define('URL', $settings[ENVIRONMENT]['PROTOCOL'].'://'.HOST);
+    define('URL', PROTOCOL.'://'.HOST);
     define('PUBLIC_PATH', $settings[ENVIRONMENT]['PUBLIC_PATH']);
     define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'].PUBLIC_PATH);
     define('LANG_PATH', SERVER_PATH.'/app/langs');
@@ -92,16 +98,15 @@
         define('VIEWS_PUBLIC', SERVER_PATH.'/app/views/public');
         define('PUBLIC_ROUTE', PUBLIC_PATH);
     }
-    define('URL_ROUTE', $settings[ENVIRONMENT]['PROTOCOL'].'://'.HOST.PUBLIC_ROUTE);
+    define('URL_ROUTE', URL.PUBLIC_ROUTE);
     
-    Utils::init();
+    Utils::initEnvironment();
     Utils::setThemeColor();
 
     // I start the route recognition process
     $R = new Route();
     require_once __DIR__.'/autoload-routes.php';
     define('ROUTES', $R->getRoutes('get'));
-    $R->checkServiceDownRoute();
     $R->init();
 
 ?>

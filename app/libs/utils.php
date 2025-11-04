@@ -172,73 +172,127 @@
                 }
             }
             // I check that the values ​​are correct
-            if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
-                self::error('The value of the HOST_DEV constant is incorrect. Must be a valid domain.');
-            }
-            if($settings['HOST_PRO'] != '' && !self::validateDomain($settings['HOST_PRO'])) {
-                self::error('The value of the HOST_PRO constant is incorrect. Must be a valid domain.');
-            }
-            if(!in_array($settings['DEV']['PROTOCOL'], array('http', 'https'))) {
-                self::error('The value of the DEV > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
-            }
-            if($settings['DEV']['PUBLIC_PATH'] == '/') {
-                self::error('To indicate the root directory, leave the DEV > PUBLIC_PATH field empty.');
-            }
-            if($settings['DEV']['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings['DEV']['PUBLIC_PATH'])) {
-                self::error('The value of the DEV > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
-            }
-            if(!in_array($settings['PRO']['PROTOCOL'], array('http', 'https'))) {
-                self::error('The value of the PRO > PROTOCOL constant is incorrect. Must be a valid protocol (http or https).');
-            }
-            if($settings['PRO']['PUBLIC_PATH'] == '/') {
-                self::error('To indicate the root directory, leave the PRO > PUBLIC_PATH field empty.');
-            }
-            if($settings['PRO']['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings['PRO']['PUBLIC_PATH'])) {
-                self::error('The value of the PRO > PUBLIC_PATH constant is incorrect. Must be a valid relative path.');
-            }
             if(!self::validateSlug($settings['APP_NAME'])) {
-                self::error('The value of the APP_NAME constant is incorrect. Must be a valid slug.');
+                self::error('The value of the <b>APP_NAME</b> constant is incorrect. Must be a valid slug.');
             }
             if(!self::validateSlug($settings['ADMIN_NAME'])) {
-                self::error('The value of the ADMIN_NAME constant is incorrect. Must be a valid slug.');
+                self::error('The value of the <b>ADMIN_NAME</b> constant is incorrect. Must be a valid slug.');
+            }
+            if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
+                self::error('The value of the <b>HOST_DEV</b> constant is incorrect. Must be a valid domain.');
+            }
+            if($settings['HOST_PRO'] != '' && !self::validateDomain($settings['HOST_PRO'])) {
+                self::error('The value of the <b>HOST_PRO</b> constant is incorrect. Must be a valid domain.');
             }
             if(!self::validateISOLanguage($settings['LANGUAGE'])) {
-                self::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
+                self::error('The value of the <b>LANGUAGE</b> constant is incorrect. Must be a valid ISO language value');
             }
             if(!is_bool($settings['MULTILANGUAGE'])) {
-                self::error('The value of the MULTILANGUAGE constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the <b>MULTILANGUAGE</b> constant is incorrect. It has to be a boolean variable.');
             }
             if(!is_array($settings['LANGUAGES'])) {
-                self::error('The value of the LANGUAGES constant is incorrect. It has to be a array variable.');
+                self::error('The value of the <b>LANGUAGES</b> constant is incorrect. It has to be a array variable.');
             }
             foreach($settings['LANGUAGES'] as $lang) {
                 if(!self::validateISOLanguage($lang)) {
-                    self::error('The value of the LANGUAGE constant is incorrect. Must be a valid ISO language value');
+                    self::error('The value of the <b>LANGUAGE</b> constant is incorrect. Must be a valid ISO language value');
                 }    
             }
             if(!is_bool($settings['HAS_DDBB'])) {
-                self::error('The value of the HAS_DDBB constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the <b>HAS_DDBB</b> constant is incorrect. It has to be a boolean variable.');
+            }
+            if(!is_string($settings['DDBB_PREFIX'])) {
+                self::error('The value of the <b>DDBB_PREFIX</b> constant is incorrect. It has to be a string variable.');
             }
             if(!is_bool($settings['MAINTENANCE'])) {
-                self::error('The value of the MAINTENANCE constant is incorrect. It has to be a boolean variable.');
+                self::error('The value of the <b>MAINTENANCE</b> constant is incorrect. It has to be a boolean variable.');
             }
             if(!is_array($settings['MAINTENANCE_IPS'])) {
-                self::error('The value of the MAINTENANCE_IPS constant is incorrect. It has to be a array variable.');
+                self::error('The value of the <b>MAINTENANCE_IPS</b> constant is incorrect. It has to be a array variable.');
             }
             foreach($settings['MAINTENANCE_IPS'] as $ip) {
                 if(!filter_var($ip, FILTER_VALIDATE_IP)) {
-                    self::error('Invalid IP <b>'.$ip.'</b> in DEV > MAINTENANCE_IPS');
+                    self::error('Invalid IP <b>'.$ip.'</b> in <b>MAINTENANCE_IPS</b> array.');
                 }
             }
+            if($settings['EMAIL_HOST'] != '' &&
+                !self::validateDomain($settings['EMAIL_HOST']) &&
+                !filter_var($settings['EMAIL_HOST'], FILTER_VALIDATE_IP)) {
+                self::error('The value of the <b>EMAIL_HOST</b> constant is incorrect. Must be a valid host.');
+            }
             if($settings['EMAIL_FROM'] != '' && !filter_var($settings['EMAIL_FROM'], FILTER_VALIDATE_EMAIL)) {
-                self::error('The value of the DEV > EMAIL_FROM constant is incorrect. Must be a valid email.');
+                self::error('The value of the <b>EMAIL_FROM</b> constant is incorrect. Must be a valid email.');
+            }
+            // Meta and Open Graph tags validation
+            foreach(array(
+                'META_TITLE', 'META_EXTRA_TITLE', 'META_DESCRIPTION', 'META_KEYS',
+                'OG_TITLE', 'OG_DESCRIPTION', 'OG_SITE_NAME', 'OG_TYPE'
+            ) as $value) {
+                if(!is_string($settings[$value])) {
+                    self::error('The value of the <b>'.$value.'</b> constant is incorrect. It has to be a string variable.');
+                }    
+            }
+            if($settings['OG_URL'] != '' && !filter_var($settings['OG_URL'], FILTER_VALIDATE_URL)) {
+                self::error('The value of the <b>OG_URL</b> constant is incorrect. Must be a valid url.');
+            }
+            if($settings['OG_IMAGE'] != '' && !filter_var($settings['OG_IMAGE'], FILTER_VALIDATE_URL)) {
+                self::error('The value of the <b>OG_IMAGE</b> constant is incorrect. Must be a valid url.');
+            }
+            if(!is_numeric($settings['OG_APP_ID'])) {
+                self::error('The value of the <b>OG_APP_ID</b> constant is incorrect. It has to be a numeric variable.');
+            }
+            // Environments validation
+            foreach(array('DEV', 'PRO') as $value) {
+                if(!in_array($settings[$value]['PROTOCOL'], array('http', 'https'))) {
+                    self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. Must be a valid protocol (http or https).');
+                }
+                if($settings[$value]['PROTOCOL'] == 'http' && stripos(PROTOCOL, 'http') !== 0) {
+                    self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. It must match the current domain.');
+                }
+                if($settings[$value]['PROTOCOL'] == 'https' && stripos(PROTOCOL, 'https') !== 0) {
+                    self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. It must match the current domain.');
+                }
+                if($settings[$value]['PUBLIC_PATH'] == '/') {
+                    self::error('To indicate the root directory, leave the <b>'.$value.' -> PUBLIC_PATH</b> field empty.');
+                }
+                if($settings[$value]['PUBLIC_PATH'] != '' && !self::validateRelativePath($settings[$value]['PUBLIC_PATH'])) {
+                    self::error('The value of the <b>'.$value.' -> PUBLIC_PATH</b> constant is incorrect. Must be a valid relative path.');
+                }
+                if($settings['HAS_DDBB'] == true) {
+                    if($settings[$value]['DDBB_HOST'] != 'localhost' &&
+                        !self::validateDomain($settings['DDBB_HOST']) &&
+                        !filter_var($settings['DDBB_HOST'], FILTER_VALIDATE_IP)) {
+                        self::error('The value of the <b>'.$value.' -> DDBB_HOST</b> constant is incorrect. Must be a valid host.');
+                    }
+                    if(!is_string($settings[$value]['DDBB_USER'])) {
+                        self::error('The value of the <b>'.$value.' -> DDBB_USER</b> constant is incorrect. It has to be a string variable.');
+                    }
+                    if(!is_string($settings[$value]['DDBB_PASS'])) {
+                        self::error('The value of the <b>'.$value.' -> DDBB_PASS</b> constant is incorrect. It has to be a string variable.');
+                    }
+                    if(!is_string($settings[$value]['DDBB'])) {
+                        self::error('The value of the <b>'.$value.' -> DDBB</b> constant is incorrect. It has to be a string variable.');
+                    }
+                }
+            }
+            // Ftp Upload validation
+            if($settings['FTP_UPLOAD_HOST'] != '' &&
+                !self::validateDomain($settings['FTP_UPLOAD_HOST']) &&
+                !filter_var($settings['FTP_UPLOAD_HOST'], FILTER_VALIDATE_IP)) {
+                self::error('The value of the <b>FTP_UPLOAD_HOST</b> constant is incorrect. Must be a valid host.');
+            }
+            if($settings['FTP_UPLOAD_USER'] != '' && !is_string($settings['FTP_UPLOAD_USER'])) {
+                self::error('The value of the <b>FTP_UPLOAD_USER</b> constant is incorrect. Must be a valid relative path.');
+            }
+            if($settings['FTP_UPLOAD_PASS'] != '' && !is_string($settings['FTP_UPLOAD_PASS'])) {
+                self::error('The value of the <b>FTP_UPLOAD_PASS</b> constant is incorrect. Must be a valid relative path.');
             }
             if($settings['FTP_UPLOAD_SERVER_PATH'] != '' && !self::validateRelativePath($settings['FTP_UPLOAD_SERVER_PATH'])) {
-                self::error('The value of the FTP_UPLOAD_SERVER_PATH constant is incorrect. Must be a valid relative path.');
+                self::error('The value of the <b>FTP_UPLOAD_SERVER_PATH</b> constant is incorrect. Must be a valid relative path.');
             }
         }
 
-        public static function init() {
+        public static function initEnvironment() {
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
             // Start user session
@@ -249,7 +303,7 @@
         /**
          * @return string Returns the environment in which the project is located
          */
-        public static function getEnviroment($hostDev, $hostPro) {
+        public static function getEnvironment($hostDev, $hostPro) {
             if(strpos(HOST, $hostDev) !== false && $hostDev != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');

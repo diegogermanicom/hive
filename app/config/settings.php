@@ -51,7 +51,7 @@
         'OG_TYPE' => 'product',
         'OG_URL' => 'http://hiveframework.com/home',
         'OG_IMAGE' => 'http://hiveframework.com/img/website-logo.png',
-        'OG_APP_ID' => '112651260921384',
+        'OG_APP_ID' => 112651260921384,
         'DEV' => array(
             'PROTOCOL' => 'https',
             // Leave empty to indicate the root

@@ -118,6 +118,7 @@
         }
 
         public function init() {
+            $this->checkServiceDownRoute();
             foreach($this->routes as $method => $methods) {
                 foreach($methods as $alias) {
                     foreach($alias as $route) {
