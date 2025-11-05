@@ -5,6 +5,12 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * 
+     * DISCLAIMER:
+     * Modifying or altering any part of the original code is not recommended,
+     * as it could compromise the stability, security or operation of the system.
+     * Any changes made will be the sole responsibility of the person who makes them.
+     * You can add custom code to add new features.
      */
 
     class CApp extends Controller {
@@ -48,6 +54,8 @@
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Service Down');
             $data['meta']['description'] = 'We are making improvements to our app. In a very short time we will be back.';
+            $data['meta']['keywords'] .= ', service, down';
+            $data['head']['canonical'] .= '/service-down';
             if($args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, nofollow';
             }
@@ -59,6 +67,7 @@
             $app->security_app_logout();
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Register');
+            $data['meta']['keywords'] .= ', register';
             $data['head']['canonical'] .= '/register';
             self::view('/register', $data);
         }
@@ -69,6 +78,7 @@
             $data['meta']['title'] = $app->setTitle('404');
             $data['meta']['description'] = 'If you have come this far, it is because we do not have the page you are looking for.';
             $data['meta']['keywords'] .= ', 404, not found, missing';
+            $data['head']['canonical'] .= '/page-404';
             if($args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, follow';
             }
