@@ -1,20 +1,19 @@
 
 /**
- * Upload Ftp
- * @author Diego Martín
- * @copyright Hive®
- * @version 1.0.1
- * @since 1.0.0
- * 
- * Files:
- *  /js/ftp-upload.js
- *  /app/lib/ftp-upload.php
- *  /app/views/admin/ftp-upload-view.php
- * 
- * DISCLAIMER:
- * Modifying or altering any part of the original code is not recommended,
- * as it could compromise the stability, security or operation of the system.
- * Any changes made will be the sole responsibility of the person who makes them.
+ @author Diego Martín
+ @copyright Hive®
+ @version 1.0.1
+ @since 1.0.0
+ 
+ Files:
+  /js/ftp-upload.js
+  /app/lib/ftp-upload.php
+  /app/views/admin/ftp-upload-view.php
+  
+ DISCLAIMER:
+ Modifying or altering any part of the original code is not recommended,
+ as it could compromise the stability, security or operation of the system.
+ Any changes made will be the sole responsibility of the person who makes them.
  */
 
 var FTPUPLOAD = {

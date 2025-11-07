@@ -1,12 +1,19 @@
 
-/**
- * @author Diego Martín
- * @copyright Hive®
- * @version 1.0.1
- * @since 1.0.0
- * npm install -g sass
- * sass --watch css/sass:css --style compressed
-*/
+/*
+ @author Diego Martín
+ @copyright Hive®
+ @version 1.0.1
+ @since 1.0.0
+ 
+ npm install -g sass
+ sass --watch css/sass:css --style compressed
+  
+ DISCLAIMER:
+ Modifying or altering any part of the code is not recommended,
+ as it could compromise the stability, security or operation of the system.
+ Any changes made will be the sole responsibility of the person who makes them.
+ Add the CSS content you need to customize the view.
+ */
 
 @import '_vars.scss';
 
