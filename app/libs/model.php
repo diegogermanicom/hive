@@ -101,14 +101,15 @@
             return $str_date;
         }
 
-        public function sendEmail($email, $titulo, $html, $reply = EMAIL_FROM) {
-			// To use variables in emails the syntax is <%NAME%> in uppercase and then I do a replace
-			$cabeceras = "From: ".EMAIL_HOST." <".EMAIL_FROM.">\r\n";
-			$cabeceras .= "Reply-To: ".$reply."\r\n";
-			$cabeceras .= "MIME-Version: 1.0\r\n";
-			$cabeceras .= "Content-type: text/html; charset=utf-8\r\n";
-			$cabeceras .= "X-Mailer: PHP/".phpversion().'\r\n';
-    	    mail($email, $titulo, $html, $cabeceras);
+        public function sendEmail($email, $title, $html, $reply = EMAIL_FROM) {
+			$headers = "From: ".EMAIL_HOST." <".EMAIL_FROM.">\r\n";
+			$headers .= "Reply-To: ".$reply."\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-type: text/html; charset=utf-8\r\n";
+			$headers .= "X-Mailer: PHP/".phpversion().'\r\n';
+			// To use variables in emails the syntax is <%YEAR%> in uppercase and then I do a replace
+            $html = str_replace("<%YEAR%>", date('Y'), $html);
+    	    mail($email, $title, $html, $headers);
 		}
 
         public function pager($result, $page = 1, $per_page = 20, $link = null) {
