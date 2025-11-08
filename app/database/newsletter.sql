@@ -15,6 +15,7 @@ CREATE TABLE `newsletters` (
   `email` varchar(150) NOT NULL,
   `validated_email` tinyint(4) NOT NULL DEFAULT '0',
   `validation_code` varchar(30) NOT NULL DEFAULT '',
+  `language` varchar(5) NOT NULL DEFAULT '',
   `insert_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

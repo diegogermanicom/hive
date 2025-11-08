@@ -33,8 +33,8 @@
             $result = $this->query($sql, array($email));
             if($result->num_rows == 0) {
                 $validation_code = uniqid();
-                $sql = 'INSERT INTO newsletters (email, validation_code) VALUES (?, ?)';
-                $this->query($sql, array($email, $validation_code));
+                $sql = 'INSERT INTO newsletters (email, validation_code, language) VALUES (?, ?, ?)';
+                $this->query($sql, array($email, $validation_code, LANG));
             } else {
                 $sql = 'UPDATE newsletters SET status = 1 WHERE email = ? LIMIT 1';
                 $this->query($sql, array($email));

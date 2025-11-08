@@ -32,7 +32,8 @@
     // If all setting values are correct continue
     Utils::settingsValidator($settings);
  
-    define('ENVIRONMENT', Utils::getEnvironment($settings['HOST_DEV'], $settings['HOST_PRO']));
+    $environment = Utils::getEnvironment($settings['HOST_DEV'], $settings['HOST_PRO']);
+    define('ENVIRONMENT', $environment);
 
     define('HAS_DDBB', $settings['HAS_DDBB']);
     // I create the object to connect to the database at this point, in case you want to load configuration data from the administrator.
