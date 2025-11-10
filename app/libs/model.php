@@ -112,6 +112,9 @@
     	    mail($email, $title, $html, $headers);
 		}
 
+        /**
+         * @return array Returns the results for the selected page and pagination information
+         */
         public function pager($result, $page = 1, $per_page = 20, $link = null) {
             $totalItems = $result->num_rows;
             if($totalItems > 0) {
@@ -199,6 +202,9 @@
             }
         }
 
+        /**
+         * @return array Returns the results for the selected page and pagination information
+         */
         public function pagerAjax($result, $page = 1, $per_page = 20) {
             $totalItems = $result->num_rows;
             if($totalItems > 0) {
