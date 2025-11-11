@@ -101,7 +101,7 @@
             return $str_date;
         }
 
-        public function sendEmail($email, $title, $html, $reply = EMAIL_FROM) {
+        public function sendEmail($email, $name, $title, $html, $reply = EMAIL_FROM) {
             if(EMAIL_SMTP == false) {
                 $headers = "From: ".EMAIL_FROM." <".EMAIL_FROM.">\r\n";
                 $headers .= "Reply-To: ".$reply."\r\n";
