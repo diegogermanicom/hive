@@ -148,10 +148,12 @@
         public static function settingsValidator($settings) {
             // I verify that all configuration values ​​exist
             $arraySettingVars = array(
-                'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES', 'HAS_DDBB',
-                'DDBB_PREFIX', 'MAINTENANCE', 'MAINTENANCE_IPS', 'EMAIL_HOST', 'EMAIL_FROM', 'META_TITLE', 'META_EXTRA_TITLE',
-                'META_DESCRIPTION', 'META_KEYS', 'OG_TITLE', 'OG_DESCRIPTION', 'OG_SITE_NAME', 'OG_TYPE', 'OG_URL', 'OG_IMAGE',
-                'OG_APP_ID', 'DEV', 'PRO', 'FTP_UPLOAD_HOST', 'FTP_UPLOAD_USER', 'FTP_UPLOAD_PASS', 'FTP_UPLOAD_SERVER_PATH'
+                'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES',
+                'HAS_DDBB', 'DDBB_PREFIX', 'MAINTENANCE', 'MAINTENANCE_IPS',
+                'EMAIL_SMTP', 'EMAIL_HOST', 'EMAIL_FROM', 'EMAIL_USER', 'EMAIL_PASS',
+                'META_TITLE', 'META_EXTRA_TITLE', 'META_DESCRIPTION', 'META_KEYS',
+                'OG_TITLE', 'OG_DESCRIPTION', 'OG_SITE_NAME', 'OG_TYPE', 'OG_URL', 'OG_IMAGE', 'OG_APP_ID',
+                'DEV', 'PRO', 'FTP_UPLOAD_HOST', 'FTP_UPLOAD_USER', 'FTP_UPLOAD_PASS', 'FTP_UPLOAD_SERVER_PATH'
             );
             foreach($arraySettingVars as $var) {
                 if(!isset($settings[$var])) {
@@ -214,6 +216,9 @@
                 if(!filter_var($ip, FILTER_VALIDATE_IP)) {
                     self::error('Invalid IP <b>'.$ip.'</b> in <b>MAINTENANCE_IPS</b> array.');
                 }
+            }
+            if(!is_bool($settings['EMAIL_SMTP'])) {
+                self::error('The value of the <b>EMAIL_SMTP</b> constant is incorrect. It has to be a boolean variable.');
             }
             if($settings['EMAIL_HOST'] != '' &&
                 !self::validateDomain($settings['EMAIL_HOST']) &&

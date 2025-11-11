@@ -37,8 +37,11 @@
         // Indicates the IPs that will have access in maintenance mode
         'MAINTENANCE_IPS' => array(),
         // Configure the data of the email sending server
-        'EMAIL_HOST' => 'hiveframework.com',
-        'EMAIL_FROM' => 'info@hiveframework.com',
+        'EMAIL_SMTP' => false,
+        'EMAIL_HOST' => '',
+        'EMAIL_FROM' => '',
+        'EMAIL_USER' => '',
+        'EMAIL_PASS' => '',
         // Default meta values for SEO
         'META_TITLE' => 'Hive PHP Framework',
         'META_EXTRA_TITLE' => ' | Hive',

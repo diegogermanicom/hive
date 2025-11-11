@@ -102,14 +102,44 @@
         }
 
         public function sendEmail($email, $title, $html, $reply = EMAIL_FROM) {
-			$headers = "From: ".EMAIL_HOST." <".EMAIL_FROM.">\r\n";
-			$headers .= "Reply-To: ".$reply."\r\n";
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-type: text/html; charset=utf-8\r\n";
-			$headers .= "X-Mailer: PHP/".phpversion().'\r\n';
-			// To use variables in emails the syntax is <%YEAR%> in uppercase and then I do a replace
-            $html = str_replace("<%YEAR%>", date('Y'), $html);
-    	    mail($email, $title, $html, $headers);
+            if(EMAIL_SMTP == false) {
+                $headers = "From: ".EMAIL_FROM." <".EMAIL_FROM.">\r\n";
+                $headers .= "Reply-To: ".$reply."\r\n";
+                //$headers .= "Cc: \r\n";
+                //$headers .= "Bcc: \r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-type: text/html; charset=utf-8\r\n";
+                $headers .= "X-Mailer: PHP/".phpversion().'\r\n';
+                // To use variables in emails the syntax is <%YEAR%> in uppercase and then I do a replace
+                $html = str_replace("<%YEAR%>", date('Y'), $html);
+                mail($email, $title, $html, $headers);    
+            } else {
+                require_once __DIR__.'/../vendor/phpmailer/PHPMailer.php';
+                require_once __DIR__.'/../vendor/phpmailer/SMTP.php';
+                $mail = new PHPMailer();
+                //$mail->SMTPDebug = SMTP::DEBUG_SERVER;            //Enable verbose debug output
+                $mail->isSMTP();
+                $mail->Host       = EMAIL_HOST;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = EMAIL_USER;
+                $mail->Password   = EMAIL_PASS;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;    //Enable implicit TLS encryption
+                $mail->Port       = 465;                            //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                //Recipients
+                $mail->setFrom(EMAIL_FROM, EMAIL_FROM);
+                $mail->addAddress($email, $name);
+                $mail->addReplyTo($reply, 'Reply');
+                //$mail->addCC('cc@example.com');
+                //$mail->addBCC('bcc@example.com');
+                //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
+                $mail->Subject = $title;
+                $mail->Body    = $html;
+                $mail->AltBody = '';
+                $mail->send();
+            }
 		}
 
         /**

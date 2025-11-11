@@ -53,8 +53,11 @@
     define('MAINTENANCE', $settings['MAINTENANCE']);
     define('MAINTENANCE_IPS', $settings['MAINTENANCE_IPS']);
 
+    define('EMAIL_SMTP', $settings['EMAIL_SMTP']);
     define('EMAIL_HOST', $settings['EMAIL_HOST']);
     define('EMAIL_FROM', $settings['EMAIL_FROM']);
+    define('EMAIL_USER', $settings['EMAIL_USER']);
+    define('EMAIL_PASS', $settings['EMAIL_PASS']);
 
     define('META_TITLE', $settings['META_TITLE']);
     define('META_EXTRA_TITLE', $settings['META_EXTRA_TITLE']);
