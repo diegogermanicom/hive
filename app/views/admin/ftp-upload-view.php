@@ -93,7 +93,7 @@
             <?php include VIEWS_ADMIN.'/partials/menu-left.php'; ?>
             <div id="container-admin">
                 <section>
-                    <div class="container-md">
+                    <div class="container container-md">
                         <div class="title-container text-center pb-20">FTP UPLOAD</div>
                         <div class="upload-ftp-dir-content">Loading...</div>
                         <div style="text-align: center; margin-top: 20px;">

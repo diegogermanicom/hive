@@ -17,7 +17,7 @@
         
         // App ajax services ------------------------------------------------
 
-        public function send_login($args) {
+        public function send_login() {
             $admin = new AdminAjax('ajax-admin-login');
             $admin->security_admin_logout();
             $result = [];
@@ -33,7 +33,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_get_dir($args) {
+        public function ftpu_get_dir() {
             $admin = new AdminAjax('ajax-ftpu-get-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -43,7 +43,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_compare($args) {
+        public function ftpu_compare() {
             $admin = new AdminAjax('ajax-ftpu-compare');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -53,7 +53,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_upload($args) {
+        public function ftpu_upload() {
             $admin = new AdminAjax('ajax-ftpu-upload');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -63,7 +63,7 @@
             echo json_encode($result);
         }
         
-        public function ftpu_upload_all($args) {
+        public function ftpu_upload_all() {
             $admin = new AdminAjax('ajax-ftpu-all');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -73,7 +73,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_create_folder($args) {
+        public function ftpu_create_folder() {
             $admin = new AdminAjax('ajax-ftpu-create-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();

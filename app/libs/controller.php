@@ -14,6 +14,12 @@
 
     class Controller {
 
+        public $args = array();
+
+        public function SetArguments($args) {
+            $this->args = $args;
+        }
+
         private static function call($view, $data) {
             // Call the view and finish the script
             if(strpos($view, '.php') === false) {

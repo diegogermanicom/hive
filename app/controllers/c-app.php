@@ -17,11 +17,11 @@
 
         // App services ------------------------------------------------
         
-        public function root($args) {
+        public function root() {
             Route::redirect('home', $_GET);
         }
 
-        public function home($args) {
+        public function home() {
             $app = new App('home-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Home');
@@ -29,7 +29,7 @@
             self::view('/home', $data);
         }
 
-        public function privacy_policy($args) {
+        public function privacy_policy() {
             $app = new App('privacy-policy-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Privacy Policy');
@@ -39,7 +39,7 @@
             self::view('/privacy-policy', $data);
         }
 
-        public function cookie_policy($args) {
+        public function cookie_policy() {
             $app = new App('cookie-policy-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Cookie Policy');
@@ -49,20 +49,20 @@
             self::view('/cookie-policy', $data);
         }
 
-        public function service_down($args) {
+        public function service_down() {
             $app = new App('service-down-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Service Down');
             $data['meta']['description'] = 'We are making improvements to our app. In a very short time we will be back.';
             $data['meta']['keywords'] .= ', service, down';
             $data['head']['canonical'] .= '/service-down';
-            if($args['_index'] == false) {
+            if($this->args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, nofollow';
             }
             self::view('/service-down', $data);
         }
 
-        public function register($args) {
+        public function register() {
             $app = new App('register-page');
             $app->security_app_logout();
             $data = $app->getAppData();
@@ -72,20 +72,20 @@
             self::view('/register', $data);
         }
 
-        public function page_404($args) {
+        public function page_404() {
             $app = new App('404-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('404');
             $data['meta']['description'] = 'If you have come this far, it is because we do not have the page you are looking for.';
             $data['meta']['keywords'] .= ', 404, not found, missing';
             $data['head']['canonical'] .= '/page-404';
-            if($args['_index'] == false) {
+            if($this->args['_index'] == false) {
                 $data['head']['robots'] = 'noindex, noimageindex, follow';
             }
             self::view('/page-404', $data);
         }
 
-        public function logout($args) {
+        public function logout() {
             $app = new App();
             $app->security_app_login();
             $app->logout();

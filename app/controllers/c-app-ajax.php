@@ -17,21 +17,21 @@
 
         // App ajax services ------------------------------------------------
         
-        public function set_cookies($args) {
+        public function set_cookies() {
             $app = new AppAjax();
             $result = [];
             $result['cookie'] = $app->set_cookies();
             echo json_encode($result);
         }
 
-        public function save_newsletter($args) {
+        public function save_newsletter() {
             $app = new AppAjax();
             $result = [];
             $result['newsletter'] = $app->save_newsletter($_POST['email']);
             echo json_encode($result);
         }
 
-        public function login_send($args) {
+        public function login_send() {
             $app = new AppAjax();
             $app->security_app_logout();
             $result = [];
@@ -39,7 +39,7 @@
             echo json_encode($result);
         }
 
-        public function register_send($args) {
+        public function register_send() {
             $app = new AppAjax();
             $app->security_app_logout();
             $result = [];
@@ -47,14 +47,14 @@
             echo json_encode($result);
         }
 
-        public function choose_language($args) {
+        public function choose_language() {
             $app = new AppAjax();
             $result = [];
             $result['language'] = $app->choose_language($_POST['language']);
             echo json_encode($result);
         }
 
-        public function choose_color_mode($args) {
+        public function choose_color_mode() {
             Utils::setThemeColor($_POST['mode']);
             $result = [];
             echo json_encode($result);

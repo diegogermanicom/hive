@@ -180,9 +180,10 @@
                     $class_exist = class_exists($route['controller']);
                     if($class_exist == true) {
                         $obj = new $route['controller']();
+                        $obj->SetArguments($args);
                         // If the function exists in the object
                         if(method_exists($obj, $route['function'])) {
-                            call_user_func([$obj, $route['function']], $args);
+                            call_user_func([$obj, $route['function']]);
                             exit;
                         } else {
                             $message = 'The function you are trying to access via the <b>'.$route['route'].'</b> route does not exist.';

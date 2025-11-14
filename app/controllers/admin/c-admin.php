@@ -17,12 +17,12 @@
 
         // Admin services ------------------------------------------------        
     
-        public function root($args) {
+        public function root() {
             header('Location: '.ADMIN_PATH.'/login');
             exit;
         }
 
-        public function login($args) {
+        public function login() {
             $admin = new Admin('admin-login-page');
             $admin->security_admin_logout();
             $data = $admin->getAdminData();
@@ -30,7 +30,7 @@
             self::viewAdmin('/login', $data);
         }
 
-        public function logout($args) {
+        public function logout() {
             $admin = new Admin();
             $admin->security_admin_login();
             $admin->logout();
@@ -38,7 +38,7 @@
             exit;
         }
 
-        public function home($args) {
+        public function home() {
             $admin = new Admin('admin-home-page');
             $admin->security_admin_login();
             $data = $admin->getAdminData();
@@ -49,7 +49,7 @@
             self::viewAdmin('/home', $data);
         }
 
-        public function sitemap($args) {
+        public function sitemap() {
             $admin = new Admin('admin-sitemap');
             $admin->security_admin_login();
             $data = $admin->getAdminData();
@@ -61,7 +61,7 @@
             self::viewAdmin('/sitemap', $data);
         }
 
-        public function ftp_upload($args) {
+        public function ftp_upload() {
             $admin = new Admin('ftp-upload-page');
             $admin->security_admin_login();
             $upload = new FtpUpload();

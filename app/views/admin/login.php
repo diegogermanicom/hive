@@ -23,7 +23,7 @@
         <div class="app">
             <?php include VIEWS_ADMIN.'/partials/header.php'; ?>
             <section>
-                <div class="container-sm">
+                <div class="container container-sm">
                     <?php if(HAS_DDBB == true) { ?>
                     <div class="login-content pt-50">
                         <div class="title-container">Restricted access</div>
