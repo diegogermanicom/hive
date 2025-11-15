@@ -194,14 +194,8 @@
                 if($page > 1) {
                     $html .= '<div data-page="'.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i> Last</div>';
                 }
-                $min = ($page - 2);
-                if($min < 1) {
-                    $min = 1;
-                }
-                $max = ($page + 2);
-                if($max > $total_pages) {
-                    $max = $total_pages;
-                }
+                $min = max(1, ($page - 2));
+                $max = min($total_pages, ($page + 2));
                 for($i = $min; $i <= $max; $i++) {
                     if($i == $page) {
                         $class = 'btn-black active';
@@ -219,7 +213,6 @@
                     $html .= '<a href="'.$link.'page='.$total_pages.'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-right"></i></a>';
                 }
                 $html .= '</div>';            
-                $result->data_seek(0);
                 return array(
                     'result' => $rows,
                     'pager' => $html
@@ -271,14 +264,8 @@
                 if($page > 1) {
                     $html .= '<div data-page="'.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i> Last</div>';
                 }
-                $min = ($page - 2);
-                if($min < 1) {
-                    $min = 1;
-                }
-                $max = ($page + 2);
-                if($max > $total_pages) {
-                    $max = $total_pages;
-                }
+                $min = max(1, ($page - 2));
+                $max = min($total_pages, ($page + 2));
                 for($i = $min; $i <= $max; $i++) {
                     if($i == $page) {
                         $class = 'btn-black active';
@@ -294,7 +281,6 @@
                     $html .= '<div data-page="'.$total_pages.'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-right"></i></div>';
                 }
                 $html .= '</div>';
-                $result->data_seek(0);
                 return array(
                     'result' => $rows,
                     'pager' => $html
