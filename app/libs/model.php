@@ -102,6 +102,11 @@
         }
 
         public function sendEmail($email, $name, $title, $html, $reply = EMAIL_FROM) {
+            $html = str_replace("<%URL%>", URL, $html);
+            $html = str_replace("<%URL_ROUTE%>", URL_ROUTE, $html);
+            $html = str_replace("<%YEAR%>", date('Y'), $html);
+            $html = str_replace("<%EMAIL_FROM%>", EMAIL_FROM, $html);
+            $html = str_replace("<%URL_LEGAL%>", Route::getAlias('privacy-policy'), $html);
             if(EMAIL_SMTP == false) {
                 $headers = "From: ".EMAIL_FROM." <".EMAIL_FROM.">\r\n";
                 $headers .= "Reply-To: ".$reply."\r\n";
@@ -111,7 +116,6 @@
                 $headers .= "Content-type: text/html; charset=utf-8\r\n";
                 $headers .= "X-Mailer: PHP/".phpversion().'\r\n';
                 // To use variables in emails the syntax is <%YEAR%> in uppercase and then I do a replace
-                $html = str_replace("<%YEAR%>", date('Y'), $html);
                 mail($email, $title, $html, $headers);    
             } else {
                 require_once __DIR__.'/../vendor/phpmailer/PHPMailer.php';

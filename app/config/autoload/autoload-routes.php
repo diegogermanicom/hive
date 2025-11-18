@@ -12,7 +12,7 @@
      * Any changes made will be the sole responsibility of the person who makes them.
      */
 
-    $routesPath = __DIR__.'/../routes';
+    $routesPath = __DIR__.'/../../routes';
     // I add routes that are prioritized in order
     $priorityRoutes = array();
     foreach($priorityRoutes as $value) {

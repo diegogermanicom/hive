@@ -15,8 +15,6 @@
 
     class CAdmin extends Controller {
 
-        // Admin services ------------------------------------------------        
-    
         public function root() {
             header('Location: '.ADMIN_PATH.'/login');
             exit;

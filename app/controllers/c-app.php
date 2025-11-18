@@ -15,8 +15,6 @@
 
     class CApp extends Controller {
 
-        // App services ------------------------------------------------
-        
         public function root() {
             Route::redirect('home', $_GET);
         }
@@ -60,16 +58,6 @@
                 $data['head']['robots'] = 'noindex, noimageindex, nofollow';
             }
             self::view('/service-down', $data);
-        }
-
-        public function register() {
-            $app = new App('register-page');
-            $app->security_app_logout();
-            $data = $app->getAppData();
-            $data['meta']['title'] = $app->setTitle('Register');
-            $data['meta']['keywords'] .= ', register';
-            $data['head']['canonical'] .= '/register';
-            self::view('/register', $data);
         }
 
         public function page_404() {

@@ -23,9 +23,9 @@
     }
     define('PROTOCOL', $protocol);
 
-    require_once __DIR__.'/autoload-libs.php';
-    require_once __DIR__.'/autoload-models.php';
-    $controllers = require_once __DIR__.'/autoload-controllers.php';
+    require_once __DIR__.'/autoload/autoload-libs.php';
+    require_once __DIR__.'/autoload/autoload-models.php';
+    $controllers = require_once __DIR__.'/autoload/autoload-controllers.php';
     define('CONTROLLERS', $controllers);
 
     $settings = require_once __DIR__.'/settings.php';
@@ -109,7 +109,7 @@
 
     // I start the route recognition process
     $R = new Route();
-    require_once __DIR__.'/autoload-routes.php';
+    require_once __DIR__.'/autoload/autoload-routes.php';
     define('ROUTES', $R->getRoutes('get'));
     $R->init();
 

@@ -12,23 +12,24 @@
      * Any changes made will be the sole responsibility of the person who makes them.
      */
 
-    $libsPath = __DIR__.'/../libs';
+    $modelsPath = __DIR__.'/../../models';
      // I add classes that are prioritized in order
-    $priorityLibs = array(
-        $libsPath.'/utils.php'
+    $priorityModels = array(
+        $modelsPath.'/app-model.php',
+        $modelsPath.'/admin/admin-model.php'
     );
-    foreach($priorityLibs as $value) {
+    foreach($priorityModels as $value) {
         if(file_exists($value)) {
             require_once $value;
         } else {
-            Utils::error('The priority library file you are trying to load <b>'.$value.'</b> does not exist.');
+            Utils::error('The priority model file you are trying to load <b>'.$value.'</b> does not exist.');
         }
     }
     // I add classes that I will not load
-    $ignoreLibs = array();
-    // I automatically include each library from the libs folder recursively.
-    $files = Utils::getPhpFiles($libsPath);
-    $files = array_diff($files, array('.', '..'), $ignoreLibs, $priorityLibs);
+    $ignoreModels = array();
+    // I automatically include each model from the models folder recursively.
+    $files = Utils::getPhpFiles($modelsPath);
+    $files = array_diff($files, array('.', '..'), $ignoreModels, $priorityModels);
     foreach($files as $value) {
         require_once $value;
     }

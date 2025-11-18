@@ -15,8 +15,6 @@
 
     class CAdminAjax extends Controller {
         
-        // App ajax services ------------------------------------------------
-
         public function send_login() {
             $admin = new AdminAjax('ajax-admin-login');
             $admin->security_admin_logout();

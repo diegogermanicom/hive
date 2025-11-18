@@ -15,8 +15,6 @@
 
     class CAppAjax extends Controller {
 
-        // App ajax services ------------------------------------------------
-        
         public function set_cookies() {
             $app = new AppAjax();
             $result = [];

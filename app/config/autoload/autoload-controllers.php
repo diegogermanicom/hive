@@ -13,7 +13,7 @@
      * Any changes made will be the sole responsibility of the person who makes them.
      */
 
-    $controllersPath = __DIR__.'/../controllers';
+    $controllersPath = __DIR__.'/../../controllers';
     $classBefore = get_declared_classes();
     // I add files that are prioritized in order
     $priorityControllers = array();
