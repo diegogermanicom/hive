@@ -4,6 +4,8 @@
  @copyright Hive®
  @version 1.0.1
  @since 1.0.0
+ @see https://github.com/diegogermanicom/hive
+ @license MIT
  
  npm install -g sass
  sass --watch css/sass:css --style compressed
@@ -13,7 +15,7 @@
  as it could compromise the stability, security or operation of the system.
  Any changes made will be the sole responsibility of the person who makes them.
  Add the CSS content you need to customize the view.
- */
+*/
 
 @import '_vars.scss';
 

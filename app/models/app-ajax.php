@@ -5,6 +5,8 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
+     * @see https://github.com/diegogermanicom/hive
+     * @license MIT
      * 
      * DISCLAIMER:
      * Modifying or altering any part of the original code is not recommended,

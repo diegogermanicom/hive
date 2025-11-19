@@ -5,7 +5,10 @@
      * @copyright Hive®
      * @version 1.0.1
      * @since 1.0.0
-     * @return array Returns an array with all the controllers and their functions
+     * @see https://github.com/diegogermanicom/hive
+     * @license MIT
+     * 
+     * @return array<string> Returns an array with all the controllers and their functions
      * 
      * DISCLAIMER:
      * Modifying or altering any part of the code is not recommended,

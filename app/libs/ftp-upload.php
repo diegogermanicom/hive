@@ -1,15 +1,15 @@
 <?php
 
     /**
-     * Upload Ftp
      * @author Diego Martín
      * @copyright Hive®
      * @version 1.0.1
+     * @since 1.0.0
+     * @see https://github.com/diegogermanicom/hive
+     * @license MIT
      * 
-     * Files:
-     *  /js/ftp-upload.js
-     *  /app/lib/ftp-upload.php
-     *  /app/views/admin/ftp-upload-view.php
+     * @see /js/ftp-upload.js
+     * @see /app/views/admin/ftp-upload-view.php
      * 
      * DISCLAIMER:
      * Modifying or altering any part of the code is not recommended,
