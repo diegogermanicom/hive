@@ -12,9 +12,9 @@
      * Modifying or altering any part of the code is not recommended,
      * as it could compromise the stability, security or operation of the system.
      * Any changes made will be the sole responsibility of the person who makes them.
-     */
-
-     class Model {
+    */
+    
+    class Model {
         
         public $ddbb;
         public $db;
