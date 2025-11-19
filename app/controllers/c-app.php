@@ -56,9 +56,7 @@
             $data['meta']['description'] = 'We are making improvements to our app. In a very short time we will be back.';
             $data['meta']['keywords'] .= ', service, down';
             $data['head']['canonical'] .= '/service-down';
-            if($this->args['_index'] == false) {
-                $data['head']['robots'] = 'noindex, noimageindex, nofollow';
-            }
+            $data['head']['robots'] = 'noindex, noimageindex, nofollow';
             self::view('/service-down', $data);
         }
 
@@ -69,9 +67,7 @@
             $data['meta']['description'] = 'If you have come this far, it is because we do not have the page you are looking for.';
             $data['meta']['keywords'] .= ', 404, not found, missing';
             $data['head']['canonical'] .= '/page-404';
-            if($this->args['_index'] == false) {
-                $data['head']['robots'] = 'noindex, noimageindex, follow';
-            }
+            $data['head']['robots'] = 'noindex, noimageindex, follow';
             self::view('/page-404', $data);
         }
 
