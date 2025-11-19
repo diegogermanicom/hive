@@ -16,10 +16,12 @@
 
     class Controller {
 
+        public $params = array();
         public $args = array();
 
-        public function SetArguments($args) {
-            $this->args = $args;
+        public function SetParameters($params) {
+            $this->params = $params;
+            $this->args = $params['args'];
         }
 
         private static function call($view, $data) {

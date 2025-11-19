@@ -167,22 +167,25 @@
             // The route is valid
             if(METHOD == $type && ROUTE == $scan_route) {
                 // I save the call details
-                $args['_method'] = $route['method'];
-                $args['_route'] = $route['route'];
-                $args['_controller'] = $route['controller'];
-                $args['_function'] = $route['function'];
-                $args['_language'] = $route['language'];
-                $args['_alias'] = $route['alias'];
-                $args['_index'] = $route['index'];
+                $params = array(
+                    'method' => $route['method'],
+                    'route' => $route['route'],
+                    'controller' => $route['controller'],
+                    'function' => $route['function'],
+                    'language' => $route['language'],
+                    'alias' => $route['alias'],
+                    'index' => $route['index'],
+                    'args' => $args
+                );
                 // If you pass it a function instead of a controller and a function
                 if(is_callable($route['function'])) {
-                    call_user_func($route['function'], $args);
+                    call_user_func($route['function'], $params);
                 } else {
                     // If the object exists
                     $class_exist = class_exists($route['controller']);
                     if($class_exist == true) {
                         $obj = new $route['controller']();
-                        $obj->SetArguments($args);
+                        $obj->SetParameters($params);
                         // If the function exists in the object
                         if(method_exists($obj, $route['function'])) {
                             call_user_func([$obj, $route['function']]);
