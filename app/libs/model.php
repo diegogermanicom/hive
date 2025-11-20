@@ -71,8 +71,8 @@
          */
         public function getIp() {
             $ipaddress = '';
-            if(isset($_SERVER['HTTP_CLIENT_IP'])) {
-                $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+            if(isset($_SERVER['REMOTE_ADDR'])) {
+                $ipaddress = $_SERVER['REMOTE_ADDR'];
             } else if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                 $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
             } else if(isset($_SERVER['HTTP_X_FORWARDED'])) {
@@ -81,12 +81,14 @@
                 $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
             } else if(isset($_SERVER['HTTP_FORWARDED'])) {
                 $ipaddress = $_SERVER['HTTP_FORWARDED'];
-            } else if(isset($_SERVER['REMOTE_ADDR'])) {
-                $ipaddress = $_SERVER['REMOTE_ADDR'];
-            } else {
-                $ipaddress = 'unknown';
+            } else if(isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
             }
-            return $ipaddress;
+            if(filter_var($ipaddress, FILTER_VALIDATE_IP)) {
+                return trim($ipaddress);
+            } else {
+                return 'unknown';                
+            }
         }
 
         /**
@@ -154,7 +156,14 @@
         public function pager($result, $page = 1, $per_page = 20, $link = null) {
             $totalItems = $result->num_rows;
             if($totalItems > 0) {
-                $result->data_seek(($page - 1) * $per_page);
+                if($page < 1)  {
+                    $page = 1;
+                }
+                if((($page - 1) * $per_page) > $totalItems) {
+                    $result->data_seek((floor($totalItems / $per_page)) * $per_page);
+                } else {
+                    $result->data_seek(($page - 1) * $per_page);
+                }
                 $rows = array();
                 $row_count = 1;
                 while($row = $result->fetch_assoc()) {
@@ -175,8 +184,13 @@
                     }
                     $link = ROUTE.'?'.$gets;
                 } else {
-                    $symbol = (substr_count($link, '?') == 0) ? '?' : '&';
-                    $link .= $symbol;
+                    if((substr_count($link, '?') == 0)) {
+                        $link .= '?';
+                    } else {
+                        if(substr($link, -1) !== '?') {
+                            $link .= '&';
+                        }
+                    }
                 }
                 // Total number of pages
                 $total_pages = ceil($totalItems / $per_page);
@@ -198,7 +212,7 @@
                     $html .= '<a href="'.$link.'page=1" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-left"></i></a>';
                 }
                 if($page > 1) {
-                    $html .= '<div data-page="'.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i> Last</div>';
+                    $html .= '<a href="'.$link.'page='.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i></a>';
                 }
                 $min = max(1, ($page - 2));
                 $max = min($total_pages, ($page + 2));
@@ -213,7 +227,7 @@
                     $html .= '<a href="'.$link_temp.'" class="btn btn-sm '.$class.'">'.$i.'</a>';
                 }
                 if($page < ($total_pages - 1)) {
-                    $html .= '<a href="'.$link.'page='.($page + 1).'" class="btn btn-trans btn-sm">Next <i class="fa-solid fa-angle-right"></i></a>';
+                    $html .= '<a href="'.$link.'page='.($page + 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angle-right"></i></a>';
                 }
                 if($page < ($total_pages - 2)) {
                     $html .= '<a href="'.$link.'page='.$total_pages.'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-right"></i></a>';
@@ -237,7 +251,14 @@
         public function pagerAjax($result, $page = 1, $per_page = 20) {
             $totalItems = $result->num_rows;
             if($totalItems > 0) {
-                $result->data_seek(($page - 1) * $per_page);
+                if($page < 1)  {
+                    $page = 1;
+                }
+                if((($page - 1) * $per_page) > $totalItems) {
+                    $result->data_seek((floor($totalItems / $per_page)) * $per_page);
+                } else {
+                    $result->data_seek(($page - 1) * $per_page);
+                }
                 $rows = array();
                 $row_count = 1;
                 while($row = $result->fetch_assoc()) {
@@ -268,7 +289,7 @@
                     $html .= '<div data-page="1" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-left"></i></div>';
                 }
                 if($page > 1) {
-                    $html .= '<div data-page="'.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i> Last</div>';
+                    $html .= '<div data-page="'.($page - 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-chevron-left"></i></div>';
                 }
                 $min = max(1, ($page - 2));
                 $max = min($total_pages, ($page + 2));
@@ -281,7 +302,7 @@
                     $html .= '<div data-page="'.$i.'" class="btn btn-sm '.$class.'">'.$i.'</div>';
                 }
                 if($page < $total_pages) {
-                    $html .= '<div data-page="'.($page + 1).'" class="btn btn-trans btn-sm">Next <i class="fa-solid fa-angle-right"></i></div>';
+                    $html .= '<div data-page="'.($page + 1).'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angle-right"></i></div>';
                 }
                 if($page < ($total_pages - 2)) {
                     $html .= '<div data-page="'.$total_pages.'" class="btn btn-trans btn-sm"><i class="fa-solid fa-angles-right"></i></div>';
@@ -297,7 +318,7 @@
                     'pager' => ''
                 );
             }
-        }        
+        }
         
     }
     
