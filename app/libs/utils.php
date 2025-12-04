@@ -267,8 +267,8 @@
                 }
                 if($settings['HAS_DDBB'] == true) {
                     if($settings[$value]['DDBB_HOST'] != 'localhost' &&
-                        !self::validateDomain($settings['DDBB_HOST']) &&
-                        !filter_var($settings['DDBB_HOST'], FILTER_VALIDATE_IP)) {
+                        !self::validateDomain($settings[$value]['DDBB_HOST']) &&
+                        !filter_var($settings[$value]['DDBB_HOST'], FILTER_VALIDATE_IP)) {
                         self::error('The value of the <b>'.$value.' -> DDBB_HOST</b> constant is incorrect. Must be a valid host.');
                     }
                     if(!is_string($settings[$value]['DDBB_USER'])) {
