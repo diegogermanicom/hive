@@ -148,7 +148,7 @@
         }
 
         public static function settingsValidator($settings) {
-            // I verify that all configuration values ​​exist
+            // I verify that all configuration values exist
             $arraySettingVars = array(
                 'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES',
                 'HAS_DDBB', 'DDBB_PREFIX', 'MAINTENANCE', 'MAINTENANCE_IPS',
@@ -175,17 +175,17 @@
                     self::error('The production enviroment configuration value '.$var.' does not exist.');
                 }
             }
-            // I check that the values ​​are correct
+            // I check that the values are correct
             if(!self::validateSlug($settings['APP_NAME'])) {
                 self::error('The value of the <b>APP_NAME</b> constant is incorrect. Must be a valid slug.');
             }
             if(!self::validateSlug($settings['ADMIN_NAME'])) {
                 self::error('The value of the <b>ADMIN_NAME</b> constant is incorrect. Must be a valid slug.');
             }
-            if($settings['HOST_DEV'] != '' && !self::validateDomain($settings['HOST_DEV'])) {
+            if($settings['HOST_DEV'] != 'localhost' && !self::validateDomain($settings['HOST_DEV'])) {
                 self::error('The value of the <b>HOST_DEV</b> constant is incorrect. Must be a valid domain.');
             }
-            if($settings['HOST_PRO'] != '' && !self::validateDomain($settings['HOST_PRO'])) {
+            if(!self::validateDomain($settings['HOST_PRO'])) {
                 self::error('The value of the <b>HOST_PRO</b> constant is incorrect. Must be a valid domain.');
             }
             if(!self::validateISOLanguage($settings['LANGUAGE'])) {
@@ -253,12 +253,6 @@
                 if(!in_array($settings[$value]['PROTOCOL'], array('http', 'https'))) {
                     self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. Must be a valid protocol (http or https).');
                 }
-                if($settings[$value]['PROTOCOL'] == 'http' && stripos(PROTOCOL, 'http') !== 0) {
-                    self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. It must match the current domain.');
-                }
-                if($settings[$value]['PROTOCOL'] == 'https' && stripos(PROTOCOL, 'https') !== 0) {
-                    self::error('The value of the <b>'.$value.' -> PROTOCOL</b> constant is incorrect. It must match the current domain.');
-                }
                 if($settings[$value]['PUBLIC_PATH'] == '/') {
                     self::error('To indicate the root directory, leave the <b>'.$value.' -> PUBLIC_PATH</b> field empty.');
                 }
@@ -322,6 +316,12 @@
             } else {
                 self::error('Permission denied.', 403);
             }        
+        }
+
+        public static function protocolValidator($protocol) {
+            if($protocol != PROTOCOL) {
+                self::error('The value of the <b>PROTOCOL</b> constant is incorrect. It must match the current domain.');
+            }
         }
 
         /**

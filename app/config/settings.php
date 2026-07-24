@@ -8,13 +8,13 @@
      * @see https://github.com/diegogermanicom/hive
      * @license MIT
      * 
-     * @return array<string> Returns the values ​​to configure the framework
+     * @return array<string> Returns the values to configure the framework
      * 
      * DISCLAIMER:
      * Modifying or altering the array structure is not recommended,
      * as it could compromise the stability, security or operation of the system.
      * Any changes made will be the sole responsibility of the person who makes them.
-     * Modify only the values ​​of each field.
+     * Modify only the values of each field.
      */
 
     return array(
@@ -23,8 +23,8 @@
         // Setting the administrator access path (slug format)
         'ADMIN_NAME' => 'admin',
         // App hosts config (domain format)
-        'HOST_DEV' => 'dev-germanicom.codeanyapp.com',
-        'HOST_PRO' => 'nombredemitienda.com',
+        'HOST_DEV' => 'localhost',
+        'HOST_PRO' => 'productionname.com',
         // App default language (ISO language codes)
         'LANGUAGE' => 'en',
         // Set if the web is multilanguage.
@@ -59,13 +59,13 @@
         'OG_IMAGE' => 'http://hiveframework.com/img/website-logo.png',
         'OG_APP_ID' => 112651260921384,
         'DEV' => array(
-            'PROTOCOL' => 'https',
+            'PROTOCOL' => 'http',
             // Leave empty to indicate the root
             'PUBLIC_PATH' => '/hive',
             // Database Configuration
             'DDBB_HOST' => 'localhost',
             'DDBB_USER' => 'root',
-            'DDBB_PASS' => '',
+            'DDBB_PASS' => 'test',
             'DDBB' => 'hive'
         ),
         'PRO' => array(
@@ -76,7 +76,7 @@
             'DDBB_HOST' => 'localhost',
             'DDBB_USER' => 'hiveuser',
             'DDBB_PASS' => 'mysqlhivepass',
-            'DDBB' => ''
+            'DDBB' => 'hive'
         ),
         'FTP_UPLOAD_HOST' => '',
         'FTP_UPLOAD_USER' => '',

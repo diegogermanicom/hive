@@ -34,7 +34,7 @@
     }
 ?>
 <!-- Open Graph end -->
-<link rel="icon" href="<?= PUBLIC_PATH; ?>/icono.png" type="image/png">
+<link rel="icon" href="<?= PUBLIC_PATH; ?>/favicon.png" type="image/png">
 <link href="<?= PUBLIC_PATH; ?>/css/vendor/fontawesome.min.css" rel="stylesheet">
 <link href="<?= PUBLIC_PATH; ?>/css/vendor/brands.min.css" rel="stylesheet">
 <link href="<?= PUBLIC_PATH; ?>/css/vendor/regular.min.css" rel="stylesheet">
