@@ -185,7 +185,7 @@
                     $class_exist = class_exists($route['controller']);
                     if($class_exist == true) {
                         $obj = new $route['controller']();
-                        $obj->SetParameters($params);
+                        $obj->setParameters($params);
                         // If the function exists in the object
                         if(method_exists($obj, $route['function'])) {
                             call_user_func([$obj, $route['function']]);

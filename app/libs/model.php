@@ -62,7 +62,7 @@
         /**
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
-        public function query($sql, $params = null) {
+        public function query($sql, $params = []) {
             return $this->ddbb->query($sql, $params);
         }
 

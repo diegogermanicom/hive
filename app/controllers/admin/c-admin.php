@@ -17,12 +17,12 @@
 
     class CAdmin extends Controller {
 
-        public function root() {
+        public function root(): never {
             header('Location: '.ADMIN_PATH.'/login');
             exit;
         }
 
-        public function login() {
+        public function login(): void {
             $admin = new Admin('admin-login-page');
             $admin->security_admin_logout();
             $data = $admin->getAdminData();
@@ -30,7 +30,7 @@
             self::viewAdmin('/login', $data);
         }
 
-        public function logout() {
+        public function logout(): never {
             $admin = new Admin();
             $admin->security_admin_login();
             $admin->logout();
@@ -38,7 +38,7 @@
             exit;
         }
 
-        public function home() {
+        public function home(): void {
             $admin = new Admin('admin-home-page');
             $admin->security_admin_login();
             $data = $admin->getAdminData();
@@ -49,7 +49,7 @@
             self::viewAdmin('/home', $data);
         }
 
-        public function sitemap() {
+        public function sitemap(): void {
             $admin = new Admin('admin-sitemap');
             $admin->security_admin_login();
             $data = $admin->getAdminData();
@@ -61,7 +61,7 @@
             self::viewAdmin('/sitemap', $data);
         }
 
-        public function ftp_upload() {
+        public function ftp_upload(): void {
             $admin = new Admin('ftp-upload-page');
             $admin->security_admin_login();
             $upload = new FtpUpload();

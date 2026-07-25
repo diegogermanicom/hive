@@ -19,12 +19,12 @@
         public $params = array();
         public $args = array();
 
-        public function SetParameters($params) {
+        public function setParameters(array $params): void {
             $this->params = $params;
             $this->args = $params['args'];
         }
 
-        private static function call($view, $data) {
+        private static function call(string $view, mixed $data): never {
             // Call the view and finish the script
             if(strpos($view, '.php') === false) {
                 $view .= '.php';
@@ -37,11 +37,11 @@
             exit;
         }
     
-        public static function view($view, $data) {
+        public static function view(string $view, mixed $data): void {
             self::call(VIEWS_PUBLIC.$view, $data);
         }
 
-        public static function viewAdmin($view, $data) {
+        public static function viewAdmin(string $view, mixed $data): void {
             self::call(VIEWS_ADMIN.$view, $data);
         }
 

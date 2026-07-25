@@ -25,7 +25,7 @@
         /**
          * @return bool Returns true if the domain is valid
          */
-        public static function validateDomain($dominio) {
+        public static function validateDomain(string $dominio) {
             $result = preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,60}\.)+[a-zA-Z]{2,20}$/', $dominio);
             return $result;
         }
@@ -33,7 +33,7 @@
         /**
          * @return bool Returns true if the slug is valid
          */
-        public static function validateSlug($slug) {
+        public static function validateSlug(string $slug) {
             $result = preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
             return $result;
         }
@@ -41,7 +41,7 @@
         /**
          * @return bool Returns true if the path is valid
          */
-        public static function validateRelativePath($path) {
+        public static function validateRelativePath(string $path) {
             $result = preg_match('#^/?[a-zA-Z0-9/_-]+$#', $path);
             return $result;
         }
@@ -49,12 +49,12 @@
         /**
          * @return bool Returns true if the ISO language is valid
          */
-        public static function validateISOLanguage($language) {
+        public static function validateISOLanguage(string$language) {
             $result = preg_match('/^[a-zA-Z]{2}$/', $language);
             return $result;
         }
 
-        public static function error($message, $code = 500) {
+        public static function error(string $message, int $code = 500) {
             if(METHOD == 'get') {
                 self::errorGet($message, $code);
             } else {
@@ -62,7 +62,7 @@
             }
         }
 
-        private static function errorGet($message, $code = 500) {
+        private static function errorGet(string $message, int $code = 500) {
             $html = '<html>';
             $html .=    '<head>';
             $html .=        '<title>Error | '.$code.'</title>';
@@ -94,7 +94,7 @@
             exit;
         }
         
-        private static function errorPost($message, $code = 500) {
+        private static function errorPost(string $message, int $code = 500) {
             http_response_code($code);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(
@@ -105,7 +105,7 @@
             exit;
         }
 
-        public static function debug($var) {
+        public static function debug(string $var): never {
             echo '<pre>';
             var_dump($var);
             echo '</pre>';
@@ -115,7 +115,7 @@
         /**
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
-        public static function query($sql, $params = null) {
+        public static function query(string $sql, array $params = []) {
             if(HAS_DDBB == true) {
                 global $Ddbb;
                 return $Ddbb->query($sql, $params);
@@ -124,7 +124,7 @@
             }
         }
 
-        public static function errorLog($message) {
+        public static function errorLog(string $message) {
             if(HAS_DDBB == true) {
                 $sql = 'INSERT INTO error_log (message) VALUES (?)';
                 self::query($sql, array($message));
@@ -133,21 +133,23 @@
             }
         }
 
-        public static function getPhpFiles($path, $phpFiles = array()) {
+        public static function getPhpFiles(string $path, array $phpFiles = []) {
             $files = scandir($path);
             $files = array_diff($files, array('.', '..'));
             foreach($files as $file) {
                 $fullPath = $path.'/'.$file;
                 if(is_dir($fullPath)) {
                     $phpFiles = self::getPhpFiles($fullPath, $phpFiles);
+                } elseif(pathinfo($fullPath, PATHINFO_EXTENSION) === 'php') {
+                    $phpFiles[] = $fullPath;
                 } else {
-                    array_push($phpFiles, $fullPath);
+                    self::error('Unexpected file found: <b>'.$fullPath.'</b>. Only PHP files are allowed.');
                 }
             }
             return $phpFiles;
         }
 
-        public static function settingsValidator($settings) {
+        public static function settingsValidator(array $settings) {
             // I verify that all configuration values exist
             $arraySettingVars = array(
                 'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES',
@@ -304,7 +306,7 @@
         /**
          * @return string Returns the environment in which the project is located
          */
-        public static function getEnvironment($hostDev, $hostPro) {
+        public static function getEnvironment(string $hostDev, string $hostPro) {
             if(strpos(HOST, $hostDev) !== false && $hostDev != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
@@ -318,7 +320,7 @@
             }        
         }
 
-        public static function protocolValidator($protocol) {
+        public static function protocolValidator(string $protocol) {
             if($protocol != PROTOCOL) {
                 self::error('The value of the <b>PROTOCOL</b> constant is incorrect. It must match the current domain.');
             }
@@ -366,8 +368,8 @@
             return $lang;
         }
 
-        public static function setThemeColor($colorTheme = null) {
-            if($colorTheme != null) {
+        public static function setThemeColor(string $colorTheme = '') {
+            if($colorTheme != '') {
                 $theme = $colorTheme;
             } else {
                 if(isset($_COOKIE['color-mode'])) {
@@ -385,7 +387,7 @@
             self::initCookie('color-mode', $theme, self::ONEYEAR);
         }
 
-        public static function initCookie($name, $value, $time) {
+        public static function initCookie(string $name, int|string $value, int $time) {
             setcookie($name, $value, [
                 'expires' => time() + $time,
                 'path' => PUBLIC_PATH.'/',
@@ -396,7 +398,7 @@
             $_COOKIE[$name] = $value;
         }
 
-        public static function killCookie($name) {
+        public static function killCookie(string $name) {
             setcookie($name, '', [
                 'expires' => time() - 3600,
                 'path' => PUBLIC_PATH . '/',

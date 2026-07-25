@@ -17,11 +17,11 @@
 
     class CApp extends Controller {
 
-        public function root() {
+        public function root(): void {
             Route::redirect('home', $_GET);
         }
 
-        public function home() {
+        public function home(): void {
             $app = new App('home-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Home');
@@ -29,7 +29,7 @@
             self::view('/home', $data);
         }
 
-        public function privacy_policy() {
+        public function privacy_policy(): void {
             $app = new App('privacy-policy-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Privacy Policy');
@@ -39,7 +39,7 @@
             self::view('/privacy-policy', $data);
         }
 
-        public function cookie_policy() {
+        public function cookie_policy(): void {
             $app = new App('cookie-policy-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Cookie Policy');
@@ -49,7 +49,7 @@
             self::view('/cookie-policy', $data);
         }
 
-        public function service_down() {
+        public function service_down(): void {
             $app = new App('service-down-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('Service Down');
@@ -60,7 +60,7 @@
             self::view('/service-down', $data);
         }
 
-        public function page_404() {
+        public function page_404(): void {
             $app = new App('404-page');
             $data = $app->getAppData();
             $data['meta']['title'] = $app->setTitle('404');
@@ -71,7 +71,7 @@
             self::view('/page-404', $data);
         }
 
-        public function logout() {
+        public function logout(): void {
             $app = new App();
             $app->security_app_login();
             $app->logout();

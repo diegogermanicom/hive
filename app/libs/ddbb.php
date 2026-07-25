@@ -19,7 +19,7 @@
         public $db = null;
         private $prefix;
 
-        function __construct($host, $user, $pass, $ddbb, $prefix) {
+        function __construct(string $host, string $user, string $pass, string $ddbb, string $prefix) {
             $this->prefix = $prefix;
             if(HAS_DDBB == true) {
                 $this->db = @new mysqli($host, $user, $pass, $ddbb);
@@ -40,7 +40,7 @@
         /**
          * @return string Returns the query with the table prefix added
          */
-        private function prefixTables($sql) {
+        private function prefixTables(string $sql): string {
             if($this->prefix != '') {
                 $keyWords = array(
                     'FROM',
@@ -63,36 +63,45 @@
         }
 
         /**
+         * This function is created to avoid malicious sql injections
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
-        public function query($sql, $params = null) {
-            if(HAS_DDBB == true) {
+        public function query(string $sql, array|string|null $params = null): mysqli_result|bool {
+            if(HAS_DDBB) {
                 $this->prefixTables($sql);
-                // This function is created to avoid malicious sql injections
                 $query = $this->db->prepare($sql);
+                if(!$query) {
+                    Utils::error($this->db->error);
+                }
                 if($params != null) {
-                    $type = '';
+                    $typesString = '';
                     $types = array(
                         'integer'   => 'i',
                         'double'    => 'd',
                         'string'    => 's',
-                        'boolean'   => 'b'
+                        'boolean'   => 'i',
+                        'blob'      => 'b'
                     );
                     if(!is_array($params)) {
                         $params = array($params);
                     }
                     foreach($params as $value) {
-                        if($value == NULL) {
-                            $type .= 's';
+                        if(is_bool($value)) {
+                            $value = intval($value);
+                        }
+                        if(is_null($value)) {
+                            $typesString .= 's';
                         } else if(isset($types[gettype($value)])) {
-                            $type .= $types[gettype($value)];
+                            $typesString .= $types[gettype($value)];
                         }
                     }    
-                    if(!@$query->bind_param($type, ...$params)) {
+                    if(!@$query->bind_param($typesString, ...$params)) {
                         Utils::error('An error has occurred when performing the query to the database, check the parameters.');
                     }
                 }
-                $query->execute();
+                if(!$query->execute()) {
+                    Utils::error($query->error);
+                }                
                 return $query->get_result();
             } else {
                 Utils::error('You do not have access to the database.', 503);

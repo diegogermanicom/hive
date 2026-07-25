@@ -17,7 +17,7 @@
 
     class CAdminAjax extends Controller {
         
-        public function send_login() {
+        public function send_login(): void {
             $admin = new AdminAjax('ajax-admin-login');
             $admin->security_admin_logout();
             $result = [];
@@ -25,7 +25,7 @@
             echo json_encode($result);
         }
 
-        public function create_new_sitemap() {
+        public function create_new_sitemap(): void {
             $admin = new AdminAjax('ajax-sitemap');
             $admin->security_admin_login();
             $result = [];
@@ -33,7 +33,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_get_dir() {
+        public function ftpu_get_dir(): void {
             $admin = new AdminAjax('ajax-ftpu-get-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -43,7 +43,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_compare() {
+        public function ftpu_compare(): void {
             $admin = new AdminAjax('ajax-ftpu-compare');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -53,7 +53,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_upload() {
+        public function ftpu_upload(): void {
             $admin = new AdminAjax('ajax-ftpu-upload');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -63,7 +63,7 @@
             echo json_encode($result);
         }
         
-        public function ftpu_upload_all() {
+        public function ftpu_upload_all(): void {
             $admin = new AdminAjax('ajax-ftpu-all');
             $admin->security_admin_login();
             $upload = new FtpUpload();
@@ -73,7 +73,7 @@
             echo json_encode($result);
         }
 
-        public function ftpu_create_folder() {
+        public function ftpu_create_folder(): void {
             $admin = new AdminAjax('ajax-ftpu-create-dir');
             $admin->security_admin_login();
             $upload = new FtpUpload();

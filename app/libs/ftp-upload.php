@@ -36,7 +36,10 @@
         /**
          * @return bool Returns true if the connection was successful
          */
-        public function init() {
+        public function init(): bool {
+            if(FTP_UPLOAD_HOST == '') {
+                Utils::error('You dont have any hosts configured.');
+            }
             if($this->connect()) {
                 if($this->login()) {
                     return true;
@@ -51,7 +54,7 @@
         /**
          * @return bool Returns true if the connection to the host was successful
          */
-        private function connect() {
+        private function connect(): bool {
             if($this->conn = @ftp_connect(FTP_UPLOAD_HOST)) {
                 $this->conn_success = true;
                 return true;
@@ -64,7 +67,7 @@
         /**
          * @return bool Returns true if the login was successful
          */
-        private function login() {
+        private function login(): bool {
             if(@ftp_login($this->conn, FTP_UPLOAD_USER, FTP_UPLOAD_PASS)) {
                 ftp_pasv($this->conn, true);
                 return true;
@@ -76,7 +79,7 @@
         /**
          * @return array Returns ok if the entire process succeeds.
          */
-        public function get_folder_html($folder = '') {
+        public function get_folder_html(string $folder = ''): array {
             // Impido que puedan bajar mas de la raiz
             $pos1 = strpos($folder, SERVER_PATH);
             $pos2 = strpos($folder, SERVER_PATH.'/..');
@@ -105,6 +108,9 @@
                 list($array_folders, $array_files) = $this->separateFilesFolders($folder);
                 // Obtengo la información de los ficheros del ftp
                 $ftp_rawlist = ftp_rawlist($this->conn, '.');
+                if(!$ftp_rawlist) {
+                    Utils::error('An unexpected error has occurred.', 500);
+                }
                 // Pintado del html del arbol
                 $html = '<div class="folder" folder="'.$folder.'" server-folder="'.$dir.'"><i class="fas fa-folder-open"></i> '.$folder.'</div>';
                 $html .= '<ul class="dir-list">';
@@ -123,7 +129,7 @@
         /**
          * @return array Remix two arrays containing the files and folders in the directory
          */
-        private function separateFilesFolders($dir) {
+        private function separateFilesFolders(string $dir): array {
             $array_dir = scandir($dir);
             $array_folders = array();
             $array_files = array();
@@ -150,7 +156,7 @@
         /**
          * @return string Returns an HTML string with the list of folders
          */
-        private function drawFolders($array_folders, $ftp_rawlist) {
+        private function drawFolders(array $array_folders, array $ftp_rawlist): string {
             $html = '';
             for($i = 0; $i < count($array_folders); $i++) {
                 $css_exist = ' no-existe';
@@ -168,7 +174,7 @@
         /**
          * @return string Returns an HTML string with the list of files
          */
-        private function drawFiles($array_file, $ftp_rawlist) {
+        private function drawFiles(array $array_file, array $ftp_rawlist): string {
             $html = '';
             for($i = 0; $i < count($array_file); $i++) {
                 $ftp_size = 0;
@@ -198,7 +204,7 @@
         /**
          * @return array Returns ok if the file has been uploaded successfully
          */
-        public function upload_ftp($folder, $file) {
+        public function upload_ftp(string $folder, string $file): array {
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_put($this->conn, $dir.$file, $folder.'/'.$file, FTP_BINARY)) {
@@ -214,7 +220,7 @@
         /**
          * @return array Returns ok if the files have been uploaded successfully
          */
-        public function upload_all_ftp($folder, $files) {
+        public function upload_all_ftp(string $folder, string $files): array {
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             $errors = 0;
@@ -236,7 +242,7 @@
         /**
          * @return array Returns ok if the folder is created correctly
          */
-        public function create_folder($folder, $name) {
+        public function create_folder(string $folder, string $name): array {
             $dir = str_replace(SERVER_PATH, "", $folder);
             $dir = FTP_UPLOAD_SERVER_PATH.$dir.'/';
             if(ftp_mkdir($this->conn, $dir.$name)) {
@@ -252,7 +258,7 @@
         /**
          * @return array Returns the source code of the files
          */
-        public function ftpCompare($folder, $file) {
+        public function ftpCompare(string $folder, string $file): array {
             $file_server = fopen($folder.'/'.$file, 'r');
             $code_server = '';
             while(!feof($file_server)) {
