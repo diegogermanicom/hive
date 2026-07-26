@@ -16,20 +16,22 @@
  Any changes made will be the sole responsibility of the person who makes them.
 */
 
+@use 'vars' as vars;
+
 .btn {
-    @include user-select(none);
+    @include vars.user-select(none);
     display: inline-block;
-    font-family: $font1;
+    font-family: vars.$font1;
     font-size: 20px;
     letter-spacing: 0.5px;
     text-decoration: none;
     padding: 13px 19px 13px 19px;
     text-align: center;
     border-radius: 2px;
-    border: 1px solid $black;
+    border: 1px solid vars.$black;
     background-color: white;
     cursor: pointer;
-    color: $black;
+    color: vars.$black;
     -webkit-transition: -webkit-transform .2s, opacity .2s;
     transition: transform .2s, opacity .2s;
     opacity: 1;
@@ -37,8 +39,8 @@
         opacity: .9;
     }
     &:active:not(.disabled, .btn-ok) {
-        @media (min-width: $lg + px) {
-            @include transform(scale(0.98));
+        @media (min-width: vars.$lg) {
+            @include vars.transform(scale(0.98));
             opacity: .8;
         }
     }
@@ -57,7 +59,7 @@
     }
     &.btn-black {
         color: white;
-        background-color: $black;
+        background-color: vars.$black;
     }
     &.btn-red {
         color: white;
@@ -128,7 +130,7 @@ body.dark-mode {
             position: static;
             top: 0%;
             left: 0%;
-            @include transform(translate(0%, 0%));
+            @include vars.transform(translate(0%, 0%));
             margin: auto auto;
             padding: 30px 20px 30px 20px;
         }
@@ -138,30 +140,30 @@ body.dark-mode {
         top: 50%;
         left: 50%;
         width: 95%;
-        max-width: $sm + px;
+        max-width: vars.$sm;
         background-color: white;
         border-radius: 8px;
         padding: 25px 40px 25px 40px;
-        @include transform(translate(-50%, -50%));
+        @include vars.transform(translate(-50%, -50%));
         -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,.2);
         -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,.2);
         box-shadow: 0px 0px 8px 0px rgba(0,0,0,.2);
-        @media (max-width: ($sm - 1) + px) {
+        @media (max-width: (vars.$sm - 1px)) {
             position: static;
             top: 0%;
             left: 0%;
-            @include transform(translate(0%, 0%));
+            @include vars.transform(translate(0%, 0%));
             margin: auto auto;
             padding: 30px 20px 30px 20px;
         }
         &.content-xl {
-            max-width: $xl + px;        
+            max-width: vars.$xl;
         }
         &.content-lg {
-            max-width: $lg + px;        
+            max-width: vars.$lg;
         }
         &.content-md {
-            max-width: $md + px;        
+            max-width: vars.$md;
         }
         .btn-popup-close-square {
             position: absolute;
@@ -171,17 +173,17 @@ body.dark-mode {
             cursor: pointer;
             color: #a7a7a7;
             &:hover {
-                color: $black;
+                color: vars.$black;
             }
         }
         & > .title {
-            font-family: $font1;
+            font-family: vars.$font1;
             text-align: center;
             font-size: 24px;
             padding-bottom: 15px;
             margin-bottom: 20px;
             border-bottom: 1px solid #dedede;
-            @media (max-width: ($sm - 1) + px) {
+            @media (max-width: (vars.$sm - 1px)) {
                 font-size: 16px;
                 padding-bottom: 15px;
                 margin-bottom: 15px;
@@ -203,14 +205,14 @@ body.dark-mode {
 
 .checkbox, .radio {
     // <label class="checkbox"><input type="checkbox"><span class="checkmark"></span></label>
-    @include user-select(none);
+    @include vars.user-select(none);
     display: inline-block;
     position: relative;
     padding: 1px 0px 0px 28px;
     cursor: pointer;
     min-height: 24px;
     min-width: 24px;
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         padding: 3px 0px 0px 30px;
     }
     &:hover input ~ .checkmark {
@@ -228,8 +230,8 @@ body.dark-mode {
         }
         &:checked {
             & ~ .checkmark {
-                background-color: $black;
-                border: 2px solid $black;
+                background-color: vars.$black;
+                border: 2px solid vars.$black;
                 &:after {
                     display: block;
                 }
@@ -256,7 +258,7 @@ body.dark-mode {
             height: 12px;
             border: solid white;
             border-width: 0 3px 3px 0;
-            @include transform(rotate(45deg));
+            @include vars.transform(rotate(45deg));
         }
     }
 }
@@ -277,9 +279,9 @@ body.dark-mode {
         width: 0;
         height: 0;
         &:checked + .slider {
-            background-color: $core-color;
+            background-color: vars.$core-color;
             &:before {
-                @include transform(translateX(26px));
+                @include vars.transform(translateX(26px));
             }
         }
     }
@@ -318,8 +320,8 @@ body.dark-mode {
     background-color: #f1f1f1;
     border: 1px solid #cecece;
     border-radius: 6px;
-    -webkit-transition: background-color $transition-speed ease-out;
-    transition: background-color $transition-speed ease-out;
+    -webkit-transition: background-color vars.$transition-speed ease-out;
+    transition: background-color vars.$transition-speed ease-out;
     &.box-yellow {
         background-color: #fff4d2;
         border: 1px solid #eacf7c;
@@ -408,7 +410,7 @@ body.dark-mode {
     border: 1px solid #ddd;
     & > li {
         .label {
-            @include user-select(none);
+            @include vars.user-select(none);
             cursor: pointer;
             display: block;
             padding: 8px 5px 8px 26px;
@@ -419,12 +421,12 @@ body.dark-mode {
                 background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='24' height='32' viewBox='0 0 24 32'><polygon points='0,0 24,16 0,32' style='fill: rgb%2850, 50, 50%29'></polygon></svg>");
             }
             &:not(.no-pointer):hover {
-                background-color: $black;
+                background-color: vars.$black;
                 color: white;
             }
             &.has-options:not(.no-options):hover {
                 color: white;
-                background-color: $black;
+                background-color: vars.$black;
                 background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='24' height='32' viewBox='0 0 24 32'><polygon points='0,0 24,16 0,32' style='fill: rgb%28255, 255, 255%29'></polygon></svg>");
             }
             &.no-pointer {
@@ -451,7 +453,7 @@ body.dark-mode {
                 &:not(.no-pointer) {
                     background-color: #ddd;
                     &:hover {
-                        background-color: $black;
+                        background-color: vars.$black;
                         & > a {
                             color: white;
                         }
@@ -459,7 +461,7 @@ body.dark-mode {
                 }
                 &.has-options:not(.no-options) {
                     color: white;
-                    background-color: $black;
+                    background-color: vars.$black;
                     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28255, 255, 255%29'></polygon></svg>");
                 }
             }
@@ -497,7 +499,7 @@ body.dark-mode {
 }
 body.dark-mode {
     .custom-collapse {
-        border: 1px solid $black;
+        border: 1px solid vars.$black;
         & > li {
             .options {
                 background-color: #232323;
@@ -513,7 +515,7 @@ body.dark-mode {
             &.active {
                 .label {
                     &:not(.no-pointer) {
-                        background-color: $black;
+                        background-color: vars.$black;
                     }
                 }
             }
@@ -544,7 +546,7 @@ body.dark-mode {
             background-color: #dddddd;
         }
         &.active {
-            background-color: $black;
+            background-color: vars.$black;
             color: white;
         }
         &.no-click {
@@ -560,7 +562,7 @@ body.dark-mode {
         background-color: #1a1a1a;
         border: 2px solid #4b4b4b;
         & > * {
-            background-color: $black;
+            background-color: vars.$black;
             &:not(.no-hover):not(.active):hover {
                 background-color: #2b2b2b;
             }
@@ -654,7 +656,7 @@ body.dark-mode {
     transition: opacity .3s, visibility .3s;
     opacity: 0;
     visibility: hidden;
-    @media (max-width: $sm + px) {
+    @media (max-width: vars.$sm) {
         padding: 20px 30px 20px 30px;
         font-size: 14px;
         line-height: 22px;

@@ -16,8 +16,8 @@
  Any changes made will be the sole responsibility of the person who makes them.
 */
 
-@import '_vars.scss';
-@import '_core-widget.scss';
+@use 'vars' as vars;
+@use 'core-widget' as widget;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Maven+Pro:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
@@ -29,28 +29,28 @@
         font-size: #{$i}px !important;
     }
 }
-@media (max-width: ($sm - 1) + px) {
+@media (max-width: (vars.$sm - 1px)) {
     @for $i from 1 through 50 {
         .font-sm-#{$i} {
             font-size: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($md - 1) + px) {
+@media (max-width: (vars.$md - 1px)) {
     @for $i from 1 through 50 {
         .font-md-#{$i} {
             font-size: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($lg - 1) + px) {
+@media (max-width: (vars.$lg - 1px)) {
     @for $i from 1 through 50 {
         .font-lg-#{$i} {
             font-size: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($xl - 1) + px) {
+@media (max-width: (vars.$xl - 1px)) {
     @for $i from 1 through 50 {
         .font-xl-#{$i} {
             font-size: #{$i}px !important;
@@ -64,28 +64,28 @@
         line-height: #{$i}px !important;
     }
 }
-@media (max-width: ($sm - 1) + px) {
+@media (max-width: (vars.$sm - 1px)) {
     @for $i from 0 through 60 {
         .lh-sm-#{$i} {
             line-height: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($md - 1) + px) {
+@media (max-width: (vars.$md - 1px)) {
     @for $i from 0 through 60 {
         .lh-md-#{$i} {
             line-height: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($lg - 1) + px) {
+@media (max-width: (vars.$lg - 1px)) {
     @for $i from 0 through 60 {
         .lh-lg-#{$i} {
             line-height: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($xl - 1) + px) {
+@media (max-width: (vars.$xl - 1px)) {
     @for $i from 0 through 60 {
         .lh-xl-#{$i} {
             line-height: #{$i}px !important;
@@ -142,7 +142,7 @@
         margin-right: #{$i}px !important;
     }
 }
-@media (max-width: ($sm - 1) + px) {
+@media (max-width: (vars.$sm - 1px)) {
     @for $i from 0 through 100 {
         .p-sm-#{$i} {
             padding: #{$i}px !important;
@@ -192,7 +192,7 @@
         }
     }
 }
-@media (max-width: ($md - 1) + px) {
+@media (max-width: (vars.$md - 1px)) {
     @for $i from 0 through 100 {
         .p-md-#{$i} {
             padding: #{$i}px !important;
@@ -242,7 +242,7 @@
         }
     }
 }
-@media (max-width: ($lg - 1) + px) {
+@media (max-width: (vars.$lg - 1px)) {
     @for $i from 0 through 100 {
         .p-lg-#{$i} {
             padding: #{$i}px !important;
@@ -302,21 +302,21 @@
         border-radius: #{$i}px !important;
     }
 }
-@media (max-width: ($sm - 1) + px) {
+@media (max-width: (vars.$sm - 1px)) {
     @for $i from 1 through 40 {
         .br-sm-#{$i} {
             border-radius: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($md - 1) + px) {
+@media (max-width: (vars.$md - 1px)) {
     @for $i from 1 through 40 {
         .br-md-#{$i} {
             border-radius: #{$i}px !important;
         }
     }
 }
-@media (max-width: ($lg - 1) + px) {
+@media (max-width: (vars.$lg - 1px)) {
     @for $i from 1 through 40 {
         .br-lg-#{$i} {
             border-radius: #{$i}px !important;
@@ -352,28 +352,28 @@
             width: calc(100% / 12) * $i;
         }
     }
-    @media (min-width: $sm + px) {
+    @media (min-width: vars.$sm) {
         @for $i from 0 through 12 {
             .col-sm-#{$i} {
                 width: calc(100% / 12) * $i;
             }
         }
     }
-    @media (min-width: $md + px) {
+    @media (min-width: vars.$md) {
         @for $i from 0 through 12 {
             .col-md-#{$i} {
                 width: calc(100% / 12) * $i;
             }
         }
     }
-    @media (min-width: $lg + px) {
+    @media (min-width: vars.$lg) {
         @for $i from 0 through 12 {
             .col-lg-#{$i} {
                 width: calc(100% / 12) * $i;
             }
         }
     }
-    @media (min-width: $xl + px) {
+    @media (min-width: vars.$xl) {
         @for $i from 0 through 12 {
             .col-xl-#{$i} {
                 width: calc(100% / 12) * $i;
@@ -393,62 +393,62 @@
     text-align: right !important;
 }
 .text-sm-center {
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         text-align: center;
     }
 }
 .text-sm-left {
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         text-align: left;
     }
 }
 .text-sm-right {
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         text-align: right;
     }
 }
 .text-md-center {
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         text-align: center;
     }
 }
 .text-md-left {
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         text-align: left;
     }
 }
 .text-md-right {
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         text-align: right;
     }
 }
 .text-lg-center {
-    @media (max-width: ($lg - 1) + px) {
+    @media (max-width: (vars.$lg - 1px)) {
         text-align: center;
     }
 }
 .text-lg-left {
-    @media (max-width: ($lg - 1) + px) {
+    @media (max-width: (vars.$lg - 1px)) {
         text-align: left;
     }
 }
 .text-lg-right {
-    @media (max-width: ($lg - 1) + px) {
+    @media (max-width: (vars.$lg - 1px)) {
         text-align: right;
     }
 }
 .text-xl-center {
-    @media (max-width: ($xl - 1) + px) {
+    @media (max-width: (vars.$xl - 1px)) {
         text-align: center;
     }
 }
 .text-xl-left {
-    @media (max-width: ($xl - 1) + px) {
+    @media (max-width: (vars.$xl - 1px)) {
         text-align: left;
     }
 }
 .text-xl-right {
-    @media (max-width: ($xl - 1) + px) {
+    @media (max-width: (vars.$xl - 1px)) {
         text-align: right;
     }
 }
@@ -458,73 +458,73 @@
 
 // Visibility: It is hidden from here down
 .hidden-sm {
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         display: none !important;
     }
 }
 .hidden-md {
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         display: none !important;
     }
 }
 .hidden-lg {
-    @media (max-width: ($lg - 1) + px) {
+    @media (max-width: (vars.$lg - 1px)) {
         display: none !important;
     }
 }
 .hidden-xl {
-    @media (max-width: ($xl - 1) + px) {
+    @media (max-width: (vars.$xl - 1px)) {
         display: none !important;
     }
 }
 // Visibility: It is shown from here down
 .visible-sm {
-    @media (min-width: $sm + px) {
+    @media (min-width: vars.$sm) {
         display: none !important;
     }
 }
 .visible-md {
-    @media (min-width: $md + px) {
+    @media (min-width: vars.$md) {
         display: none !important;
     }
 }
 .visible-lg {
-    @media (min-width: $lg + px) {
+    @media (min-width: vars.$lg) {
         display: none !important;
     }
 }
 .visible-xl {
-    @media (min-width: $xl + px) {
+    @media (min-width: vars.$xl) {
         display: none !important;
     }
 }
 // Visibility: It is only shown here
 .visible-sm-only {
-    @media (min-width: $sm + px) {
+    @media (min-width: vars.$sm) {
         display: none !important;
     }
 }
 .visible-md-only {
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         display: none !important;
     }
-    @media (min-width: $md + px) {
+    @media (min-width: vars.$md) {
         display: none !important;
     }
 }
 .visible-lg-only {
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         display: none !important;
     }
-    @media (min-width: $lg + px) {
+    @media (min-width: vars.$lg) {
         display: none !important;
     }
 }
 .visible-xl-only {
-    @media (max-width: ($lg - 1) + px) {
+    @media (max-width: (vars.$lg - 1px)) {
         display: none !important;
     }
-    @media (min-width: $xl + px) {
+    @media (min-width: vars.$xl) {
         display: none !important;
     }
 }
@@ -537,26 +537,26 @@
 
 // Core
 *, *:after, *:before {
-    @include box-sizing(border-box);
+    @include vars.box-sizing(border-box);
     outline: none;
     margin: 0px;
     padding: 0px;
     border: 0px;
 }
 body {
-    font-family: $font2, sans-serif;
+    font-family: vars.$font2, sans-serif;
     font-weight: 400;
     font-size: 16px;
-    color: $black;
-    background-color: $light-gray;
-    -webkit-transition: background-color $transition-speed ease-out;
-    transition: background-color $transition-speed ease-out;
+    color: vars.$black;
+    background-color: vars.$light-gray;
+    -webkit-transition: background-color vars.$transition-speed ease-out;
+    transition: background-color vars.$transition-speed ease-out;
     &.block {
         overflow: hidden;
     }
 }
 a {
-    color: $black;
+    color: vars.$black;
     text-decoration: none;
     cursor: pointer;
 }
@@ -573,10 +573,10 @@ table {
     width: 100%;
     border-collapse: collapse;
     thead {
-        border: 1px solid $black;
+        border: 1px solid vars.$black;
         th {
             padding: 10px 10px 10px 10px;
-            background-color: $black;
+            background-color: vars.$black;
             color: white;
             font-weight: normal;
         }    
@@ -629,10 +629,10 @@ table {
     }
 }
 input, textarea, select {
-    font-family: $font2, sans-serif;
+    font-family: vars.$font2, sans-serif;
     font-weight: 400;
     font-size: 16px;
-    color: $black;
+    color: vars.$black;
     border: 2px solid #bfbfbf;
     padding: 8px 14px 8px 14px;
     border-radius: 4px;
@@ -665,7 +665,7 @@ textarea {
     line-height: 22px;
 }
 select {
-    @include appearance(none);
+    @include vars.appearance(none);
     cursor: pointer;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%2842, 42, 42%29'></polygon></svg>");
     background-repeat: no-repeat;
@@ -692,36 +692,36 @@ nav {
 header {
     background-color: white;
     z-index: 1;
-    -webkit-transition: background-color $transition-speed ease-out;
-    transition: background-color $transition-speed ease-out;
+    -webkit-transition: background-color vars.$transition-speed ease-out;
+    transition: background-color vars.$transition-speed ease-out;
 }
 footer {
-    background-color: $light-gray;
-    border-top: 1px solid $light-gray;
+    background-color: vars.$light-gray;
+    border-top: 1px solid vars.$light-gray;
     margin-top: 50px;
     padding: 30px 0px 30px 0px;
-    -webkit-transition: background-color $transition-speed ease-out;
-    transition: background-color $transition-speed ease-out;
+    -webkit-transition: background-color vars.$transition-speed ease-out;
+    transition: background-color vars.$transition-speed ease-out;
 }
 
 // Classes for the application
 .app {
     overflow-x: hidden;
     background-color: white;
-    -webkit-transition: background-color $transition-speed ease-out;
-    transition: background-color $transition-speed ease-out;
+    -webkit-transition: background-color vars.$transition-speed ease-out;
+    transition: background-color vars.$transition-speed ease-out;
 }
 .container {
     position: relative;
     margin: auto auto;
-    max-width: $max-width + px;
+    max-width: vars.$max-width;
     padding-left: 40px;
     padding-right: 40px;
-    @media (max-width: ($md - 1) + px) {
+    @media (max-width: (vars.$md - 1px)) {
         padding-left: 30px;
         padding-right: 30px;
     }
-    @media (max-width: ($sm - 1) + px) {
+    @media (max-width: (vars.$sm - 1px)) {
         padding-left: 20px;
         padding-right: 20px;
     }
@@ -732,16 +732,16 @@ footer {
         margin: auto 0px auto auto;
     }
     &.container-xl {
-        max-width: $xl + px;        
+        max-width: vars.$xl;        
     }
     &.container-lg {
-        max-width: $lg + px;        
+        max-width: vars.$lg;        
     }
     &.container-md {
-        max-width: $md + px;        
+        max-width: vars.$md;        
     }
     &.container-sm {
-        max-width: $sm + px;        
+        max-width: vars.$sm;        
     }
     &.container-full {
         max-width: 100%;
@@ -752,15 +752,15 @@ footer {
     text-align: center;
     font-size: 25px;
     padding: 0px 0px 30px 0px;
-    font-family: $font3;
-    @media (max-width: ($lg - 1) + px) {
+    font-family: vars.$font3;
+    @media (max-width: (vars.$lg - 1px)) {
         font-size: 22px;
         padding: 0px 0px 20px 0px;
     }
     &.underline {
         padding: 0px 0px 5px 0px;
         margin: 0px 0px 25px 0px;
-        border-bottom: 2px solid $black;
+        border-bottom: 2px solid vars.$black;
     }
 }
 
@@ -770,7 +770,7 @@ footer {
     &.underline {
         padding: 0px 0px 5px 0px;
         margin: 0px 0px 25px 0px;
-        border-bottom: 2px solid $black;
+        border-bottom: 2px solid vars.$black;
     }
     p {
         padding-bottom: 20px;
@@ -778,7 +778,7 @@ footer {
 }
 
 .mega-title {
-    font-family: $font3;
+    font-family: vars.$font3;
     font-size: 75px;
     line-height: 80px;
 }
@@ -798,60 +798,60 @@ footer {
 // Animations: Works with javascript code
 .animate {
     &.active {
-        @include transform(translate(0px, 0px) !important);
+        @include vars.transform(translate(0px, 0px) !important);
         opacity: 1 !important;
     }
     &.animate-top {
-        -webkit-transition: -webkit-transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        transition: transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        @include transform(translate(0px, -20px));
+        -webkit-transition: -webkit-transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        transition: transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        @include vars.transform(translate(0px, -20px));
         opacity: 0;
     }
     &.animate-bottom {
-        -webkit-transition: -webkit-transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        transition: transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        @include transform(translate(0px, 20px));
+        -webkit-transition: -webkit-transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        transition: transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        @include vars.transform(translate(0px, 20px));
         opacity: 0;
     }
     &.animate-left {
-        -webkit-transition: -webkit-transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        transition: transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        @include transform(translate(-20px, 0px));
+        -webkit-transition: -webkit-transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        transition: transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        @include vars.transform(translate(-20px, 0px));
         opacity: 0;
     }
     &.animate-right {
-        -webkit-transition: -webkit-transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        transition: transform $transition-speed ease-out, opacity $transition-speed ease-out;
-        @include transform(translate(20px, 0px));
+        -webkit-transition: -webkit-transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        transition: transform vars.$transition-speed ease-out, opacity vars.$transition-speed ease-out;
+        @include vars.transform(translate(20px, 0px));
         opacity: 0;
     }
     &.animate-opacity {
-        -webkit-transition: opacity $transition-speed ease-out;
-        transition: opacity $transition-speed ease-out;
+        -webkit-transition: opacity vars.$transition-speed ease-out;
+        transition: opacity vars.$transition-speed ease-out;
         opacity: 0;
     }
     @for $i from 0 through 20 {
         &.animate-d-#{$i} {
-            @include transition-delay(calc($i / 10)s);
+            @include vars.transition-delay(calc($i / 10)s);
         }
     }    
-    @media (max-width: $lg + px) {
+    @media (max-width: vars.$lg) {
         @for $i from 0 through 20 {
             &.animate-d-#{$i} {
-                @include transition-delay(0s !important);
+                @include vars.transition-delay(0s !important);
             }
         }
     }    
 }
 
 .core-color {
-    color: $core-color;
+    color: vars.$core-color;
 }
 .color-white {
     color: white;
 }
 .color-black {
-    color: $black;
+    color: vars.$black;
 }
 
 // Dark Mode
@@ -880,7 +880,7 @@ body.dark-mode {
                     background-color: rgb(255 255 255 / 3%);
                 }
                 td {
-                    border-top: 1px solid $black;
+                    border-top: 1px solid vars.$black;
                 }
             }
         }

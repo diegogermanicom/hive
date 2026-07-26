@@ -17,7 +17,7 @@
  Add the CSS content you need to customize the view.
 */
 
-@import '_vars.scss';
+@use 'vars' as vars;
 
 #container-admin {
     margin-left: 250px;
@@ -34,7 +34,7 @@
     height: 100%;
     width: 250px;
     margin-left: -220px;
-    background-color: $black;
+    background-color: vars.$black;
     overflow-y: auto;
     &.active {
         margin-left: 0px;
@@ -53,7 +53,7 @@
            }
         }
         a:not(.active):hover {
-            color: $core-color;
+            color: vars.$core-color;
         }
     }
     .separator {
