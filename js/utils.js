@@ -184,11 +184,12 @@ var UTILS = {
     },
     customTabEvent: function() {
         $(".custom-tab .menu > div").off().on("click", function() {
-            var id = $(this).attr('id-tab');
-            $(this).closest('.custom-tab').find('.menu > div.active').removeClass('active');
+            let id = $(this).attr('id-tab');
+            let customTab = $(this).closest('.custom-tab');
+            customTab.find('.menu > div.active').removeClass('active');
             $(this).addClass('active');
-            $(this).closest('.custom-tab').find('.content > div.active').removeClass('active');
-            $(this).closest('.custom-tab').find('.content > div[id-tab="' + id + '"]').addClass('active');
+            customTab.find('.content > div.active').removeClass('active');
+            customTab.find('.content > div[id-tab="' + id + '"]').addClass('active');
         });
     },
     colorModeEvent: function() {
@@ -202,8 +203,10 @@ var UTILS = {
                 }
                 if($('#btn-change-color-mode > input:checked').val() != undefined) {
                     $('body').addClass('dark-mode');
+                    $('body').removeClass('light-mode');
                     obj.mode = 'dark-mode';
                 } else {
+                    $('body').addClass('light-mode');
                     $('body').removeClass('dark-mode');
                     obj.mode = 'light-mode';
                 }
