@@ -54,7 +54,7 @@
             return $result;
         }
 
-        public static function error(string $message, int $code = 500) {
+        public static function error(string $message, int $code = 500): void {
             if(METHOD == 'get') {
                 self::errorGet($message, $code);
             } else {
@@ -62,7 +62,7 @@
             }
         }
 
-        private static function errorGet(string $message, int $code = 500) {
+        private static function errorGet(string $message, int $code = 500): never {
             $html = '<html>';
             $html .=    '<head>';
             $html .=        '<title>Error | '.$code.'</title>';
@@ -94,7 +94,7 @@
             exit;
         }
         
-        private static function errorPost(string $message, int $code = 500) {
+        private static function errorPost(string $message, int $code = 500): never {
             http_response_code($code);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(
@@ -115,25 +115,23 @@
         /**
          * @return mysqli_result|false Returns false if it fails or a mysqli_result object
          */
-        public static function query(string $sql, array $params = []) {
-            if(HAS_DDBB == true) {
-                global $Ddbb;
-                return $Ddbb->query($sql, $params);
-            } else {
+        public static function query(string $sql, array $params = []): mysqli_result|bool {
+            if(!HAS_DDBB) {
                 self::error('To make a query you must have access to the database.');
             }
+            global $Ddbb;
+            return $Ddbb->query($sql, $params);
         }
 
-        public static function errorLog(string $message) {
-            if(HAS_DDBB == true) {
-                $sql = 'INSERT INTO error_log (message) VALUES (?)';
-                self::query($sql, array($message));
-            } else {
+        public static function errorLog(string $message): void {
+            if(!HAS_DDBB) {
                 self::error('To save a record in the log you must have access to the database.');
             }
+            $sql = 'INSERT INTO error_log (message) VALUES (?)';
+            self::query($sql, array($message));
         }
 
-        public static function getPhpFiles(string $path, array $phpFiles = []) {
+        public static function getPhpFiles(string $path, array $phpFiles = []): array {
             $files = scandir($path);
             $files = array_diff($files, array('.', '..'));
             foreach($files as $file) {
@@ -149,7 +147,7 @@
             return $phpFiles;
         }
 
-        public static function settingsValidator(array $settings) {
+        public static function settingsValidator(array $settings): void {
             // I verify that all configuration values exist
             $arraySettingVars = array(
                 'APP_NAME', 'ADMIN_NAME', 'HOST_DEV', 'HOST_PRO', 'LANGUAGE', 'MULTILANGUAGE', 'LANGUAGES',
@@ -295,10 +293,9 @@
             }
         }
 
-        public static function initEnvironment() {
+        public static function initEnvironment(): void {
             date_default_timezone_set('Europe/Madrid');
             ignore_user_abort(true);
-            // Start user session
             session_name(APP_NAME);
             session_start();
         }
@@ -306,21 +303,21 @@
         /**
          * @return string Returns the environment in which the project is located
          */
-        public static function getEnvironment(string $hostDev, string $hostPro) {
+        public static function getEnvironment(string $hostDev, string $hostPro): string {
             if(strpos(HOST, $hostDev) !== false && $hostDev != '') {
                 error_reporting(E_ALL);
                 ini_set('display_errors', '1');
                 return 'DEV';
-            } else if(strpos(HOST, $hostPro) !== false && $hostPro != '') {
+            }
+            if(strpos(HOST, $hostPro) !== false && $hostPro != '') {
                 error_reporting(0);
                 ini_set('display_errors', '0');
                 return 'PRO';
-            } else {
-                self::error('Permission denied.', 403);
-            }        
+            }
+            self::error('Permission denied.', 403);
         }
 
-        public static function protocolValidator(string $protocol) {
+        public static function protocolValidator(string $protocol): void {
             if($protocol != PROTOCOL) {
                 self::error('The value of the <b>PROTOCOL</b> constant is incorrect. It must match the current domain.');
             }
@@ -368,7 +365,7 @@
             return $lang;
         }
 
-        public static function setThemeColor(string $colorTheme = '') {
+        public static function setThemeColor(string $colorTheme = ''): void {
             if($colorTheme != '') {
                 $theme = $colorTheme;
             } else {
@@ -387,7 +384,7 @@
             self::initCookie('color-mode', $theme, self::ONEYEAR);
         }
 
-        public static function initCookie(string $name, int|string $value, int $time) {
+        public static function initCookie(string $name, int|string $value, int $time): void {
             setcookie($name, $value, [
                 'expires' => time() + $time,
                 'path' => PUBLIC_PATH.'/',
@@ -398,10 +395,10 @@
             $_COOKIE[$name] = $value;
         }
 
-        public static function killCookie(string $name) {
+        public static function killCookie(string $name): void {
             setcookie($name, '', [
                 'expires' => time() - 3600,
-                'path' => PUBLIC_PATH . '/',
+                'path' => PUBLIC_PATH.'/',
                 'secure' => true,
                 'httponly' => true,
                 'samesite' => 'Lax'
