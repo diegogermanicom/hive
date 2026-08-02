@@ -68,7 +68,7 @@
          */
         public function query(string $sql, array|string|null $params = null): mysqli_result|bool {
             if(HAS_DDBB) {
-                $this->prefixTables($sql);
+                $sql = $this->prefixTables($sql);
                 $query = $this->db->prepare($sql);
                 if(!$query) {
                     Utils::error($this->db->error);

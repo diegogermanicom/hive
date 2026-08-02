@@ -32,7 +32,7 @@
 
     $settings = require_once __DIR__.'/settings.php';
     // If all setting values are correct continue
-    Utils::settingsValidator($settings);
+    settingsValidator::validate($settings);
  
     $environment = Utils::getEnvironment($settings['HOST_DEV'], $settings['HOST_PRO']);
     define('ENVIRONMENT', $environment);
