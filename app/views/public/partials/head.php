@@ -57,7 +57,8 @@
     const PUBLIC_PATH = '<?= PUBLIC_PATH; ?>';
     const PUBLIC_ROUTE = '<?= PUBLIC_ROUTE; ?>';
     const ROUTE = '<?= ROUTE; ?>';
-    const ACCEPT_COOKIES = <?php echo (isset($_COOKIE["acepto_cookies"])) ? 'true' : 'false'; ?>
+    const ACCEPT_COOKIES = <?= (isset($_COOKIE["acepto_cookies"])) ? 'true' : 'false'; ?>;
+    const APP_DATA = <?= (isset($data['javascript'])) ? $data['javascript'] : 'null'; ?>;
 </script>
 <?php
     if(ENVIRONMENT == 'DEV') {
